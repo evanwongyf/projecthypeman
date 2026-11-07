@@ -1,0 +1,10 @@
+{
+  "name": "projecthypeman",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "netlify dev",
+    "deploy:preview": "netlify deploy --dir=public",
+    "deploy:prod": "netlify deploy --dir=public --prod"
+  }
+}
