@@ -120,6 +120,11 @@ export const api = {
     send<{ awards: Award[] }>('/api/awards', json('POST', body)),
   undoAward: (id: string) => send<{ ok: true }>(`/api/awards/${id}`, { method: 'DELETE' }),
 
+  /** Whether this terminal still has no account, so sign-up would work. */
+  signupOpen: () => send<{ open: boolean }>('/api/auth/signup'),
+  signup: (body: { name: string; email: string; password: string }) =>
+    send<{ ok: true }>('/api/auth/signup', json('POST', body)),
+
   login: (email: string, password: string) => send<{ ok: true }>('/api/auth/login', json('POST', { email, password })),
   logout: () => send<{ ok: true }>('/api/auth/logout', { method: 'POST' }),
 }

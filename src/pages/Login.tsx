@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { Navigate, useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { Link, Navigate, useNavigate } from 'react-router-dom'
 import { api } from '../lib/api'
 import { useAuth } from '../lib/auth-context'
 import { Field } from '../components/Field'
@@ -12,6 +12,16 @@ export function Login() {
   const [password, setPassword] = useState('')
   const [error, setError] = useState<string | null>(null)
   const [busy, setBusy] = useState(false)
+  const [signupOpen, setSignupOpen] = useState(false)
+
+  // Only offered while it would actually succeed, so it is not a dead link
+  // on every install that already has an account.
+  useEffect(() => {
+    api
+      .signupOpen()
+      .then((r) => setSignupOpen(r.open))
+      .catch(() => setSignupOpen(false))
+  }, [])
 
   if (!loading && user) return <Navigate to="/students" replace />
 
@@ -89,6 +99,18 @@ export function Login() {
             {busy ? 'Signing in…' : 'Sign in'}
           </button>
         </form>
+
+        {signupOpen && (
+          <div className="panel mt-4 p-4">
+            <p className="label">no account yet</p>
+            <p className="mt-1.5 text-sm" style={{ color: 'var(--ink-soft)' }}>
+              This terminal has no account. Claim it now — sign-up closes once one exists.
+            </p>
+            <Link to="/signup" className="btn mt-3 w-full">
+              Create the account
+            </Link>
+          </div>
+        )}
 
         <p className="label mt-6 text-center">projecthypeman</p>
       </div>

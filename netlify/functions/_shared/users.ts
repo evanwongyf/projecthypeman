@@ -42,6 +42,15 @@ async function writeUsers(users: User[]): Promise<void> {
   )
 }
 
+/**
+ * Whether any account exists yet. Signup is open only while this is false, so
+ * the route closes itself the moment the first account is claimed.
+ */
+export async function hasAnyUser(): Promise<boolean> {
+  const users = await readUsers()
+  return users.length > 0
+}
+
 export async function getUserByEmail(email: string): Promise<User | undefined> {
   const users = await readUsers()
   const wanted = email.trim().toLowerCase()

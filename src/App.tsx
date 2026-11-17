@@ -4,6 +4,7 @@ import { DesignProvider } from './lib/design-context'
 import { ProtectedRoute } from './components/ProtectedRoute'
 import { TerminalLayout } from './components/TerminalLayout'
 import { Login } from './pages/Login'
+import { Signup } from './pages/Signup'
 import { StudentsPage } from './pages/StudentsPage'
 import { StudentProfilePage } from './pages/StudentProfilePage'
 import { ClassesPage } from './pages/ClassesPage'
@@ -20,6 +21,7 @@ export default function App() {
       <AuthProvider>
         <Routes>
         <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
         <Route element={<ProtectedRoute />}>
           <Route element={<TerminalLayout />}>
             <Route path="/" element={<Navigate to="/students" replace />} />

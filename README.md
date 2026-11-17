@@ -83,6 +83,15 @@ back to a built-in signing key would let anyone mint a valid session cookie.
 
 ## Sign-in
 
+**Claiming a new install.** `/signup` creates the first account and signs you
+in. It is **bootstrap-only**: the route reports itself open while the user list
+is empty and returns 403 the moment an account exists, re-checking immediately
+before writing so two requests racing an empty install cannot both succeed.
+The login screen offers it only while it would actually work. This is the whole
+security model — the route exists to claim an empty terminal and nothing more,
+which is why there is no way to reopen it. Later accounts are added with
+`npm run seed`.
+
 Sign-in is by **email**; the username stays the key for the account's data in
 R2, so changing one never moves the other. A wrong email and a wrong password
 return the same message, so the form does not confirm which accounts exist.
