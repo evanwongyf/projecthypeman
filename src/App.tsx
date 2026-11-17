@@ -1,5 +1,6 @@
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { AuthProvider } from './lib/auth-context'
+import { DesignProvider } from './lib/design-context'
 import { ProtectedRoute } from './components/ProtectedRoute'
 import { TerminalLayout } from './components/TerminalLayout'
 import { Login } from './pages/Login'
@@ -9,12 +10,14 @@ import { ClassesPage } from './pages/ClassesPage'
 import { ClassDetailPage } from './pages/ClassDetailPage'
 import { HomeworkPage } from './pages/HomeworkPage'
 import { HomeworkDetailPage } from './pages/HomeworkDetailPage'
+import { SettingsPage } from './pages/SettingsPage'
 import { NotFound } from './pages/NotFound'
 
 export default function App() {
   return (
-    <AuthProvider>
-      <Routes>
+    <DesignProvider>
+      <AuthProvider>
+        <Routes>
         <Route path="/login" element={<Login />} />
         <Route element={<ProtectedRoute />}>
           <Route element={<TerminalLayout />}>
@@ -25,10 +28,12 @@ export default function App() {
             <Route path="/classes/:classId" element={<ClassDetailPage />} />
             <Route path="/homework" element={<HomeworkPage />} />
             <Route path="/homework/:homeworkId" element={<HomeworkDetailPage />} />
+            <Route path="/settings" element={<SettingsPage />} />
             <Route path="*" element={<NotFound />} />
           </Route>
         </Route>
-      </Routes>
-    </AuthProvider>
+        </Routes>
+      </AuthProvider>
+    </DesignProvider>
   )
 }

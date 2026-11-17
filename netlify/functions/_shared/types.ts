@@ -46,12 +46,20 @@ export type Homework = {
   collectedAt: Record<string, string>
 }
 
+/** Free-form on purpose: the design catalogue lives in the browser, and the
+ *  client normalises whatever it reads back, so adding an axis needs no
+ *  server change and an old blob never breaks a new build. */
+export type Settings = {
+  design?: Record<string, string>
+}
+
 export type TerminalData = {
   classes: ClassRoom[]
   students: Student[]
   homework: Homework[]
+  settings: Settings
 }
 
 export function emptyData(): TerminalData {
-  return { classes: [], students: [], homework: [] }
+  return { classes: [], students: [], homework: [], settings: {} }
 }

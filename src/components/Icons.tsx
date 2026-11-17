@@ -112,3 +112,10 @@ export const IconIncident = (p: Props) => (
     <path d="M10 8v3.5M10 13.5v.5" />
   </Svg>
 )
+
+export const IconSettings = (p: Props) => (
+  <Svg {...p}>
+    <circle cx="10" cy="10" r="2.6" />
+    <path d="M10 2.5v2M10 15.5v2M2.5 10h2M15.5 10h2M4.7 4.7l1.4 1.4M13.9 13.9l1.4 1.4M15.3 4.7l-1.4 1.4M6.1 13.9l-1.4 1.4" />
+  </Svg>
+)

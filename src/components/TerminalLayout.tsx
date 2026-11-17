@@ -5,12 +5,13 @@ import { useData } from '../lib/data-context'
 import { isOverdue, displayState } from '../lib/status'
 import { useNow } from '../lib/useNow'
 import { Logo } from './Logo'
-import { IconClass, IconHomework, IconLogout, IconRoster } from './Icons'
+import { IconClass, IconHomework, IconLogout, IconRoster, IconSettings } from './Icons'
 
 const NAV = [
   { to: '/students', label: 'Students', Icon: IconRoster },
   { to: '/classes', label: 'Classes', Icon: IconClass },
   { to: '/homework', label: 'Homework', Icon: IconHomework },
+  { to: '/settings', label: 'Settings', Icon: IconSettings },
 ]
 
 export function TerminalLayout() {

@@ -37,10 +37,15 @@ export type Homework = {
   collectedAt: Record<string, string>
 }
 
+export type Settings = {
+  design?: Record<string, string>
+}
+
 export type TerminalData = {
   classes: ClassRoom[]
   students: Student[]
   homework: Homework[]
+  settings: Settings
 }
 
 /** What the teacher actually sees: 'overdue' is derived, never stored. */

@@ -89,8 +89,39 @@ overdue to the top, then assigned, then collected.
 
 ## Design
 
-Warm graphite — near-black with a trace of brown so it never reads blue-cold —
-off-white type, mono micro-labels, hairline borders, tabular numerals, no
-gradients and no shadows. One accent (ember orange) reserved for the primary
-action on a page, so it points rather than decorates; the three homework
-colours are the only other colour in the UI.
+Settings → Design. Nine independent axes, each a `data-*` attribute on `<html>`
+that `src/index.css` reacts to, so the whole UI re-skins without React
+re-rendering anything:
+
+| Axis | Values |
+| --- | --- |
+| Mode | Light, Dark, System (follows the device, live) |
+| Palette | Graphite, Studytubby, Bone, Blueprint, Phosphor, Ink, Dusk, Sage — each with its own light **and** dark face |
+| Accent | Theme default, plus 8 swatches; overrides the palette's own accent |
+| Typeface | Grotesk, Arcade, Neue, Editorial, Humanist, Terminal — loaded on demand |
+| Density | Compact, Normal, Roomy |
+| Corners | Square, Soft, Round, Pill |
+| Borders | Hairline, Medium, Bold |
+| Shadow | Flat, Soft, Hard offset |
+| Texture | None, Grid, Dots, Rule lines |
+
+Eight **presets** set every axis at once — "Studytubby" is the sibling app's
+cream paper, 2px ink borders and hard offset shadows; "Green screen" is a
+phosphor terminal in mono throughout — and every axis stays editable
+afterwards.
+
+Two implementation notes worth knowing before editing:
+
+- **Accent and line use a base/override pair** (`--accent-base` /
+  `--accent-override`), not cascade order. A theme block is more specific than
+  an axis block, so a plain override would lose; the indirection makes the axis
+  win regardless.
+- **Density scales the root font size** rather than touching components. Every
+  rem-based pad, gap and type step follows from one lever.
+
+Choices are saved to the account (`settings.design` in the user's blob) **and**
+mirrored to `localStorage`. An inline script in `index.html` applies the local
+copy before first paint so there is no flash of the wrong theme; the server
+copy is merged in once it arrives, so the look follows you to another device
+without a partial or older blob resetting axes it does not mention. Keep that
+script's defaults and font URLs in step with `src/lib/design.ts`.

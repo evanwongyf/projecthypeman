@@ -54,8 +54,8 @@ export function PhotoPicker({
   return (
     <div className="flex flex-col items-start gap-3">
       <div
-        className="h-28 w-28 shrink-0 overflow-hidden border flex items-center justify-center font-mono text-2xl font-semibold tracking-widest"
-        style={{ borderColor: 'var(--line)', background: 'var(--panel-2)', color: 'var(--ink-faint)' }}
+        className="frame h-28 w-28 shrink-0 overflow-hidden flex items-center justify-center font-mono text-2xl font-semibold tracking-widest"
+        style={{ color: 'var(--ink-faint)' }}
       >
         {showPhoto ? (
           <img

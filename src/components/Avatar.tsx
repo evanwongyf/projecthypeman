@@ -22,8 +22,8 @@ export function Avatar({
 
   return (
     <div
-      className={`${SIZES[size]} shrink-0 overflow-hidden border flex items-center justify-center font-mono font-semibold tracking-widest`}
-      style={{ borderColor: 'var(--line)', background: 'var(--panel-2)', color: 'var(--ink-faint)' }}
+      className={`${SIZES[size]} frame shrink-0 overflow-hidden flex items-center justify-center font-mono font-semibold tracking-widest`}
+      style={{ color: 'var(--ink-faint)' }}
     >
       {showPhoto ? (
         <img
