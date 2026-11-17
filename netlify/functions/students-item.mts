@@ -21,6 +21,10 @@ export default async (req: Request, context: { params: { id: string } }) => {
       }
       // And from the points ledger.
       data.awards = data.awards.filter((a) => a.studentId !== id)
+      // And from anyone who recorded a relationship with them.
+      for (const other of data.students) {
+        other.relationships = other.relationships.filter((r) => r.otherStudentId !== id)
+      }
       return student
     })
     if (!removed) return Response.json({ error: 'Student not found.' }, { status: 404 })
@@ -33,7 +37,16 @@ export default async (req: Request, context: { params: { id: string } }) => {
     preferredName?: string
     birthday?: string
     classId?: string | null
+    ccas?: string[]
+    interests?: string[]
+    characteristics?: string[]
   }
+
+  /** Trimmed, de-duplicated, capped — these are chips, not prose. */
+  const tags = (list: unknown): string[] =>
+    Array.isArray(list)
+      ? [...new Set(list.filter((t): t is string => typeof t === 'string').map((t) => t.trim()).filter(Boolean).map((t) => t.slice(0, 60)))].slice(0, 40)
+      : []
 
   const result = await mutate(username, (data) => {
     const student = data.students.find((s) => s.id === id)
@@ -45,6 +58,9 @@ export default async (req: Request, context: { params: { id: string } }) => {
       student.fullName = fullName
     }
     if (body.preferredName !== undefined) student.preferredName = body.preferredName.trim() || undefined
+    if (body.ccas !== undefined) student.ccas = tags(body.ccas)
+    if (body.interests !== undefined) student.interests = tags(body.interests)
+    if (body.characteristics !== undefined) student.characteristics = tags(body.characteristics)
     if (body.birthday !== undefined) student.birthday = body.birthday.trim() || undefined
     if (body.classId !== undefined) {
       if (body.classId !== null && !data.classes.some((c) => c.id === body.classId)) return { error: 'class' as const }

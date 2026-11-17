@@ -182,6 +182,7 @@ function AccountTab() {
         {(
           [
             ['name', user?.name ?? '—'],
+            ['email', user?.email ?? '—'],
             ['username', user?.username ?? '—'],
             ['role', user?.role ?? '—'],
             ['classes', String(data.classes.length)],

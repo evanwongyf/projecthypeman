@@ -34,14 +34,14 @@ export function EffectsEditor() {
   const columns: { kind: BehaviourKind; title: string; blurb: string; list: Behaviour[]; tone: string }[] = [
     {
       kind: 'positive',
-      title: 'Positive',
+      title: 'Rewards',
       blurb: 'Said out loud and collected — give these names worth earning.',
       list: positives,
       tone: 'var(--collected)',
     },
     {
       kind: 'negative',
-      title: 'Needs work',
+      title: 'Penalties',
       blurb: 'Said out loud too. Keep these plain and about the behaviour, not the child.',
       list: negatives,
       tone: 'var(--overdue)',
@@ -63,7 +63,7 @@ export function EffectsEditor() {
               <h2 className="label" style={{ color: col.tone }}>
                 {col.title}
               </h2>
-              <button type="button" className="btn btn-ghost !px-2" onClick={() => setAdding(col.kind)} aria-label={`Add a ${col.title.toLowerCase()} effect`}>
+              <button type="button" className="btn btn-ghost !px-2" onClick={() => setAdding(col.kind)} aria-label={`Add a ${col.kind === 'positive' ? 'reward' : 'penalty'}`}>
                 <IconPlus />
               </button>
             </div>
@@ -162,8 +162,8 @@ function EffectForm({
 
   return (
     <Modal
-      eyebrow={positive ? 'Positive effect' : 'Needs work'}
-      title={behaviour ? behaviour.name : positive ? 'New positive effect' : 'New needs-work effect'}
+      eyebrow={positive ? 'Reward' : 'Penalty'}
+      title={behaviour ? behaviour.name : positive ? 'New reward' : 'New penalty'}
       onClose={onClose}
       footer={
         <>

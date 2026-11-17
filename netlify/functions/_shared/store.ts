@@ -7,11 +7,30 @@ function dataKey(username: string) {
   return r2Key('data', `${username.toLowerCase()}.json`)
 }
 
+/**
+ * Blobs written by earlier builds predate some fields, so every read fills the
+ * gaps. Doing it here means the rest of the code can assume the arrays exist
+ * instead of guarding at every use.
+ */
+function migrate(data: TerminalData): TerminalData {
+  for (const s of data.students) {
+    s.ccas ??= []
+    s.interests ??= []
+    s.characteristics ??= []
+    s.guardians ??= []
+    s.relationships ??= []
+    s.notes ??= []
+    s.incidents ??= []
+    for (const r of s.relationships) r.notes ??= []
+  }
+  return data
+}
+
 export async function readData(username: string): Promise<TerminalData> {
   try {
     const res = await r2.send(new GetObjectCommand({ Bucket: R2_BUCKET, Key: dataKey(username) }))
     const parsed = JSON.parse(await res.Body!.transformToString()) as Partial<TerminalData>
-    return { ...emptyData(), ...parsed }
+    return migrate({ ...emptyData(), ...parsed })
   } catch (err: unknown) {
     const name = err instanceof Error ? err.name : undefined
     const status = (err as { $metadata?: { httpStatusCode?: number } })?.$metadata?.httpStatusCode

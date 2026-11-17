@@ -9,7 +9,9 @@ export type Role = 'admin' | 'user'
 
 export type User = {
   id: number
+  /** Kept as the storage key for the account's data blob; sign-in uses email. */
   username: string
+  email: string
   name: string
   passwordHash: string
   role: Role
@@ -40,18 +42,38 @@ async function writeUsers(users: User[]): Promise<void> {
   )
 }
 
-export async function getUserByUsername(username: string): Promise<User | undefined> {
+export async function getUserByEmail(email: string): Promise<User | undefined> {
   const users = await readUsers()
-  return users.find((u) => u.username === username.toLowerCase())
+  const wanted = email.trim().toLowerCase()
+  return users.find((u) => u.email?.toLowerCase() === wanted)
 }
 
-export async function upsertUser(params: { username: string; name: string; passwordHash: string; role: Role }): Promise<User> {
+export async function upsertUser(params: {
+  username: string
+  email: string
+  name: string
+  passwordHash: string
+  role: Role
+}): Promise<User> {
   const users = await readUsers()
   const username = params.username.toLowerCase()
+  const email = params.email.trim().toLowerCase()
+
+  // Another account already signing in with this email would make the login
+  // ambiguous, so refuse rather than shadow it.
+  const clash = users.find((u) => u.email?.toLowerCase() === email && u.username !== username)
+  if (clash) throw new Error(`Email "${email}" is already used by "${clash.username}".`)
+
   const idx = users.findIndex((u) => u.username === username)
 
   if (idx >= 0) {
-    users[idx] = { ...users[idx], name: params.name, passwordHash: params.passwordHash, role: params.role }
+    users[idx] = {
+      ...users[idx],
+      email,
+      name: params.name,
+      passwordHash: params.passwordHash,
+      role: params.role,
+    }
     await writeUsers(users)
     return users[idx]
   }
@@ -59,6 +81,7 @@ export async function upsertUser(params: { username: string; name: string; passw
   const user: User = {
     id: users.length ? Math.max(...users.map((u) => u.id)) + 1 : 1,
     username,
+    email,
     name: params.name,
     passwordHash: params.passwordHash,
     role: params.role,

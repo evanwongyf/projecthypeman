@@ -7,6 +7,36 @@ export type Entry = {
   createdAt: string
 }
 
+export const RELATIONSHIP_KINDS = ['friend', 'close_friend', 'conflict', 'romance', 'sibling', 'other'] as const
+export type RelationshipKind = (typeof RELATIONSHIP_KINDS)[number]
+
+/** A parent, guardian or other contact for a student. */
+export type Guardian = {
+  id: string
+  name: string
+  /** Mother, Father, Grandmother, Guardian — free text, since families vary. */
+  relation?: string
+  phone?: string
+  email?: string
+  note?: string
+  createdAt: string
+}
+
+/**
+ * A relationship with another person. The other person is a student in the
+ * terminal where possible, so the record shows on both profiles; otherwise it
+ * is a plain name, for someone outside the class.
+ */
+export type Relationship = {
+  id: string
+  kind: RelationshipKind
+  otherStudentId?: string
+  otherName?: string
+  /** Notes, newest first. One is written when the relationship is created. */
+  notes: Entry[]
+  createdAt: string
+}
+
 export type ClassRoom = {
   id: string
   name: string
@@ -24,6 +54,12 @@ export type Student = {
   /** null = kept in the student pool, not attached to any class. */
   classId: string | null
   hasPhoto?: boolean
+  /** Short tags, shown as chips on the profile. */
+  ccas: string[]
+  interests: string[]
+  characteristics: string[]
+  guardians: Guardian[]
+  relationships: Relationship[]
   notes: Entry[]
   incidents: Entry[]
   createdAt: string

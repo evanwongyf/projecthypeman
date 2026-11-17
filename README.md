@@ -54,14 +54,32 @@ data. The login list is this app's own, so seed it once with `npm run seed`.
 
 - **Class** — name, school, subject. Holds a roster and its homework.
 - **Student** — **full name is the only mandatory field**. Optionally a
-  preferred name, birthday and photo. A student either belongs to a class or
+  preferred name, birthday, photo, CCAs, interests, characteristics, parent and
+  guardian contacts, and relationships. A student either belongs to a class or
   sits in the unassigned pool, which is a first-class place to be, not an error
   state. Deleting a class releases its students into that pool rather than
   deleting them.
+- **Relationship** — friend, close friend, conflict, romance, sibling or other,
+  with the other person named. **It is stored once**, on whichever profile it
+  was added from, and the other side is derived at read time, so it shows on
+  both profiles and can never end up half-deleted. A relationship starts with
+  one note and collects more; the first note cannot be deleted, since a
+  relationship with no notes says nothing.
 - **Note / incident** — each one is its own entry, stamped with the date and
   time it was logged. Kept as two separate logs on the profile.
 - **Homework** — title, description, due date, set on a class. Everyone on the
   roster starts **assigned**.
+
+## Sign-in
+
+Sign-in is by **email**; the username stays the key for the account's data in
+R2, so changing one never moves the other. A wrong email and a wrong password
+return the same message, so the form does not confirm which accounts exist.
+
+```bash
+ADMIN_USERNAME=…   ADMIN_EMAIL=…   ADMIN_NAME=…   ADMIN_PASSWORD=…
+npm run seed
+```
 
 ## Points
 
@@ -71,7 +89,8 @@ an intermediate modal states what is about to happen — the effect, the
 magnitude, and each student's total before and after — with **Cancel** or
 **Activate**. Nothing is written until Activate.
 
-Effects come in two tones, on purpose:
+Effects are split by a **Reward / Penalty** toggle and can be sorted by name,
+points or recently added. They come in two tones, on purpose:
 
 - **Positive** names are meant to be earned and said out loud — Big Brain,
   Clutch, Trailblazer, Ice Cold, Momentum.

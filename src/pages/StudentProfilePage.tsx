@@ -11,6 +11,9 @@ import { EntryLog } from '../components/EntryLog'
 import { IconEdit, IconTrash } from '../components/Icons'
 import { PageHeader } from '../components/PageHeader'
 import { PhotoPicker } from '../components/PhotoPicker'
+import { TagEditor } from '../components/profile/TagEditor'
+import { Guardians } from '../components/profile/Guardians'
+import { Relationships } from '../components/profile/Relationships'
 import { StudentFormModal } from '../components/StudentFormModal'
 
 type Sort = 'due' | 'completion'
@@ -98,6 +101,30 @@ export function StudentProfilePage() {
               fullName={student.fullName}
               hasPhoto={student.hasPhoto}
               version={version}
+            />
+          </section>
+
+          <section className="panel space-y-5 p-5">
+            <TagEditor
+              studentId={student.id}
+              field="ccas"
+              label="cca"
+              placeholder="e.g. Basketball"
+              values={student.ccas}
+            />
+            <TagEditor
+              studentId={student.id}
+              field="interests"
+              label="interests"
+              placeholder="e.g. Drawing"
+              values={student.interests}
+            />
+            <TagEditor
+              studentId={student.id}
+              field="characteristics"
+              label="characteristics"
+              placeholder="e.g. Works best standing"
+              values={student.characteristics}
             />
           </section>
 
@@ -245,6 +272,10 @@ export function StudentProfilePage() {
               </>
             )}
           </section>
+
+          <Guardians studentId={student.id} guardians={student.guardians} />
+
+          <Relationships student={student} />
 
           <EntryLog
             studentId={student.id}

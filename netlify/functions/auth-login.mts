@@ -1,26 +1,29 @@
 import type { Config } from '@netlify/functions'
 import bcrypt from 'bcryptjs'
-import { getUserByUsername } from './_shared/users.js'
+import { getUserByEmail } from './_shared/users.js'
 import { buildSessionCookie } from './_shared/auth.js'
 
 export default async (req: Request) => {
-  const { username, password } = (await req.json()) as { username?: string; password?: string }
+  const { email, password } = (await req.json()) as { email?: string; password?: string }
 
-  if (!username || !password) {
-    return Response.json({ error: 'Username and password are required.' }, { status: 400 })
+  if (!email || !password) {
+    return Response.json({ error: 'Email and password are required.' }, { status: 400 })
   }
 
-  const user = await getUserByUsername(username)
-  if (!user) return Response.json({ error: 'Invalid username or password.' }, { status: 401 })
+  const user = await getUserByEmail(email)
+  // The same message either way, so a wrong email cannot be told from a wrong
+  // password and the form does not confirm which accounts exist.
+  if (!user) return Response.json({ error: 'Invalid email or password.' }, { status: 401 })
 
   const valid = await bcrypt.compare(password, user.passwordHash)
-  if (!valid) return Response.json({ error: 'Invalid username or password.' }, { status: 401 })
+  if (!valid) return Response.json({ error: 'Invalid email or password.' }, { status: 401 })
 
   if (user.disabled) return Response.json({ error: 'This account has been disabled.' }, { status: 403 })
 
   const cookie = await buildSessionCookie({
     sub: String(user.id),
     username: user.username,
+    email: user.email,
     name: user.name,
     role: user.role,
   })

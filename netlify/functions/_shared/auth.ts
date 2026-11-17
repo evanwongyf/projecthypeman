@@ -8,6 +8,7 @@ const secret = new TextEncoder().encode(process.env.SESSION_SECRET ?? 'dev-only-
 export type SessionPayload = {
   sub: string
   username: string
+  email: string
   name: string
   role: 'admin' | 'user'
 }

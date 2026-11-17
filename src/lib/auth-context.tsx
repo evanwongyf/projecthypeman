@@ -4,6 +4,7 @@ import { api } from './api'
 
 export type Session = {
   username: string
+  email: string
   name: string
   role: 'admin' | 'user'
 }

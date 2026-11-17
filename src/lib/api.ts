@@ -1,4 +1,17 @@
-import type { Award, Behaviour, BehaviourKind, ClassRoom, Entry, Homework, Student, SubmissionState, TerminalData } from './types'
+import type {
+  Award,
+  Behaviour,
+  BehaviourKind,
+  ClassRoom,
+  Entry,
+  Guardian,
+  Homework,
+  Relationship,
+  RelationshipKind,
+  Student,
+  SubmissionState,
+  TerminalData,
+} from './types'
 
 async function send<T>(url: string, init?: RequestInit): Promise<T> {
   const res = await fetch(url, init)
@@ -33,7 +46,15 @@ export const api = {
     send<Student>('/api/students', json('POST', body)),
   updateStudent: (
     id: string,
-    body: Partial<{ fullName: string; preferredName: string; birthday: string; classId: string | null }>
+    body: Partial<{
+      fullName: string
+      preferredName: string
+      birthday: string
+      classId: string | null
+      ccas: string[]
+      interests: string[]
+      characteristics: string[]
+    }>
   ) => send<Student>(`/api/students/${id}`, json('PATCH', body)),
   deleteStudent: (id: string) => send<{ ok: true }>(`/api/students/${id}`, { method: 'DELETE' }),
 
@@ -60,6 +81,34 @@ export const api = {
   setSubmission: (homeworkId: string, studentId: string, state: SubmissionState) =>
     send<{ ok: true }>(`/api/homework/${homeworkId}/status`, json('PATCH', { studentId, state })),
 
+  addGuardian: (body: {
+    studentId: string
+    name: string
+    relation?: string
+    phone?: string
+    email?: string
+    note?: string
+  }) => send<Guardian>('/api/guardians', json('POST', body)),
+  updateGuardian: (id: string, body: Partial<Omit<Guardian, 'id' | 'createdAt'>>) =>
+    send<Guardian>(`/api/guardians/${id}`, json('PATCH', body)),
+  deleteGuardian: (id: string) => send<{ ok: true }>(`/api/guardians/${id}`, { method: 'DELETE' }),
+
+  addRelationship: (body: {
+    studentId: string
+    kind: RelationshipKind
+    otherStudentId?: string
+    otherName?: string
+    /** Required — a relationship starts with one note. */
+    note: string
+  }) => send<Relationship>('/api/relationships', json('POST', body)),
+  updateRelationship: (id: string, body: { kind: RelationshipKind }) =>
+    send<Relationship>(`/api/relationships/${id}`, json('PATCH', body)),
+  deleteRelationship: (id: string) => send<{ ok: true }>(`/api/relationships/${id}`, { method: 'DELETE' }),
+  addRelationshipNote: (id: string, text: string) =>
+    send<Entry>(`/api/relationships/${id}/notes`, json('POST', { text })),
+  deleteRelationshipNote: (id: string, noteId: string) =>
+    send<{ ok: true }>(`/api/relationships/${id}/notes/${noteId}`, { method: 'DELETE' }),
+
   createBehaviour: (body: { name: string; kind: BehaviourKind; points: number; note?: string }) =>
     send<Behaviour>('/api/behaviours', json('POST', body)),
   updateBehaviour: (id: string, body: Partial<Pick<Behaviour, 'name' | 'points' | 'note'>>) =>
@@ -71,7 +120,7 @@ export const api = {
     send<{ awards: Award[] }>('/api/awards', json('POST', body)),
   undoAward: (id: string) => send<{ ok: true }>(`/api/awards/${id}`, { method: 'DELETE' }),
 
-  login: (username: string, password: string) => send<{ ok: true }>('/api/auth/login', json('POST', { username, password })),
+  login: (email: string, password: string) => send<{ ok: true }>('/api/auth/login', json('POST', { email, password })),
   logout: () => send<{ ok: true }>('/api/auth/logout', { method: 'POST' }),
 }
 

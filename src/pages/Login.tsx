@@ -8,7 +8,7 @@ import { Logo } from '../components/Logo'
 export function Login() {
   const { user, loading, refresh } = useAuth()
   const navigate = useNavigate()
-  const [username, setUsername] = useState('')
+  const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState<string | null>(null)
   const [busy, setBusy] = useState(false)
@@ -20,7 +20,7 @@ export function Login() {
     setBusy(true)
     setError(null)
     try {
-      await api.login(username.trim(), password)
+      await api.login(email.trim(), password)
       await refresh()
       navigate('/students', { replace: true })
     } catch (err) {
@@ -40,14 +40,16 @@ export function Login() {
         </div>
 
         <form onSubmit={submit} className="panel space-y-4 p-6">
-          <Field label="Username">
+          <Field label="Email">
             <input
               className="field"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              autoComplete="username"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              autoComplete="email"
               autoCapitalize="none"
               spellCheck={false}
+              placeholder="you@example.com"
               required
             />
           </Field>

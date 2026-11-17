@@ -8,6 +8,8 @@ import { Modal } from '../Modal'
  * Step one: choose the effect. Positives read as a reward sheet, negatives as
  * a plain list — the tone of each tab is deliberate, not decoration.
  */
+type Sort = 'name' | 'points' | 'recent'
+
 export function EffectPicker({
   title,
   subtitle,
@@ -21,44 +23,56 @@ export function EffectPicker({
 }) {
   const { data } = useData()
   const [kind, setKind] = useState<BehaviourKind>('positive')
+  const [sort, setSort] = useState<Sort>('name')
 
-  const list = useMemo(() => sortBehaviours(data.behaviours, kind), [data.behaviours, kind])
+  const list = useMemo(() => {
+    const base = sortBehaviours(data.behaviours, kind)
+    if (sort === 'points') return [...base].sort((a, b) => b.points - a.points || a.name.localeCompare(b.name))
+    if (sort === 'recent') return [...base].sort((a, b) => b.createdAt.localeCompare(a.createdAt))
+    return base
+  }, [data.behaviours, kind, sort])
+
   const positive = kind === 'positive'
 
   return (
     <Modal wide eyebrow={subtitle} title={title} onClose={onClose}>
-      <div className="mb-4 flex gap-1" role="tablist">
-        {(
-          [
-            ['positive', 'Positive'],
-            ['negative', 'Needs work'],
-          ] as const
-        ).map(([id, label]) => (
-          <button
-            key={id}
-            role="tab"
-            type="button"
-            aria-selected={kind === id}
-            onClick={() => setKind(id)}
-            className="btn flex-1"
-            style={
-              kind === id
-                ? {
-                    borderColor: id === 'positive' ? 'var(--collected)' : 'var(--overdue)',
-                    color: id === 'positive' ? 'var(--collected)' : 'var(--overdue)',
-                    background: id === 'positive' ? 'var(--collected-dim)' : 'var(--overdue-dim)',
-                  }
-                : undefined
-            }
-          >
-            {label}
-          </button>
-        ))}
+      <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+        {/* One control with two states, so the two sides read as opposites
+            rather than as two unrelated buttons. */}
+        <div className="toggle" role="tablist" aria-label="Reward or penalty">
+          {(
+            [
+              ['positive', 'Reward', 'var(--collected)'],
+              ['negative', 'Penalty', 'var(--overdue)'],
+            ] as const
+          ).map(([id, label, tone]) => (
+            <button
+              key={id}
+              role="tab"
+              type="button"
+              aria-selected={kind === id}
+              onClick={() => setKind(id)}
+              className="toggle-option"
+              style={kind === id ? { color: tone, background: `color-mix(in srgb, ${tone} 16%, var(--bg))` } : undefined}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+
+        <div className="shrink-0">
+          <span className="label">sort by</span>
+          <select className="field mt-1.5" value={sort} onChange={(e) => setSort(e.target.value as Sort)}>
+            <option value="name">Name</option>
+            <option value="points">Points</option>
+            <option value="recent">Recently added</option>
+          </select>
+        </div>
       </div>
 
       {list.length === 0 ? (
         <p className="py-6 text-center text-sm" style={{ color: 'var(--ink-faint)' }}>
-          No {positive ? 'positive' : 'needs-work'} effects yet. Add some in Settings → Effects.
+          No {positive ? 'reward' : 'penalty'} items yet. Add some in Settings → Effects.
         </p>
       ) : (
         <div className="grid gap-2 sm:grid-cols-2">

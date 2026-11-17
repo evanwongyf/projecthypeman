@@ -63,7 +63,7 @@ export function ActivateModal({
 
   return (
     <Modal
-      eyebrow={positive ? 'Positive effect' : 'Needs work'}
+      eyebrow={positive ? 'Reward' : 'Penalty'}
       title={behaviour.name}
       onClose={onClose}
       footer={
@@ -94,7 +94,7 @@ export function ActivateModal({
         }}
       >
         <p className="label" style={{ color: tone }}>
-          {behaviour.note ?? (positive ? 'positive effect' : 'needs work')}
+          {behaviour.note ?? (positive ? 'reward' : 'penalty')}
         </p>
         <p className="mono mt-1 text-4xl font-bold" style={{ color: tone }}>
           {formatPoints(delta)}
