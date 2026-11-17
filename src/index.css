@@ -1,0 +1,282 @@
+@import "tailwindcss";
+
+:root {
+  /* Warm graphite — near-black with a trace of brown so it never reads blue-cold. */
+  --bg: #0b0a09;
+  --panel: #121110;
+  --panel-2: #191714;
+  --panel-3: #211e1a;
+  --line: #272420;
+  --line-soft: #1d1b18;
+
+  --ink: #f0ece4;
+  --ink-soft: #948d82;
+  --ink-faint: #635c52;
+
+  /* One accent, ember orange. Warm enough to belong, bright enough to point. */
+  --accent: #ff6a3d;
+  --accent-dim: #2a150e;
+  --accent-ink: #140a06;
+
+  /* Homework states. */
+  --assigned: #e3b341;
+  --assigned-dim: #2a2210;
+  --overdue: #e35d4e;
+  --overdue-dim: #2c1512;
+  --collected: #4fa96b;
+  --collected-dim: #122416;
+
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", monospace;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-panel: var(--panel);
+  --color-panel-2: var(--panel-2);
+  --color-panel-3: var(--panel-3);
+  --color-line: var(--line);
+  --color-line-soft: var(--line-soft);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-faint: var(--ink-faint);
+  --color-accent: var(--accent);
+  --color-accent-dim: var(--accent-dim);
+  --color-accent-ink: var(--accent-ink);
+  --color-assigned: var(--assigned);
+  --color-overdue: var(--overdue);
+  --color-collected: var(--collected);
+  --font-display: var(--font-display);
+  --font-mono: var(--font-mono);
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-display);
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: "ss01";
+}
+
+#root {
+  display: flex;
+  min-height: 100%;
+  flex-direction: column;
+}
+
+*:focus-visible {
+  outline: 1px solid var(--accent);
+  outline-offset: 2px;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+/* ---------- primitives ---------- */
+
+/* Mono micro-label: the instrument-panel voice of the whole UI. */
+.label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+}
+
+.hairline {
+  border-color: var(--line);
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.9rem;
+  border: 1px solid var(--line);
+  background: var(--panel-2);
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 120ms ease, border-color 120ms ease, color 120ms ease;
+}
+
+.btn:hover:not(:disabled) {
+  background: var(--panel-3);
+  border-color: #332f29;
+}
+
+.btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-ink);
+  font-weight: 600;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: #ff7d55;
+  border-color: #ff7d55;
+}
+
+.btn-ghost {
+  background: transparent;
+  border-color: transparent;
+  color: var(--ink-soft);
+}
+
+.btn-ghost:hover:not(:disabled) {
+  background: var(--panel-2);
+  border-color: var(--line);
+  color: var(--ink);
+}
+
+/* Collecting work is a quiet confirm: it greens on contact rather than
+   shouting in accent orange on every row. */
+.btn-collect {
+  color: var(--collected);
+  border-color: color-mix(in srgb, var(--collected) 34%, transparent);
+  background: var(--collected-dim);
+}
+
+.btn-collect:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--collected) 22%, var(--collected-dim));
+  border-color: var(--collected);
+}
+
+.btn-danger:hover:not(:disabled) {
+  background: var(--overdue-dim);
+  border-color: var(--overdue);
+  color: var(--overdue);
+}
+
+/* Inputs */
+.field {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: 14px;
+}
+
+.field::placeholder {
+  color: var(--ink-faint);
+}
+
+.field:focus {
+  border-color: var(--accent);
+  outline: none;
+}
+
+textarea.field {
+  resize: vertical;
+  min-height: 5rem;
+  line-height: 1.55;
+}
+
+select.field {
+  appearance: none;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  padding-right: 2rem;
+  background-image: linear-gradient(45deg, transparent 50%, var(--ink-soft) 50%),
+    linear-gradient(135deg, var(--ink-soft) 50%, transparent 50%);
+  background-position: calc(100% - 15px) 52%, calc(100% - 10px) 52%;
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+}
+
+/* Status chips */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.25rem 0.55rem;
+  border: 1px solid;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.chip-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 999px;
+  background: currentColor;
+}
+
+.chip-assigned {
+  color: var(--assigned);
+  border-color: color-mix(in srgb, var(--assigned) 38%, transparent);
+  background: var(--assigned-dim);
+}
+
+.chip-overdue {
+  color: var(--overdue);
+  border-color: color-mix(in srgb, var(--overdue) 42%, transparent);
+  background: var(--overdue-dim);
+}
+
+.chip-collected {
+  color: var(--collected);
+  border-color: color-mix(in srgb, var(--collected) 38%, transparent);
+  background: var(--collected-dim);
+}
+
+.chip-neutral {
+  color: var(--ink-soft);
+  border-color: var(--line);
+  background: var(--panel-2);
+}
+
+/* A 1px grid of hairlines — the only "texture" in the whole UI. */
+.grid-field {
+  background-image: linear-gradient(var(--line-soft) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line-soft) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+
+.row-hover:hover {
+  background: var(--panel-2);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition-duration: 0ms !important;
+    animation-duration: 0ms !important;
+  }
+}
