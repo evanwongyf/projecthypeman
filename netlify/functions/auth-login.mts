@@ -2,8 +2,12 @@ import type { Config } from '@netlify/functions'
 import bcrypt from 'bcryptjs'
 import { getUserByEmail } from './_shared/users.js'
 import { buildSessionCookie } from './_shared/auth.js'
+import { configError } from './_shared/config.js'
 
 export default async (req: Request) => {
+  const bad = configError()
+  if (bad) return bad
+
   const { email, password } = (await req.json()) as { email?: string; password?: string }
 
   if (!email || !password) {

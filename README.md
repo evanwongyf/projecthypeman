@@ -70,6 +70,17 @@ data. The login list is this app's own, so seed it once with `npm run seed`.
 - **Homework** — title, description, due date, set on a class. Everyone on the
   roster starts **assigned**.
 
+## When something is missing
+
+Every API route checks its configuration before doing anything. A missing
+environment variable returns **503 with the names of what is unset**, and the
+login screen shows it, instead of the uncaught throw deep inside the S3 client
+that Netlify would otherwise surface as a bare 502 with nothing to go on. Only
+names are reported, never values.
+
+`SESSION_SECRET` is in that required set on purpose: a deployed site that fell
+back to a built-in signing key would let anyone mint a valid session cookie.
+
 ## Sign-in
 
 Sign-in is by **email**; the username stays the key for the account's data in

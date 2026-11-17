@@ -6,7 +6,7 @@ import { Field } from '../components/Field'
 import { Logo } from '../components/Logo'
 
 export function Login() {
-  const { user, loading, refresh } = useAuth()
+  const { user, loading, serverError, refresh } = useAuth()
   const navigate = useNavigate()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -39,6 +39,21 @@ export function Login() {
           </p>
         </div>
 
+        {serverError && (
+          <div
+            className="panel mb-4 p-4"
+            style={{ borderColor: 'var(--overdue)', background: 'var(--overdue-dim)' }}
+            role="alert"
+          >
+            <p className="label" style={{ color: 'var(--overdue)' }}>
+              server not ready
+            </p>
+            <p className="mt-1.5 text-sm leading-relaxed" style={{ color: 'var(--ink)' }}>
+              {serverError}
+            </p>
+          </div>
+        )}
+
         <form onSubmit={submit} className="panel space-y-4 p-6">
           <Field label="Email">
             <input
@@ -70,7 +85,7 @@ export function Login() {
             </p>
           )}
 
-          <button type="submit" className="btn btn-primary w-full" disabled={busy}>
+          <button type="submit" className="btn btn-primary w-full" disabled={busy || !!serverError}>
             {busy ? 'Signing in…' : 'Sign in'}
           </button>
         </form>

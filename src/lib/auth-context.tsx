@@ -12,6 +12,9 @@ export type Session = {
 type AuthContextValue = {
   user: Session | null
   loading: boolean
+  /** Set when the server reports it is missing configuration, so the login
+   *  screen can say so rather than just refusing to sign anyone in. */
+  serverError: string | null
   refresh: () => Promise<void>
   logout: () => Promise<void>
 }
@@ -21,11 +24,25 @@ const AuthContext = createContext<AuthContextValue | null>(null)
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<Session | null>(null)
   const [loading, setLoading] = useState(true)
+  const [serverError, setServerError] = useState<string | null>(null)
 
   const refresh = useCallback(async () => {
     try {
       const res = await fetch('/api/session')
-      setUser(res.ok ? ((await res.json()) as { user: Session }).user : null)
+      if (res.ok) {
+        setUser(((await res.json()) as { user: Session }).user)
+        setServerError(null)
+        return
+      }
+      setUser(null)
+      // 401 is the ordinary "not signed in" case; anything else is the server
+      // telling us something the person needs to read.
+      if (res.status !== 401) {
+        const body = (await res.json().catch(() => null)) as { error?: string } | null
+        setServerError(body?.error ?? `The server returned ${res.status}.`)
+      } else {
+        setServerError(null)
+      }
     } catch {
       setUser(null)
     } finally {
@@ -42,7 +59,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser(null)
   }, [])
 
-  return <AuthContext.Provider value={{ user, loading, refresh, logout }}>{children}</AuthContext.Provider>
+  return (
+    <AuthContext.Provider value={{ user, loading, serverError, refresh, logout }}>{children}</AuthContext.Provider>
+  )
 }
 
 export function useAuth() {

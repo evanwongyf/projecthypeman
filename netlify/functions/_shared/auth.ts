@@ -1,8 +1,11 @@
 import { SignJWT, jwtVerify } from 'jose'
 import { parseCookies, serializeCookie } from './cookies.js'
+import { configError } from './config.js'
 
 export const SESSION_COOKIE = 'session'
 
+// Only reached locally: a deployed request is refused by configError() before
+// it can sign or verify anything with this stand-in.
 const secret = new TextEncoder().encode(process.env.SESSION_SECRET ?? 'dev-only-insecure-secret-change-me')
 
 export type SessionPayload = {
@@ -47,8 +50,14 @@ export function buildClearCookie(): string {
   return serializeCookie(SESSION_COOKIE, '', { httpOnly: true, sameSite: 'lax', path: '/', maxAge: 0 })
 }
 
-/** Guard for every data route: resolves the signed-in teacher or returns a 401 response. */
+/**
+ * Guard for every data route. Reports a misconfigured server before anything
+ * else, so a missing variable never reads as an auth problem or a crash.
+ */
 export async function requireSession(req: Request): Promise<{ session: SessionPayload } | { response: Response }> {
+  const bad = configError()
+  if (bad) return { response: bad }
+
   const session = await getSession(req)
   if (!session) return { response: Response.json({ error: 'Unauthorized' }, { status: 401 }) }
   return { session }
