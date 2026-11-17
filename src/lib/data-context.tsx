@@ -15,7 +15,7 @@ type DataContextValue = {
   version: number
 }
 
-const EMPTY: TerminalData = { classes: [], students: [], homework: [], settings: {} }
+const EMPTY: TerminalData = { classes: [], students: [], homework: [], behaviours: [], awards: [], settings: {} }
 
 const DataContext = createContext<DataContextValue | null>(null)
 

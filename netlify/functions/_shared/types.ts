@@ -51,15 +51,48 @@ export type Homework = {
  *  server change and an old blob never breaks a new build. */
 export type Settings = {
   design?: Record<string, string>
+  /** Set once the starting effect catalogue has been written, so a teacher
+   *  who deletes an effect does not get it handed back on the next read. */
+  behavioursSeeded?: boolean
+}
+
+export type BehaviourKind = 'positive' | 'negative'
+
+/** An "effect" a teacher can apply: a named reason worth some points. */
+export type Behaviour = {
+  id: string
+  name: string
+  kind: BehaviourKind
+  /** Always a positive magnitude. The sign comes from `kind`. */
+  points: number
+  note?: string
+  createdAt: string
+}
+
+/** One application of an effect to one student. The ledger is append-only
+ *  apart from deletion, so a total is always the sum of its entries. */
+export type Award = {
+  id: string
+  studentId: string
+  classId: string
+  behaviourId: string
+  /** Snapshotted, so editing or deleting an effect never rewrites history. */
+  behaviourName: string
+  kind: BehaviourKind
+  /** Signed: positive adds, negative deducts. */
+  points: number
+  createdAt: string
 }
 
 export type TerminalData = {
   classes: ClassRoom[]
   students: Student[]
   homework: Homework[]
+  behaviours: Behaviour[]
+  awards: Award[]
   settings: Settings
 }
 
 export function emptyData(): TerminalData {
-  return { classes: [], students: [], homework: [], settings: {} }
+  return { classes: [], students: [], homework: [], behaviours: [], awards: [], settings: {} }
 }

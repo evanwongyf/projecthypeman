@@ -1,4 +1,4 @@
-import type { ClassRoom, Entry, Homework, Student, SubmissionState, TerminalData } from './types'
+import type { Award, Behaviour, BehaviourKind, ClassRoom, Entry, Homework, Student, SubmissionState, TerminalData } from './types'
 
 async function send<T>(url: string, init?: RequestInit): Promise<T> {
   const res = await fetch(url, init)
@@ -59,6 +59,17 @@ export const api = {
   deleteHomework: (id: string) => send<{ ok: true }>(`/api/homework/${id}`, { method: 'DELETE' }),
   setSubmission: (homeworkId: string, studentId: string, state: SubmissionState) =>
     send<{ ok: true }>(`/api/homework/${homeworkId}/status`, json('PATCH', { studentId, state })),
+
+  createBehaviour: (body: { name: string; kind: BehaviourKind; points: number; note?: string }) =>
+    send<Behaviour>('/api/behaviours', json('POST', body)),
+  updateBehaviour: (id: string, body: Partial<Pick<Behaviour, 'name' | 'points' | 'note'>>) =>
+    send<Behaviour>(`/api/behaviours/${id}`, json('PATCH', body)),
+  deleteBehaviour: (id: string) => send<{ ok: true }>(`/api/behaviours/${id}`, { method: 'DELETE' }),
+
+  /** Activate an effect against one or more students in the same class. */
+  activate: (body: { studentIds: string[]; behaviourId: string; points: number }) =>
+    send<{ awards: Award[] }>('/api/awards', json('POST', body)),
+  undoAward: (id: string) => send<{ ok: true }>(`/api/awards/${id}`, { method: 'DELETE' }),
 
   login: (username: string, password: string) => send<{ ok: true }>('/api/auth/login', json('POST', { username, password })),
   logout: () => send<{ ok: true }>('/api/auth/logout', { method: 'POST' }),

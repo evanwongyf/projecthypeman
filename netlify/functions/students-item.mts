@@ -19,6 +19,8 @@ export default async (req: Request, context: { params: { id: string } }) => {
         delete hw.submissions[id]
         delete hw.collectedAt[id]
       }
+      // And from the points ledger.
+      data.awards = data.awards.filter((a) => a.studentId !== id)
       return student
     })
     if (!removed) return Response.json({ error: 'Student not found.' }, { status: 404 })
@@ -46,7 +48,8 @@ export default async (req: Request, context: { params: { id: string } }) => {
     if (body.birthday !== undefined) student.birthday = body.birthday.trim() || undefined
     if (body.classId !== undefined) {
       if (body.classId !== null && !data.classes.some((c) => c.id === body.classId)) return { error: 'class' as const }
-      // Moving class clears the student from the old class's homework.
+      // Moving class clears the student from the old class's homework and
+      // leaves their old points behind with it.
       if (body.classId !== student.classId) {
         for (const hw of data.homework) {
           if (hw.classId === student.classId) {
@@ -54,6 +57,7 @@ export default async (req: Request, context: { params: { id: string } }) => {
             delete hw.collectedAt[id]
           }
         }
+        data.awards = data.awards.filter((a) => !(a.studentId === id && a.classId === student.classId))
       }
       student.classId = body.classId
     }

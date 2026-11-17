@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { photoUrl } from '../lib/api'
 import { initials } from '../lib/format'
 
-const SIZES = { sm: 'h-8 w-8 text-[10px]', md: 'h-11 w-11 text-xs', lg: 'h-28 w-28 text-2xl' }
+const SIZES = { sm: 'h-8 w-8 text-[10px]', md: 'h-11 w-11 text-xs', lg2: 'h-16 w-16 text-base', lg: 'h-28 w-28 text-2xl' }
 
 export function Avatar({
   studentId,

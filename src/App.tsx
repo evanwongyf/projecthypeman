@@ -8,6 +8,7 @@ import { StudentsPage } from './pages/StudentsPage'
 import { StudentProfilePage } from './pages/StudentProfilePage'
 import { ClassesPage } from './pages/ClassesPage'
 import { ClassDetailPage } from './pages/ClassDetailPage'
+import { PointsPage } from './pages/PointsPage'
 import { HomeworkPage } from './pages/HomeworkPage'
 import { HomeworkDetailPage } from './pages/HomeworkDetailPage'
 import { SettingsPage } from './pages/SettingsPage'
@@ -26,6 +27,7 @@ export default function App() {
             <Route path="/students/:studentId" element={<StudentProfilePage />} />
             <Route path="/classes" element={<ClassesPage />} />
             <Route path="/classes/:classId" element={<ClassDetailPage />} />
+            <Route path="/classes/:classId/points" element={<PointsPage />} />
             <Route path="/homework" element={<HomeworkPage />} />
             <Route path="/homework/:homeworkId" element={<HomeworkDetailPage />} />
             <Route path="/settings" element={<SettingsPage />} />

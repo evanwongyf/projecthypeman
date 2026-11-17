@@ -4,6 +4,7 @@ import { api } from '../lib/api'
 import { useData } from '../lib/data-context'
 import { age, displayName, dueRelative, formatDate, formatStamp } from '../lib/format'
 import { STATE_CHIP, STATE_LABEL, STATE_WEIGHT, displayState } from '../lib/status'
+import { formatPoints, pointsTone, recentAwards, tallyFor } from '../lib/points'
 import { useNow } from '../lib/useNow'
 import { ConfirmModal } from '../components/ConfirmModal'
 import { EntryLog } from '../components/EntryLog'
@@ -25,6 +26,12 @@ export function StudentProfilePage() {
 
   const student = data.students.find((s) => s.id === studentId)
   const now = useNow()
+
+  const points = useMemo(() => tallyFor(data.awards, studentId), [data.awards, studentId])
+  const ledger = useMemo(
+    () => recentAwards(data.awards, (a) => a.studentId === studentId, 25),
+    [data.awards, studentId]
+  )
 
   const submissions = useMemo(() => {
     if (!student || student.classId === null) return []
@@ -106,6 +113,11 @@ export function StudentProfilePage() {
             </Row>
             <Row label="school">{cls?.school || '—'}</Row>
             <Row label="subject">{cls?.subject || '—'}</Row>
+            <Row label="points">
+              <span className="mono font-semibold" style={{ color: pointsTone(points.total) }}>
+                {formatPoints(points.total)}
+              </span>
+            </Row>
             <Row label="outstanding">
               <span className="mono" style={{ color: outstanding ? 'var(--assigned)' : 'var(--ink-faint)' }}>
                 {outstanding}
@@ -174,6 +186,63 @@ export function StudentProfilePage() {
                   </li>
                 ))}
               </ul>
+            )}
+          </section>
+
+          <section className="panel">
+            <header className="flex flex-wrap items-center justify-between gap-3 border-b px-5 py-3 hairline">
+              <div className="flex items-baseline gap-2.5">
+                <h2 className="label">points</h2>
+                <span className="mono text-sm font-semibold" style={{ color: pointsTone(points.total) }}>
+                  {formatPoints(points.total)}
+                </span>
+              </div>
+              {cls && (
+                <Link to={`/classes/${cls.id}/points`} className="btn btn-ghost">
+                  Open board
+                </Link>
+              )}
+            </header>
+
+            {points.entries === 0 ? (
+              <p className="px-5 py-6 text-sm" style={{ color: 'var(--ink-faint)' }}>
+                {cls ? 'No points awarded yet.' : 'Points belong to a class board.'}
+              </p>
+            ) : (
+              <>
+                <div className="grid grid-cols-3 divide-x border-b hairline" style={{ borderColor: 'var(--line-soft)' }}>
+                  {(
+                    [
+                      ['earned', points.positive, 'var(--collected)'],
+                      ['deducted', points.negative, 'var(--overdue)'],
+                      ['entries', points.entries, 'var(--ink-soft)'],
+                    ] as const
+                  ).map(([label, value, tone]) => (
+                    <div key={label} className="px-5 py-3">
+                      <p className="label">{label}</p>
+                      <p className="mono mt-1 text-lg font-semibold" style={{ color: tone }}>
+                        {label === 'entries' ? value : formatPoints(value)}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+                <ul className="divide-y" style={{ borderColor: 'var(--line-soft)' }}>
+                  {ledger.map((a) => (
+                    <li key={a.id} className="flex items-center gap-3 px-5 py-2.5">
+                      <span
+                        className="mono w-[3.5ch] shrink-0 text-sm font-semibold"
+                        style={{ color: pointsTone(a.points) }}
+                      >
+                        {formatPoints(a.points)}
+                      </span>
+                      <span className="min-w-0 flex-1 truncate text-sm">{a.behaviourName}</span>
+                      <span className="mono shrink-0 text-[10px]" style={{ color: 'var(--ink-faint)' }}>
+                        {formatStamp(a.createdAt)}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </>
             )}
           </section>
 

@@ -119,3 +119,22 @@ export const IconSettings = (p: Props) => (
     <path d="M10 2.5v2M10 15.5v2M2.5 10h2M15.5 10h2M4.7 4.7l1.4 1.4M13.9 13.9l1.4 1.4M15.3 4.7l-1.4 1.4M6.1 13.9l-1.4 1.4" />
   </Svg>
 )
+
+export const IconMinus = (p: Props) => (
+  <Svg {...p}>
+    <path d="M4 10h12" />
+  </Svg>
+)
+
+export const IconStar = (p: Props) => (
+  <Svg {...p}>
+    <path d="M10 2.8l2.3 4.7 5.2.75-3.75 3.65.9 5.15L10 14.6l-4.65 2.45.9-5.15L2.5 8.25l5.2-.75z" />
+  </Svg>
+)
+
+export const IconUndoArrow = (p: Props) => (
+  <Svg {...p}>
+    <path d="M4 7h8.5a3.5 3.5 0 110 7H8" />
+    <path d="M7 4L4 7l3 3" />
+  </Svg>
+)

@@ -18,6 +18,8 @@ export default async (req: Request, context: { params: { id: string } }) => {
       // and removes the homework that belonged to it.
       for (const s of data.students) if (s.classId === id) s.classId = null
       data.homework = data.homework.filter((h) => h.classId !== id)
+      // Points belong to a class board, so they go with it.
+      data.awards = data.awards.filter((a) => a.classId !== id)
       return true
     })
     if (!ok) return Response.json({ error: 'Class not found.' }, { status: 404 })

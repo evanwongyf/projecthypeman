@@ -63,6 +63,39 @@ data. The login list is this app's own, so seed it once with `npm run seed`.
 - **Homework** — title, description, due date, set on a class. Everyone on the
   roster starts **assigned**.
 
+## Points
+
+A ClassDojo-style board per class: Classes → a class → **Points**. Tap a
+student (or **Whole class**) to open the effect picker, choose an effect, and
+an intermediate modal states what is about to happen — the effect, the
+magnitude, and each student's total before and after — with **Cancel** or
+**Activate**. Nothing is written until Activate.
+
+Effects come in two tones, on purpose:
+
+- **Positive** names are meant to be earned and said out loud — Big Brain,
+  Clutch, Trailblazer, Ice Cold, Momentum.
+- **Needs work** names are plain and factual, about the behaviour and not the
+  child — Off task, Phone out, Homework not done, Unkind remark.
+
+Eighteen are seeded on first use and all of them are editable in
+Settings → Effects.
+
+Three things the implementation guarantees:
+
+- **The sign lives in one place.** The catalogue stores a magnitude; the sign
+  comes from the effect's kind when the award is written. Nothing else has to
+  remember that a deduction is negative.
+- **A total is never stored.** It is the sum of its ledger entries, so it
+  cannot drift out of step with the history behind it.
+- **Awards snapshot the effect's name and value.** Renaming, re-pointing or
+  retiring an effect leaves awarded points exactly as they were.
+
+A whole-class award writes one entry per student, so it can be undone for a
+single child without unpicking the rest. Deleting a student or a class clears
+the matching entries; moving a student to another class leaves their old points
+behind with the old board.
+
 ### Homework states
 
 Only `assigned` and `collected` are stored. **Overdue is derived**, never

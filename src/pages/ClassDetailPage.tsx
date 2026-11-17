@@ -4,13 +4,14 @@ import { api } from '../lib/api'
 import { useData } from '../lib/data-context'
 import { age, displayName, dueRelative, formatDate, nameKey } from '../lib/format'
 import { isOverdue, tally } from '../lib/status'
+import { formatPoints, pointsTone, totalsByStudent } from '../lib/points'
 import { useNow } from '../lib/useNow'
 import { Avatar } from '../components/Avatar'
 import { ClassFormModal } from '../components/ClassFormModal'
 import { ConfirmModal } from '../components/ConfirmModal'
 import { Empty } from '../components/Empty'
 import { HomeworkFormModal } from '../components/HomeworkFormModal'
-import { IconEdit, IconHomework, IconPlus, IconTrash } from '../components/Icons'
+import { IconEdit, IconHomework, IconPlus, IconStar, IconTrash } from '../components/Icons'
 import { MetaItem, PageHeader } from '../components/PageHeader'
 import { StudentFormModal } from '../components/StudentFormModal'
 
@@ -34,6 +35,8 @@ export function ClassDetailPage() {
         .sort((a, b) => nameKey(a.fullName).localeCompare(nameKey(b.fullName))),
     [data.students, classId]
   )
+
+  const totals = useMemo(() => totalsByStudent(data.awards), [data.awards])
 
   const homework = useMemo(
     () =>
@@ -59,6 +62,14 @@ export function ClassDetailPage() {
             <MetaItem label="subject">{cls.subject || '—'}</MetaItem>
             <MetaItem label="roster">{roster.length}</MetaItem>
             <MetaItem label="homework">{homework.length}</MetaItem>
+            <MetaItem label="points">
+              <span
+                className="mono font-semibold"
+                style={{ color: pointsTone(roster.reduce((n, s) => n + (totals.get(s.id) ?? 0), 0)) }}
+              >
+                {formatPoints(roster.reduce((n, s) => n + (totals.get(s.id) ?? 0), 0))}
+              </span>
+            </MetaItem>
           </>
         }
         actions={
@@ -71,6 +82,10 @@ export function ClassDetailPage() {
               <IconEdit />
               Edit
             </button>
+            <Link to={`/classes/${cls.id}/points`} className="btn">
+              <IconStar />
+              Points
+            </Link>
             <button type="button" className="btn btn-primary" onClick={() => setAddingHomework(true)}>
               <IconHomework />
               Set homework
@@ -192,6 +207,12 @@ export function ClassDetailPage() {
                           </p>
                         )}
                       </div>
+                      <span
+                        className="mono shrink-0 text-sm font-semibold"
+                        style={{ color: pointsTone(totals.get(s.id) ?? 0) }}
+                      >
+                        {formatPoints(totals.get(s.id) ?? 0)}
+                      </span>
                     </Link>
                   </li>
                 )

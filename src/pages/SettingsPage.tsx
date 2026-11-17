@@ -18,11 +18,13 @@ import {
 import { AccentSwatch, Picker, ThemeSwatch } from '../components/design/Picker'
 import { DesignPreview } from '../components/design/DesignPreview'
 import { PageHeader } from '../components/PageHeader'
+import { EffectsEditor } from '../components/points/EffectsEditor'
 
-type Tab = 'design' | 'account'
+type Tab = 'design' | 'effects' | 'account'
 
 const TABS: { id: Tab; label: string }[] = [
   { id: 'design', label: 'Design' },
+  { id: 'effects', label: 'Effects' },
   { id: 'account', label: 'Account' },
 ]
 
@@ -54,7 +56,7 @@ export function SettingsPage() {
         </div>
       </div>
 
-      {tab === 'design' ? <DesignTab /> : <AccountTab />}
+      {tab === 'design' ? <DesignTab /> : tab === 'effects' ? <EffectsEditor /> : <AccountTab />}
     </>
   )
 }

@@ -39,12 +39,41 @@ export type Homework = {
 
 export type Settings = {
   design?: Record<string, string>
+  behavioursSeeded?: boolean
+}
+
+export type BehaviourKind = 'positive' | 'negative'
+
+/** An "effect": a named reason worth some points. */
+export type Behaviour = {
+  id: string
+  name: string
+  kind: BehaviourKind
+  /** Always a magnitude. The sign comes from `kind`. */
+  points: number
+  note?: string
+  createdAt: string
+}
+
+/** One application of an effect to one student. */
+export type Award = {
+  id: string
+  studentId: string
+  classId: string
+  behaviourId: string
+  behaviourName: string
+  kind: BehaviourKind
+  /** Signed: positive adds, negative deducts. */
+  points: number
+  createdAt: string
 }
 
 export type TerminalData = {
   classes: ClassRoom[]
   students: Student[]
   homework: Homework[]
+  behaviours: Behaviour[]
+  awards: Award[]
   settings: Settings
 }
 
