@@ -101,6 +101,27 @@ ADMIN_USERNAME=…   ADMIN_EMAIL=…   ADMIN_NAME=…   ADMIN_PASSWORD=…
 npm run seed
 ```
 
+## Seating
+
+Classes → a class → **Seating**. A grid of seats (7 × 7 by default, 1–12 each
+way); tap a seat and a panel emerges with the class — not seated yet first,
+then those sitting elsewhere, searchable. A class can hold any number of named
+plans (Term 2, Exam layout, Group work), each with its own independent
+arrangement.
+
+**The server owns one invariant: a student occupies exactly one seat.** The
+browser only ever says "put this student here"; lifting them out of their old
+seat, or swapping them with whoever was already there, is resolved in a single
+write. A dropped response can never leave someone sitting in two places.
+Shrinking a grid unseats anyone left outside it rather than stranding them in a
+seat that no longer renders.
+
+Seating is also where recorded **conflicts** finally pay off. The picker warns
+before you place someone next to a student they are in conflict with, the seats
+are outlined in red afterwards, and the pairs are listed under the grid. It
+reads relationships from both directions, so it does not matter which profile
+the conflict was recorded on.
+
 ## Points
 
 A ClassDojo-style board per class: Classes → a class → **Points**. Tap a

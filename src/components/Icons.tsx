@@ -138,3 +138,12 @@ export const IconUndoArrow = (p: Props) => (
     <path d="M7 4L4 7l3 3" />
   </Svg>
 )
+
+export const IconSeating = (p: Props) => (
+  <Svg {...p}>
+    <rect x="2.5" y="3" width="5" height="5" />
+    <rect x="12.5" y="3" width="5" height="5" />
+    <rect x="2.5" y="12" width="5" height="5" />
+    <rect x="12.5" y="12" width="5" height="5" />
+  </Svg>
+)

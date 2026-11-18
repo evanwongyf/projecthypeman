@@ -8,6 +8,7 @@ import type {
   Homework,
   Relationship,
   RelationshipKind,
+  SeatingPlan,
   Student,
   SubmissionState,
   TerminalData,
@@ -108,6 +109,15 @@ export const api = {
     send<Entry>(`/api/relationships/${id}/notes`, json('POST', { text })),
   deleteRelationshipNote: (id: string, noteId: string) =>
     send<{ ok: true }>(`/api/relationships/${id}/notes/${noteId}`, { method: 'DELETE' }),
+
+  createSeatingPlan: (body: { classId: string; name: string; rows?: number; cols?: number }) =>
+    send<SeatingPlan>('/api/seating-plans', json('POST', body)),
+  updateSeatingPlan: (id: string, body: Partial<Pick<SeatingPlan, 'name' | 'rows' | 'cols'>>) =>
+    send<SeatingPlan>(`/api/seating-plans/${id}`, json('PATCH', body)),
+  deleteSeatingPlan: (id: string) => send<{ ok: true }>(`/api/seating-plans/${id}`, { method: 'DELETE' }),
+  /** Seat, move, swap or (with null) clear. The server resolves the rest. */
+  setSeat: (id: string, seat: string, studentId: string | null) =>
+    send<{ ok: true }>(`/api/seating-plans/${id}/seat`, json('PATCH', { seat, studentId })),
 
   createBehaviour: (body: { name: string; kind: BehaviourKind; points: number; note?: string }) =>
     send<Behaviour>('/api/behaviours', json('POST', body)),

@@ -20,6 +20,7 @@ export default async (req: Request, context: { params: { id: string } }) => {
       data.homework = data.homework.filter((h) => h.classId !== id)
       // Points belong to a class board, so they go with it.
       data.awards = data.awards.filter((a) => a.classId !== id)
+      data.seatingPlans = data.seatingPlans.filter((p) => p.classId !== id)
       return true
     })
     if (!ok) return Response.json({ error: 'Class not found.' }, { status: 404 })

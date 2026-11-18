@@ -11,7 +11,7 @@ import { ClassFormModal } from '../components/ClassFormModal'
 import { ConfirmModal } from '../components/ConfirmModal'
 import { Empty } from '../components/Empty'
 import { HomeworkFormModal } from '../components/HomeworkFormModal'
-import { IconEdit, IconHomework, IconPlus, IconStar, IconTrash } from '../components/Icons'
+import { IconEdit, IconHomework, IconPlus, IconSeating, IconStar, IconTrash } from '../components/Icons'
 import { MetaItem, PageHeader } from '../components/PageHeader'
 import { StudentFormModal } from '../components/StudentFormModal'
 
@@ -82,6 +82,10 @@ export function ClassDetailPage() {
               <IconEdit />
               Edit
             </button>
+            <Link to={`/classes/${cls.id}/seating`} className="btn">
+              <IconSeating />
+              Seating
+            </Link>
             <Link to={`/classes/${cls.id}/points`} className="btn">
               <IconStar />
               Points

@@ -37,6 +37,27 @@ export type Relationship = {
   createdAt: string
 }
 
+/** A named arrangement of one class across a grid of seats. */
+export type SeatingPlan = {
+  id: string
+  classId: string
+  name: string
+  rows: number
+  cols: number
+  /**
+   * "row,col" -> studentId, zero-indexed. A missing key is an empty seat, so
+   * an empty plan costs nothing and resizing never has to rewrite the grid.
+   */
+  seats: Record<string, string>
+  createdAt: string
+  updatedAt: string
+}
+
+export const SEATING_MIN = 1
+export const SEATING_MAX = 12
+export const SEATING_DEFAULT_ROWS = 7
+export const SEATING_DEFAULT_COLS = 7
+
 export type ClassRoom = {
   id: string
   name: string
@@ -126,9 +147,10 @@ export type TerminalData = {
   homework: Homework[]
   behaviours: Behaviour[]
   awards: Award[]
+  seatingPlans: SeatingPlan[]
   settings: Settings
 }
 
 export function emptyData(): TerminalData {
-  return { classes: [], students: [], homework: [], behaviours: [], awards: [], settings: {} }
+  return { classes: [], students: [], homework: [], behaviours: [], awards: [], seatingPlans: [], settings: {} }
 }

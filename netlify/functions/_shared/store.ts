@@ -13,6 +13,8 @@ function dataKey(username: string) {
  * instead of guarding at every use.
  */
 function migrate(data: TerminalData): TerminalData {
+  data.seatingPlans ??= []
+  for (const p of data.seatingPlans) p.seats ??= {}
   for (const s of data.students) {
     s.ccas ??= []
     s.interests ??= []

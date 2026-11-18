@@ -21,6 +21,12 @@ export default async (req: Request, context: { params: { id: string } }) => {
       }
       // And from the points ledger.
       data.awards = data.awards.filter((a) => a.studentId !== id)
+      // And out of every seating plan.
+      for (const plan of data.seatingPlans) {
+        for (const [seat, sid] of Object.entries(plan.seats)) {
+          if (sid === id) delete plan.seats[seat]
+        }
+      }
       // And from anyone who recorded a relationship with them.
       for (const other of data.students) {
         other.relationships = other.relationships.filter((r) => r.otherStudentId !== id)
@@ -74,6 +80,12 @@ export default async (req: Request, context: { params: { id: string } }) => {
           }
         }
         data.awards = data.awards.filter((a) => !(a.studentId === id && a.classId === student.classId))
+        for (const plan of data.seatingPlans) {
+          if (plan.classId !== student.classId) continue
+          for (const [seat, sid] of Object.entries(plan.seats)) {
+            if (sid === id) delete plan.seats[seat]
+          }
+        }
       }
       student.classId = body.classId
     }
