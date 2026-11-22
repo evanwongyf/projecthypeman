@@ -64,5 +64,28 @@ export function timeAfterEconomyGain(distanceM: number, timeSec: number, gainFra
   return (distanceM / v2) * 60
 }
 
+/**
+ * Speed (m/min) whose Daniels oxygen cost equals `fraction` × VDOT —
+ * the inverse of the cost curve, solved from the quadratic.
+ */
+export function speedAtFraction(v: number, fraction: number) {
+  const a = 0.000104
+  const b = 0.182258
+  const c = -(4.6 + fraction * v)
+  return (-b + Math.sqrt(b * b - 4 * a * c)) / (2 * a)
+}
+
+/** Seconds per km at a fraction of VDOT. */
+export function paceAtFraction(v: number, fraction: number) {
+  return 60000 / speedAtFraction(v, fraction)
+}
+
+/** Training intensities as fractions of VO₂max, after Daniels' Running Formula. */
+export const DANIELS_ZONES = [
+  { id: 'E', name: 'Easy', lo: 0.59, hi: 0.74, purpose: 'Aerobic base, recovery, long runs' },
+  { id: 'T', name: 'Threshold', lo: 0.83, hi: 0.88, purpose: 'Tempo runs and cruise intervals' },
+  { id: 'I', name: 'Interval', lo: 0.95, hi: 1.0, purpose: 'VO₂max intervals of 3–5 minutes' },
+]
+
 /** ≈ 20.1 J per ml O₂ (respiratory exchange ratio around 0.9). */
 export const JOULES_PER_ML_O2 = 20.1

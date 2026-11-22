@@ -2,14 +2,18 @@ import { useEffect, useMemo, useState } from 'react'
 import { PageHeader } from '../components/PageHeader'
 import { Modal } from '../components/Modal'
 import { Select } from '../components/Select'
-import { THEORY, type TheoryArticle } from '../data/theory'
-import { APPAREL, MIDSOLE_FOAMS, SHOE_PARTS, SHOE_TYPES, type Material } from '../data/gear'
-import { SHOES, type Shoe } from '../data/shoes'
+import { APPAREL, type Material } from '../data/gear'
 import { DISCIPLINES, type Discipline } from '../data/disciplines'
 import { EconomyMath } from '../components/running/EconomyMath'
+import { TheoryTab } from '../components/running/TheoryTab'
+import { ShoesTab } from '../components/running/ShoeSection'
+import { BarChart, ChartFrame } from '../components/charts/Charts'
+import { MOISTURE_REGAIN } from '../data/materials'
+import { DISCIPLINE_DETAILS } from '../data/disciplineDetails'
+import { GLOSSARY } from '../data/glossary'
 import { ESSENTIALS, IMAGE_BASE, loadExercises, videoSearchUrl, type Exercise } from '../data/exercises'
 
-type Tab = 'theory' | 'disciplines' | 'economy' | 'training' | 'shoes' | 'apparel'
+type Tab = 'theory' | 'disciplines' | 'economy' | 'training' | 'shoes' | 'apparel' | 'glossary'
 
 const TABS: { id: Tab; label: string }[] = [
   { id: 'theory', label: 'Theory' },
@@ -18,6 +22,7 @@ const TABS: { id: Tab; label: string }[] = [
   { id: 'training', label: 'Strength & plyo' },
   { id: 'shoes', label: 'Shoes' },
   { id: 'apparel', label: 'Apparel' },
+  { id: 'glossary', label: 'Glossary' },
 ]
 
 export function ArchivePage() {
@@ -52,68 +57,8 @@ export function ArchivePage() {
         {tab === 'training' && <TrainingTab />}
         {tab === 'shoes' && <ShoesTab />}
         {tab === 'apparel' && <ApparelTab />}
+        {tab === 'glossary' && <GlossaryTab />}
       </div>
-    </>
-  )
-}
-
-// ---------- theory ----------
-
-function TheoryTab() {
-  const [topic, setTopic] = useState('')
-  const [open, setOpen] = useState<TheoryArticle | null>(null)
-  const topics = [...new Set(THEORY.map((a) => a.topic))]
-  const list = THEORY.filter((a) => !topic || a.topic === topic)
-
-  return (
-    <>
-      <div className="mb-5 max-w-xs">
-        <span className="label block">topic</span>
-        <Select
-          className="mt-1.5"
-          ariaLabel="Topic"
-          value={topic}
-          onChange={setTopic}
-          options={[{ value: '', label: 'All topics' }, ...topics.map((t) => ({ value: t, label: t }))]}
-        />
-      </div>
-      <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
-        {list.map((a) => (
-          <button key={a.id} type="button" className="pick" onClick={() => setOpen(a)}>
-            <span className="label block">{a.topic}</span>
-            <span className="mt-1.5 block text-base leading-snug font-semibold">{a.title}</span>
-            <span className="mt-1.5 block text-sm" style={{ color: 'var(--ink-soft)' }}>
-              {a.summary}
-            </span>
-          </button>
-        ))}
-      </div>
-      <p className="mt-6 max-w-2xl text-xs" style={{ color: 'var(--ink-faint)' }}>
-        Plain-language summaries of mainstream coaching and sports-science consensus. A starting point, not medical advice.
-      </p>
-
-      {open && (
-        <Modal eyebrow={open.topic} title={open.title} onClose={() => setOpen(null)} wide>
-          <div className="space-y-3 text-sm leading-relaxed">
-            {open.body.map((p, i) => (
-              <p key={i}>{p}</p>
-            ))}
-          </div>
-          <h3 className="label mt-6">key points</h3>
-          <ul className="mt-2 space-y-1.5 text-sm">
-            {open.keyPoints.map((k) => (
-              <li key={k} className="flex gap-2">
-                <span style={{ color: 'var(--accent)' }}>—</span>
-                {k}
-              </li>
-            ))}
-          </ul>
-          <div className="panel mt-6 p-4" style={{ background: 'var(--accent-dim)', borderColor: 'var(--accent)' }}>
-            <p className="label">try this</p>
-            <p className="mt-1.5 text-sm">{open.tryThis}</p>
-          </div>
-        </Modal>
-      )}
     </>
   )
 }
@@ -177,6 +122,8 @@ function TrainingTab() {
           })}
         </div>
       </section>
+
+      <StrengthProgramming />
 
       <section className="mt-10">
         <h2 className="text-lg font-semibold tracking-tight">Library</h2>
@@ -326,208 +273,6 @@ function ExerciseModal({ ex, onClose }: { ex: Exercise; onClose: () => void }) {
   )
 }
 
-// ---------- shoes ----------
-
-function ShoesTab() {
-  return (
-    <div className="space-y-10">
-      <ShoeCatalogue />
-
-      <section>
-        <h2 className="text-lg font-semibold tracking-tight">Shoe types</h2>
-        <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
-          {SHOE_TYPES.map((t) => (
-            <div key={t.id} className="panel p-4">
-              <h3 className="text-base font-semibold">{t.name}</h3>
-              <p className="mt-1 text-sm" style={{ color: 'var(--ink-soft)' }}>
-                {t.what}
-              </p>
-              <p className="label mt-3">good for</p>
-              <p className="mt-1 text-sm">{t.goodFor}</p>
-              <p className="label mt-3">watch out</p>
-              <p className="mt-1 text-sm">{t.watchOut}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <MaterialGrid title="Midsole foams" items={MIDSOLE_FOAMS} />
-      <MaterialGrid title="Plates, geometry and outsoles" items={SHOE_PARTS} />
-    </div>
-  )
-}
-
-const KIND_LABEL: Record<Shoe['kind'], string> = {
-  daily: 'Daily trainer',
-  max: 'Max cushion',
-  stability: 'Stability',
-  tempo: 'Tempo / speed',
-  race: 'Plated racer',
-  trail: 'Trail',
-  minimal: 'Low / zero drop',
-}
-
-function ShoeCatalogue() {
-  const [query, setQuery] = useState('')
-  const [kind, setKind] = useState('')
-  const [brand, setBrand] = useState('')
-  const [plate, setPlate] = useState('')
-  const [drop, setDrop] = useState('')
-  const [open, setOpen] = useState<Shoe | null>(null)
-  const brands = [...new Set(SHOES.map((s) => s.brand))].sort()
-
-  const q = query.trim().toLowerCase()
-  const list = SHOES.filter((s) => {
-    if (q && !`${s.brand} ${s.model} ${s.foam} ${s.description}`.toLowerCase().includes(q)) return false
-    if (kind && s.kind !== kind) return false
-    if (brand && s.brand !== brand) return false
-    if (plate === 'carbon' && !/carbon/i.test(s.plate)) return false
-    if (plate === 'any' && s.plate === 'None') return false
-    if (plate === 'none' && s.plate !== 'None') return false
-    if (drop === 'low' && !(s.dropMm !== null && s.dropMm <= 4)) return false
-    if (drop === 'mid' && !(s.dropMm !== null && s.dropMm > 4 && s.dropMm <= 8)) return false
-    if (drop === 'high' && !(s.dropMm !== null && s.dropMm > 8)) return false
-    return true
-  })
-
-  return (
-    <section>
-      <h2 className="text-lg font-semibold tracking-tight">Shoe catalogue</h2>
-      <p className="mt-1 text-sm" style={{ color: 'var(--ink-soft)' }}>
-        {SHOES.length} popular models across {brands.length} brands.
-      </p>
-      <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
-        <div>
-          <span className="label block">search</span>
-          <input className="field mt-1.5" placeholder="model, foam…" value={query} onChange={(e) => setQuery(e.target.value)} />
-        </div>
-        <div>
-          <span className="label block">type</span>
-          <Select
-            className="mt-1.5"
-            ariaLabel="Shoe type"
-            value={kind}
-            onChange={setKind}
-            options={[{ value: '', label: 'All types' }, ...Object.entries(KIND_LABEL).map(([value, label]) => ({ value, label }))]}
-          />
-        </div>
-        <div>
-          <span className="label block">brand</span>
-          <Select
-            className="mt-1.5"
-            ariaLabel="Brand"
-            value={brand}
-            onChange={setBrand}
-            options={[{ value: '', label: 'All brands' }, ...brands.map((b) => ({ value: b, label: b }))]}
-          />
-        </div>
-        <div>
-          <span className="label block">plate</span>
-          <Select
-            className="mt-1.5"
-            ariaLabel="Plate"
-            value={plate}
-            onChange={setPlate}
-            options={[
-              { value: '', label: 'Any' },
-              { value: 'carbon', label: 'Carbon' },
-              { value: 'any', label: 'Any plate or rods' },
-              { value: 'none', label: 'No plate' },
-            ]}
-          />
-        </div>
-        <div>
-          <span className="label block">drop</span>
-          <Select
-            className="mt-1.5"
-            ariaLabel="Drop"
-            value={drop}
-            onChange={setDrop}
-            options={[
-              { value: '', label: 'Any drop' },
-              { value: 'low', label: 'Low (0–4 mm)' },
-              { value: 'mid', label: 'Mid (5–8 mm)' },
-              { value: 'high', label: 'High (9 mm+)' },
-            ]}
-          />
-        </div>
-      </div>
-      <p className="label mt-4">{list.length} shoes</p>
-
-      <ul className="mt-3 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
-        {list.map((s) => (
-          <li key={s.brand + s.model}>
-            <button type="button" className="pick h-full" onClick={() => setOpen(s)}>
-              <span className="label block">
-                {s.brand} · {KIND_LABEL[s.kind]}
-              </span>
-              <span className="mt-1 block text-base font-semibold">{s.model}</span>
-              <span className="mt-1.5 block text-sm" style={{ color: 'var(--ink-soft)' }}>
-                {s.description}
-              </span>
-              <span className="mt-3 grid grid-cols-3 gap-2">
-                <MiniSpec label="foam" value={s.foam} />
-                <MiniSpec label="plate" value={s.plate} />
-                <MiniSpec label="drop" value={s.dropMm === null ? '—' : `${s.dropMm} mm`} />
-              </span>
-            </button>
-          </li>
-        ))}
-      </ul>
-      <p className="mt-4 max-w-2xl text-xs" style={{ color: 'var(--ink-faint)' }}>
-        Compiled from brand-published information for the version named. Drop is left blank where it was not certain. Shoes
-        are revised often and labs measure drop and stack differently — check the current version before buying.
-      </p>
-
-      {open && <ShoeModal shoe={open} onClose={() => setOpen(null)} />}
-    </section>
-  )
-}
-
-function MiniSpec({ label, value }: { label: string; value: string }) {
-  return (
-    <span className="block min-w-0">
-      <span className="label block">{label}</span>
-      <span className="mt-0.5 block truncate text-xs">{value}</span>
-    </span>
-  )
-}
-
-function ShoeModal({ shoe, onClose }: { shoe: Shoe; onClose: () => void }) {
-  const specs: [string, string][] = [
-    ['surface', shoe.surface === 'road' ? 'Road' : 'Trail'],
-    ['midsole foam', shoe.foam],
-    ['plate', shoe.plate],
-    ['heel-to-toe drop', shoe.dropMm === null ? 'Not listed here' : `${shoe.dropMm} mm`],
-    ['upper', shoe.upper],
-    ['outsole', shoe.outsole],
-  ]
-  return (
-    <Modal eyebrow={`${shoe.brand} · ${KIND_LABEL[shoe.kind]}`} title={shoe.model} onClose={onClose} wide>
-      <p className="text-sm leading-relaxed">{shoe.description}</p>
-      <dl className="mt-5 grid grid-cols-2 gap-4 sm:grid-cols-3">
-        {specs.map(([k, v]) => (
-          <div key={k}>
-            <dt className="label">{k}</dt>
-            <dd className="mt-1 text-sm">{v}</dd>
-          </div>
-        ))}
-      </dl>
-      <h3 className="label mt-5">best for</h3>
-      <p className="mt-1 text-sm">{shoe.bestFor}</p>
-      <h3 className="label mt-5">features</h3>
-      <ul className="mt-2 space-y-1.5 text-sm">
-        {shoe.features.map((f) => (
-          <li key={f} className="flex gap-2">
-            <span style={{ color: 'var(--accent)' }}>—</span>
-            {f}
-          </li>
-        ))}
-      </ul>
-    </Modal>
-  )
-}
-
 // ---------- disciplines ----------
 
 function DisciplinesTab() {
@@ -566,12 +311,16 @@ function DisciplinesTab() {
           />
         </div>
       </div>
+      <div className="mb-6">
+        <IntensitySpread />
+      </div>
       <p className="label mb-3">{list.length} disciplines</p>
       <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
         {list.map((d) => (
           <button key={d.id} type="button" className="pick" onClick={() => setOpen(d)}>
             <span className="label block">
               {d.family} · {d.fame}
+              {DISCIPLINE_DETAILS[d.id] ? ` · ${DISCIPLINE_DETAILS[d.id].intensity}` : ''}
             </span>
             <span className="mt-1.5 block text-base leading-snug font-semibold">{d.name}</span>
             <span className="mt-1.5 block text-sm" style={{ color: 'var(--ink-soft)' }}>
@@ -587,6 +336,24 @@ function DisciplinesTab() {
           <p className="mt-1 text-sm">{open.origin}</p>
           <h3 className="label mt-5">how it works</h3>
           <p className="mt-1 text-sm leading-relaxed">{open.how}</p>
+          {DISCIPLINE_DETAILS[open.id] && (
+            <dl className="mt-5 grid gap-4 sm:grid-cols-2">
+              {(
+                [
+                  ['intensity', DISCIPLINE_DETAILS[open.id].intensity],
+                  ['who it suits', DISCIPLINE_DETAILS[open.id].forWhom],
+                  ['why it works', DISCIPLINE_DETAILS[open.id].physiology],
+                  ['how to progress', DISCIPLINE_DETAILS[open.id].progression],
+                  ['common mistakes', DISCIPLINE_DETAILS[open.id].mistakes],
+                ] as const
+              ).map(([k, v]) => (
+                <div key={k} className={k === 'why it works' ? 'sm:col-span-2' : ''}>
+                  <dt className="label">{k}</dt>
+                  <dd className="mt-1 text-sm leading-relaxed">{v}</dd>
+                </div>
+              ))}
+            </dl>
+          )}
           <div className="panel mt-5 p-4" style={{ background: 'var(--accent-dim)', borderColor: 'var(--accent)' }}>
             <p className="label">example session</p>
             <p className="mt-1.5 text-sm">{open.example}</p>
@@ -612,6 +379,45 @@ function ApparelTab() {
   return (
     <div className="space-y-10">
       <MaterialGrid title="Fabrics and construction" items={APPAREL} />
+      <ChartFrame
+        title="How much water each fibre holds"
+        subtitle="Commercial moisture regain, % of dry fibre mass at standard conditions"
+        table={{ head: ['fibre', 'moisture regain %'], rows: MOISTURE_REGAIN.map((m) => [m.label, m.value]) }}
+        interpretation={
+          <p>
+            Moisture regain is how much water a fibre takes up from humid air. Polyester ({MOISTURE_REGAIN[4].value}%) and
+            polypropylene (≈0%) barely absorb water, so sweat stays on the surface where it can wick and evaporate — that is
+            why they dry fast. Cotton ({MOISTURE_REGAIN[1].value}%) soaks it up, gets heavy and chafes. Wool absorbs the most (
+            {MOISTURE_REGAIN[0].value}%) yet still feels dry and stays warm when wet, because water is held inside the fibre —
+            great for socks and cold runs, less ideal for tropical heat.
+          </p>
+        }
+        source="Values: ASTM D1909, Standard Table of Commercial Moisture Regains for Textile Fibers."
+      >
+        <BarChart rows={MOISTURE_REGAIN} unit="%" />
+      </ChartFrame>
+      <section className="panel max-w-3xl p-5">
+        <h2 className="text-base font-semibold">Fabric terms</h2>
+        <dl className="mt-3 grid gap-3 sm:grid-cols-2">
+          {(
+            [
+              ['Wicking', 'Capillary action pulling sweat along yarns to spread it out for evaporation. Works best in low-regain synthetics.'],
+              ['Denier / gsm', 'Yarn thickness (denier) and fabric weight in grams per square metre (gsm). Lower numbers mean lighter, airier fabric.'],
+              ['Knit vs woven', 'Knits stretch and breathe (tees, tights); wovens are stable and wind-resistant (shorts shells, jackets).'],
+              ['Flatlock seams', 'Seams sewn flat against the fabric to reduce chafing.'],
+              ['DWR', 'Durable water repellent — a surface finish that beads light rain without a membrane.'],
+              ['Anti-odour finishes', 'Silver or zinc treatments that slow bacteria growth on synthetics, which otherwise hold smell.'],
+            ] as const
+          ).map(([k, v]) => (
+            <div key={k}>
+              <dt className="text-sm font-semibold">{k}</dt>
+              <dd className="mt-1 text-sm" style={{ color: 'var(--ink-soft)' }}>
+                {v}
+              </dd>
+            </div>
+          ))}
+        </dl>
+      </section>
       <section className="panel max-w-3xl p-5">
         <h2 className="text-base font-semibold">Hot and humid runs</h2>
         <ul className="mt-3 space-y-1.5 text-sm">
@@ -656,4 +462,148 @@ function MaterialGrid({ title, items }: { title: string; items: Material[] }) {
 
 function cap(s: string) {
   return s.charAt(0).toUpperCase() + s.slice(1)
+}
+
+// ---------- added depth ----------
+
+function IntensitySpread() {
+  const order = ['Easy', 'Steady', 'Threshold', 'VO₂max', 'Speed', 'Mixed'] as const
+  const rows = order
+    .map((k) => ({ label: k, value: DISCIPLINES.filter((d) => DISCIPLINE_DETAILS[d.id]?.intensity === k).length }))
+    .filter((r) => r.value > 0)
+  return (
+    <ChartFrame
+      title="Where these methods sit on the intensity scale"
+      subtitle={`Number of the ${DISCIPLINES.length} disciplines by main intensity`}
+      table={{ head: ['intensity', 'disciplines'], rows: rows.map((r) => [r.label, r.value]) }}
+      interpretation={
+        <p>
+          Most named workouts are hard sessions, because that is what gets names — but most of your running should be easy.
+          Pick one or two quality sessions a week from the threshold, VO₂max and mixed groups, and fill the rest of the week
+          with the easy methods.
+        </p>
+      }
+    >
+      <BarChart rows={rows} unit="methods" />
+    </ChartFrame>
+  )
+}
+
+function StrengthProgramming() {
+  const phases = [
+    ['Foundation', 'Weeks 1–4', '2 × week', '2–3 sets × 8–12 reps, moderate load (3–4 reps in reserve)', 'Learn technique; build tendon tolerance'],
+    ['Strength', 'Weeks 5–10', '2 × week', '3–4 sets × 4–6 reps, heavy (1–2 in reserve)', 'Neuromuscular gains and tendon stiffness that improve economy'],
+    ['Power', 'Weeks 11–14', '1–2 × week', '3 sets × 3–5 reps heavy + explosive jumps', 'Convert strength to rate of force development'],
+    ['Race season', 'Ongoing', '1 × week', '2 sets × 3–5 reps heavy, low volume', 'Maintain gains without fatigue'],
+  ]
+  const plyo = [
+    ['Weeks 1–2', '40–60', 'Pogo hops, ankle hops, low skips'],
+    ['Weeks 3–4', '60–80', 'Add lateral hops and short bounds'],
+    ['Weeks 5–8', '80–100', 'Single-leg hops, hurdle hops'],
+    ['Weeks 9+', '80–120', 'Bounding, box jumps; depth jumps only if well adapted'],
+  ]
+  return (
+    <section className="mt-10 space-y-6">
+      <div>
+        <h2 className="text-lg font-semibold tracking-tight">How to programme it</h2>
+        <p className="mt-1 max-w-3xl text-sm" style={{ color: 'var(--ink-soft)' }}>
+          A sensible template drawn from the studies in the Theory tab: start moderate, go heavy, then keep a little in race
+          season. Lift on hard-run days (after the run) so easy days stay easy.
+        </p>
+      </div>
+      <div className="overflow-x-auto">
+        <table className="panel w-full text-left text-sm">
+          <thead>
+            <tr>
+              {['phase', 'when', 'frequency', 'sets × reps', 'aim'].map((h) => (
+                <th key={h} className="label px-4 py-3 font-medium">
+                  {h}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {phases.map((r) => (
+              <tr key={r[0]} className="border-t hairline">
+                {r.map((c, i) => (
+                  <td key={i} className={`px-4 py-3 ${i === 0 ? 'font-semibold' : ''}`}>
+                    {c}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <div className="overflow-x-auto">
+        <table className="panel w-full text-left text-sm">
+          <thead>
+            <tr>
+              {['plyometric block', 'foot contacts / session', 'exercises'].map((h) => (
+                <th key={h} className="label px-4 py-3 font-medium">
+                  {h}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {plyo.map((r) => (
+              <tr key={r[0]} className="border-t hairline">
+                {r.map((c, i) => (
+                  <td key={i} className={`px-4 py-3 ${i === 1 ? 'mono' : ''}`}>
+                    {c}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <dl className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        {(
+          [
+            ['1RM', 'One-rep max — the heaviest load you can lift once with good form.'],
+            ['Reps in reserve', 'How many more reps you could have done. 1–2 RIR is heavy but safe.'],
+            ['Eccentric', 'The lengthening phase of a lift (lowering). Strong eccentrics protect tendons.'],
+            ['Rate of force development', 'How fast you can produce force — what plyometrics train.'],
+          ] as const
+        ).map(([k, v]) => (
+          <div key={k} className="panel p-3">
+            <dt className="text-sm font-semibold">{k}</dt>
+            <dd className="mt-1 text-sm" style={{ color: 'var(--ink-soft)' }}>
+              {v}
+            </dd>
+          </div>
+        ))}
+      </dl>
+    </section>
+  )
+}
+
+function GlossaryTab() {
+  const [query, setQuery] = useState('')
+  const q = query.trim().toLowerCase()
+  const list = GLOSSARY.filter((g) => !q || g.term.toLowerCase().includes(q) || g.def.toLowerCase().includes(q))
+  return (
+    <>
+      <div className="mb-5 flex flex-wrap items-end gap-4">
+        <div className="w-full max-w-sm">
+          <span className="label block">search terms</span>
+          <input className="field mt-1.5" placeholder="lactate, drop, VDOT…" value={query} onChange={(e) => setQuery(e.target.value)} />
+        </div>
+        <p className="label pb-2.5">{list.length} terms</p>
+      </div>
+      <dl className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+        {list.map((g) => (
+          <div key={g.term} className="panel p-4">
+            <p className="label">{g.area}</p>
+            <dt className="mt-1 text-sm font-semibold">{g.term}</dt>
+            <dd className="mt-1.5 text-sm" style={{ color: 'var(--ink-soft)' }}>
+              {g.def}
+            </dd>
+          </div>
+        ))}
+      </dl>
+    </>
+  )
 }
