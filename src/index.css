@@ -810,3 +810,35 @@ textarea.field {
   border-color: var(--accent);
   transform: scale(1.04);
 }
+
+/* ---------- charts (components/charts) ----------
+   Categorical slots from the validated reference palette; first three only,
+   since scatters use all pairs. Dark steps are their own, not a flip. */
+.viz {
+  --series-1: #2a78d6;
+  --series-2: #eb6834;
+  --series-3: #1baf7a;
+  --viz-grid: color-mix(in srgb, var(--ink) 9%, transparent);
+  --viz-axis: color-mix(in srgb, var(--ink) 22%, transparent);
+}
+
+[data-mode="dark"] .viz {
+  --series-1: #3987e5;
+  --series-2: #d95926;
+  --series-3: #199e70;
+}
+
+.viz-tip {
+  position: absolute;
+  z-index: 5;
+  pointer-events: none;
+  padding: 0.45rem 0.6rem;
+  background: var(--panel);
+  border: var(--border-w) solid var(--line);
+  border-radius: var(--radius-sm, var(--radius));
+  box-shadow: 0 10px 24px -14px rgb(0 0 0 / 0.5);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--ink);
+  white-space: nowrap;
+}

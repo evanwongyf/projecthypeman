@@ -1,0 +1,268 @@
+/**
+ * Extra depth for each training discipline: where it sits on the intensity
+ * scale, why it works physiologically, how to progress it, and the usual
+ * mistakes. Keyed by Discipline.id.
+ */
+
+export type DisciplineDetail = {
+  intensity: 'Easy' | 'Steady' | 'Threshold' | 'VO₂max' | 'Speed' | 'Mixed'
+  physiology: string
+  progression: string
+  mistakes: string
+  forWhom: string
+}
+
+export const DISCIPLINE_DETAILS: Record<string, DisciplineDetail> = {
+  fartlek: {
+    intensity: 'Mixed',
+    physiology: 'Alternating surges and floats recruit fast-twitch fibres and push lactate up, then teach the body to clear it while still running — the same demand as surges in a race.',
+    progression: 'Lengthen surges or reduce float time; later make the floats steady rather than easy.',
+    mistakes: 'Turning every surge into a sprint, or letting the session drift into an unstructured easy run.',
+    forWhom: 'Everyone — especially runners who dislike the track.',
+  },
+  tempo: {
+    intensity: 'Threshold',
+    physiology: 'Sustained work near LT2 raises the pace at which lactate production and clearance stay balanced and increases the fraction of VO₂max you can hold.',
+    progression: 'Extend from 15–20 minutes towards 40 minutes before speeding up.',
+    mistakes: 'Running it as a race — finishing exhausted means it was too fast.',
+    forWhom: '10K to marathon runners.',
+  },
+  cruise: {
+    intensity: 'Threshold',
+    physiology: 'Short rests keep lactate near steady state while allowing more total time at threshold than one continuous effort.',
+    progression: 'Add reps (4 → 6 × 1 mile) before shortening rests.',
+    mistakes: 'Speeding up rep by rep until the last ones are 10K pace.',
+    forWhom: 'Anyone building threshold volume.',
+  },
+  'double-threshold': {
+    intensity: 'Threshold',
+    physiology: 'Two controlled threshold doses a day accumulate large weekly threshold volume while staying below the intensity that causes heavy fatigue — often checked with lactate meters at roughly 2–3 mmol/L.',
+    progression: 'Begin with one session a week of two light sessions; only advanced, high-mileage runners should do it twice weekly.',
+    mistakes: 'Running too hard (it is sub-threshold control, not racing) and copying elite volume without the base.',
+    forWhom: 'Experienced runners with high weekly mileage.',
+  },
+  'vo2-intervals': {
+    intensity: 'VO₂max',
+    physiology: 'Repeated efforts at 95–100% of VO₂max load the heart maximally, driving stroke-volume and cardiac-output adaptations.',
+    progression: 'Add reps or lengthen to 4–5 minutes; keep recoveries similar.',
+    mistakes: 'Going faster than 3K pace, which shifts the session to anaerobic and shortens time near VO₂max.',
+    forWhom: '5K–10K focus; useful for everyone in moderation.',
+  },
+  yasso: {
+    intensity: 'VO₂max',
+    physiology: 'Essentially a VO₂max interval session; the marathon link is an empirical rule of thumb, not physiology.',
+    progression: 'Start with 4–6 reps and build to 10 over several weeks.',
+    mistakes: 'Treating the result as a guaranteed marathon time — it ignores endurance and fuelling.',
+    forWhom: 'Marathoners wanting a simple benchmark.',
+  },
+  mona: {
+    intensity: 'Mixed',
+    physiology: 'Floats run well above easy pace keep lactate elevated, so you learn to run fast while partially fatigued.',
+    progression: 'Repeat every few weeks and compare total distance covered in the 20 minutes.',
+    mistakes: 'Jogging the floats — they should be steady.',
+    forWhom: 'Runners from 5K to marathon who want a repeatable test.',
+  },
+  'kenyan-fartlek': {
+    intensity: 'Mixed',
+    physiology: 'A steady "off" keeps heart rate high throughout, giving a large aerobic stimulus with only moderate peak intensity.',
+    progression: 'Add repeats, then make the "off" faster.',
+    mistakes: 'Making the "on" so fast that the "off" becomes a walk.',
+    forWhom: 'Groups and runners building aerobic power.',
+  },
+  'hill-repeats': {
+    intensity: 'VO₂max',
+    physiology: 'The incline raises muscle force per stride and cardiovascular load while lowering impact speed — strength and fitness with less pounding.',
+    progression: 'Add reps, then lengthen the hill.',
+    mistakes: 'Hammering the descent, where most impact injuries happen.',
+    forWhom: 'Everyone; especially useful early in a build.',
+  },
+  'hill-sprints': {
+    intensity: 'Speed',
+    physiology: 'Maximal 8–10 second efforts recruit nearly all motor units and rely on the phosphocreatine system, so there is little fatigue if rest is full.',
+    progression: 'Add one or two sprints a week up to about 10.',
+    mistakes: 'Short rests, which turn a power session into a lactate one.',
+    forWhom: 'All runners, including marathoners.',
+  },
+  'kenyan-hills': {
+    intensity: 'Mixed',
+    physiology: 'Bounding uphill builds elastic strength; continuous loops add an aerobic load; fast downhills develop eccentric strength and coordination.',
+    progression: 'Lengthen the block from 15 towards 30 minutes.',
+    mistakes: 'Uncontrolled downhills on tired legs.',
+    forWhom: 'Runners moving from base to speed phases.',
+  },
+  strides: {
+    intensity: 'Speed',
+    physiology: 'Brief accelerations reinforce fast mechanics and nerve-muscle coordination without metabolic fatigue.',
+    progression: 'Add a few reps or do them on a slight downhill or uphill.',
+    mistakes: 'Sprinting flat-out with tension — relaxed speed is the goal.',
+    forWhom: 'Everyone, two or three times a week.',
+  },
+  progression: {
+    intensity: 'Mixed',
+    physiology: 'Starting easy lets fat oxidation and the aerobic system warm up; finishing faster trains threshold on partially depleted glycogen.',
+    progression: 'Lengthen the fast final segment.',
+    mistakes: 'Starting too fast and having nothing left to progress.',
+    forWhom: 'All levels; a gentle introduction to quality.',
+  },
+  cutdown: {
+    intensity: 'Mixed',
+    physiology: 'Each rep is faster than the last, so the hardest running comes when fatigue is highest — like a race finish.',
+    progression: 'Add a rung at the top or tighten recoveries.',
+    mistakes: 'Making the first rep too fast.',
+    forWhom: 'Track and road racers.',
+  },
+  'fast-finish': {
+    intensity: 'Mixed',
+    physiology: 'Race pace on depleted glycogen and fatigued muscle mimics the last third of a marathon and practises fuelling.',
+    progression: 'Extend the fast segment from 15 minutes towards 10–12 km.',
+    mistakes: 'Running the easy part too fast; doing it every week.',
+    forWhom: 'Half-marathon and marathon runners.',
+  },
+  michigan: {
+    intensity: 'Mixed',
+    physiology: 'Track reps raise lactate well above threshold, then tempo miles force you to clear it at speed — a hard, combined threshold and VO₂max load.',
+    progression: 'Shorten it at first (two track reps), building to the full session.',
+    mistakes: 'Doing it without a solid threshold base.',
+    forWhom: 'Experienced 5K–10K runners.',
+  },
+  pyramid: {
+    intensity: 'VO₂max',
+    physiology: 'Mixing rep lengths spends time near VO₂max while varying the stimulus and pacing demands.',
+    progression: 'Add a rung to the top.',
+    mistakes: 'Running the short reps much faster than the long ones.',
+    forWhom: 'Everyone; good for groups.',
+  },
+  '30-30': {
+    intensity: 'VO₂max',
+    physiology: 'Billat showed that 30 s at vVO₂max alternated with 30 s at about half that speed can keep oxygen uptake near maximal for longer than continuous running at vVO₂max.',
+    progression: 'Add sets or reps per set.',
+    mistakes: 'Jogging too slowly in the 30-second floats.',
+    forWhom: 'Runners new to intervals; time-crunched runners.',
+  },
+  'over-under': {
+    intensity: 'Threshold',
+    physiology: 'Swinging slightly above then below threshold trains the body to clear lactate while still moving fast.',
+    progression: 'Widen the gap between "over" and "under" or lengthen the block.',
+    mistakes: 'Letting the "under" fall to easy pace.',
+    forWhom: 'Half-marathon and marathon specialists.',
+  },
+  cv: {
+    intensity: 'Threshold',
+    physiology: 'Critical velocity sits just above LT2; reps there push the threshold up while costing less than VO₂max work.',
+    progression: 'Lengthen reps from 1 km towards 2 km.',
+    mistakes: 'Drifting into VO₂max pace.',
+    forWhom: 'Runners from 5K to half marathon.',
+  },
+  'special-block': {
+    intensity: 'Threshold',
+    physiology: 'Two large race-specific doses in a day, with heavy fuelling between, produce a big stimulus to fat oxidation and race-pace endurance.',
+    progression: 'Only one or two per marathon build, in the final 6–8 weeks.',
+    mistakes: 'Attempting it without elite-level volume and recovery.',
+    forWhom: 'Advanced marathoners only.',
+  },
+  'canova-long': {
+    intensity: 'Threshold',
+    physiology: 'Long periods at or near marathon pace extend how long you can hold that pace before glycogen and muscle fatigue set in.',
+    progression: 'Increase the portion at marathon pace across the final weeks.',
+    mistakes: 'Doing it too early in a build, or too often.',
+    forWhom: 'Experienced marathoners.',
+  },
+  lydiard: {
+    intensity: 'Easy',
+    physiology: 'A long aerobic phase maximises capillary and mitochondrial growth before speed is layered on top.',
+    progression: 'Raise volume steadily through the base phase, then shift to hills and speed.',
+    mistakes: 'Skipping the base to race sooner.',
+    forWhom: 'Anyone with a long runway to a goal race.',
+  },
+  maf: {
+    intensity: 'Easy',
+    physiology: 'A heart-rate cap keeps running at low intensity, maximising aerobic adaptation and fat oxidation with little stress.',
+    progression: 'Retest pace at your MAF heart rate monthly; it should get faster.',
+    mistakes: 'Ignoring heat — heart rate rises in hot weather, so pace must fall.',
+    forWhom: 'Beginners and runners who chronically run easy days too hard.',
+  },
+  zone2: {
+    intensity: 'Easy',
+    physiology: 'Steady low-intensity running stimulates mitochondrial and capillary growth and fat oxidation with very little fatigue.',
+    progression: 'Increase duration and frequency.',
+    mistakes: 'Drifting into moderate effort.',
+    forWhom: 'Everyone — the bulk of training.',
+  },
+  'recovery-run': {
+    intensity: 'Easy',
+    physiology: 'Gentle movement adds aerobic volume and may help blood flow without adding meaningful fatigue.',
+    progression: 'Keep them short; add more easy days rather than lengthening these.',
+    mistakes: 'Running them at normal easy pace or faster.',
+    forWhom: 'Runners training five or more days a week.',
+  },
+  hansons: {
+    intensity: 'Mixed',
+    physiology: 'Frequent running and moderate rest mean you start key sessions partially fatigued — the cumulative fatigue mimics late-race tiredness.',
+    progression: 'Follow the plan structure; volume rises gradually over 18 weeks.',
+    mistakes: 'Adding extra long runs on top.',
+    forWhom: 'Marathoners who can run six days a week.',
+  },
+  'run-walk': {
+    intensity: 'Easy',
+    physiology: 'Walk breaks reduce cumulative muscle damage and heart rate, so total effort over a long distance is lower.',
+    progression: 'Lengthen run segments or shorten walks.',
+    mistakes: 'Walking only once already exhausted.',
+    forWhom: 'Beginners and anyone returning from injury.',
+  },
+  doubles: {
+    intensity: 'Easy',
+    physiology: 'Splitting volume into two runs lowers the stress per session and gives two aerobic stimuli a day.',
+    progression: 'Add one short double a week.',
+    mistakes: 'Adding doubles before single runs are comfortably long enough.',
+    forWhom: 'Runners above roughly 70–80 km a week.',
+  },
+  'back-to-back': {
+    intensity: 'Easy',
+    physiology: 'The second run starts on tired legs and lower glycogen, mimicking the second half of an ultra without one giant run.',
+    progression: 'Lengthen the second run.',
+    mistakes: 'Running the first one too hard.',
+    forWhom: 'Ultra runners.',
+  },
+  gerschler: {
+    intensity: 'VO₂max',
+    physiology: 'Heart-rate-based recovery was intended to stimulate the heart through repeated rises and falls in heart rate.',
+    progression: 'Add reps while keeping recovery to the heart-rate target.',
+    mistakes: 'Using fixed rests instead of heart rate, which removes the point.',
+    forWhom: 'Curious runners; a historical method.',
+  },
+  zatopek: {
+    intensity: 'VO₂max',
+    physiology: 'High volume of medium-speed reps builds aerobic capacity and rhythm at faster-than-race pace.',
+    progression: 'Add reps gradually — Zátopek\'s 100 × 400 m was an extreme.',
+    mistakes: 'Running each rep too fast.',
+    forWhom: 'Track and road runners who like rhythm work.',
+  },
+  'hard-easy': {
+    intensity: 'Mixed',
+    physiology: 'Adaptation happens during recovery; alternating stress and rest maximises it.',
+    progression: 'Add more easy days for each hard one as intensity rises.',
+    mistakes: 'Making easy days moderate.',
+    forWhom: 'Everyone.',
+  },
+  polarized: {
+    intensity: 'Mixed',
+    physiology: 'Lots of easy volume builds the aerobic base; a small amount of very hard work raises VO₂max; avoiding the middle keeps fatigue low.',
+    progression: 'Add easy volume first, then quality.',
+    mistakes: 'Letting easy runs creep into moderate effort.',
+    forWhom: 'Everyone; especially time-limited runners.',
+  },
+  'time-trial': {
+    intensity: 'VO₂max',
+    physiology: 'An all-out effort gives an objective measure of fitness and sets training paces.',
+    progression: 'Repeat every 6–8 weeks on the same course.',
+    mistakes: 'Doing them too often, or tired.',
+    forWhom: 'Everyone.',
+  },
+  'dress-rehearsal': {
+    intensity: 'Threshold',
+    physiology: 'Simulating race conditions tests gut tolerance, kit and pacing, and builds confidence.',
+    progression: 'One or two per build.',
+    mistakes: 'Trying new gear or food on race day instead.',
+    forWhom: 'Half and full marathoners.',
+  },
+}

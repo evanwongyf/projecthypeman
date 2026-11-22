@@ -1,3 +1,4 @@
+import { Suspense, lazy } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { AuthProvider } from './lib/auth-context'
 import { DesignProvider } from './lib/design-context'
@@ -18,7 +19,9 @@ import { SettingsPage } from './pages/SettingsPage'
 import { NotFound } from './pages/NotFound'
 import { RunningPage } from './pages/RunningPage'
 import { RaceLabPage } from './pages/RaceLabPage'
-import { ArchivePage } from './pages/ArchivePage'
+
+// The Archive carries large data sets (shoes, theory, charts), so it loads on demand.
+const ArchivePage = lazy(() => import('./pages/ArchivePage').then((m) => ({ default: m.ArchivePage })))
 
 export default function App() {
   return (
@@ -42,7 +45,14 @@ export default function App() {
             <Route path="/homework/:homeworkId" element={<HomeworkDetailPage />} />
             <Route path="/running" element={<RunningPage />} />
             <Route path="/running/race-lab" element={<RaceLabPage />} />
-            <Route path="/running/archive" element={<ArchivePage />} />
+            <Route
+              path="/running/archive"
+              element={
+                <Suspense fallback={<p className="label p-8">loading archive…</p>}>
+                  <ArchivePage />
+                </Suspense>
+              }
+            />
             <Route path="/settings" element={<SettingsPage />} />
             <Route path="*" element={<NotFound />} />
           </Route>
