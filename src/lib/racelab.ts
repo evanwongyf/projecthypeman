@@ -39,12 +39,43 @@ export function saveProjections(list: Projection[]) {
   }
 }
 
-export const RACE_DISTANCES = [
+export type RaceDistance = { id: string; label: string; km: number }
+
+export const RACE_DISTANCES: RaceDistance[] = [
+  { id: 'mile', label: 'Mile', km: 1.609344 },
+  { id: '3k', label: '3K', km: 3 },
   { id: '5k', label: '5K', km: 5 },
   { id: '10k', label: '10K', km: 10 },
-  { id: 'half', label: 'Half', km: 21.0975 },
+  { id: '15k', label: '15K', km: 15 },
+  { id: '10mi', label: '10 miles', km: 16.09344 },
+  { id: 'half', label: 'Half marathon', km: 21.0975 },
+  { id: '30k', label: '30K', km: 30 },
   { id: 'full', label: 'Marathon', km: 42.195 },
+  { id: '50k', label: '50K', km: 50 },
+  { id: '100k', label: '100K', km: 100 },
 ]
+
+export const KM_PER_MILE = 1.609344
+
+const DIST_KEY = 'hypeman.running.distances'
+
+/** Your own saved race distances (a local 8K, a 2.4 km test, an odd trail race). */
+export function loadCustomDistances(): RaceDistance[] {
+  try {
+    const raw = JSON.parse(localStorage.getItem(DIST_KEY) || '[]')
+    return Array.isArray(raw) ? (raw as RaceDistance[]) : []
+  } catch {
+    return []
+  }
+}
+
+export function saveCustomDistances(list: RaceDistance[]) {
+  try {
+    localStorage.setItem(DIST_KEY, JSON.stringify(list))
+  } catch {
+    /* blocked storage */
+  }
+}
 
 export function newSegment(label: string, distanceKm: number, paceSec: number): Segment {
   return { id: crypto.randomUUID(), label, distanceKm, paceSec }

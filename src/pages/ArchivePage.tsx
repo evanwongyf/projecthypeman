@@ -3,13 +3,18 @@ import { PageHeader } from '../components/PageHeader'
 import { Modal } from '../components/Modal'
 import { Select } from '../components/Select'
 import { THEORY, type TheoryArticle } from '../data/theory'
-import { APPAREL, MIDSOLE_FOAMS, SHOE_MODELS, SHOE_PARTS, SHOE_TYPES, type Material } from '../data/gear'
+import { APPAREL, MIDSOLE_FOAMS, SHOE_PARTS, SHOE_TYPES, type Material } from '../data/gear'
+import { SHOES, type Shoe } from '../data/shoes'
+import { DISCIPLINES, type Discipline } from '../data/disciplines'
+import { EconomyMath } from '../components/running/EconomyMath'
 import { ESSENTIALS, IMAGE_BASE, loadExercises, videoSearchUrl, type Exercise } from '../data/exercises'
 
-type Tab = 'theory' | 'training' | 'shoes' | 'apparel'
+type Tab = 'theory' | 'disciplines' | 'economy' | 'training' | 'shoes' | 'apparel'
 
 const TABS: { id: Tab; label: string }[] = [
   { id: 'theory', label: 'Theory' },
+  { id: 'disciplines', label: 'Disciplines' },
+  { id: 'economy', label: 'Economy maths' },
   { id: 'training', label: 'Strength & plyo' },
   { id: 'shoes', label: 'Shoes' },
   { id: 'apparel', label: 'Apparel' },
@@ -42,6 +47,8 @@ export function ArchivePage() {
       </div>
       <div className="p-5 sm:p-8">
         {tab === 'theory' && <TheoryTab />}
+        {tab === 'disciplines' && <DisciplinesTab />}
+        {tab === 'economy' && <EconomyMath />}
         {tab === 'training' && <TrainingTab />}
         {tab === 'shoes' && <ShoesTab />}
         {tab === 'apparel' && <ApparelTab />}
@@ -322,21 +329,10 @@ function ExerciseModal({ ex, onClose }: { ex: Exercise; onClose: () => void }) {
 // ---------- shoes ----------
 
 function ShoesTab() {
-  const [type, setType] = useState('')
-  const [brand, setBrand] = useState('')
-  const [plate, setPlate] = useState('')
-  const brands = [...new Set(SHOE_MODELS.map((s) => s.brand))].sort()
-  const typeName = (id: string) => SHOE_TYPES.find((t) => t.id === id)?.name ?? id
-
-  const models = SHOE_MODELS.filter(
-    (s) =>
-      (!type || s.type === type) &&
-      (!brand || s.brand === brand) &&
-      (!plate || (plate === 'plated' ? s.plate !== 'None' : s.plate === 'None'))
-  )
-
   return (
     <div className="space-y-10">
+      <ShoeCatalogue />
+
       <section>
         <h2 className="text-lg font-semibold tracking-tight">Shoe types</h2>
         <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
@@ -357,78 +353,256 @@ function ShoesTab() {
 
       <MaterialGrid title="Midsole foams" items={MIDSOLE_FOAMS} />
       <MaterialGrid title="Plates, geometry and outsoles" items={SHOE_PARTS} />
-
-      <section>
-        <h2 className="text-lg font-semibold tracking-tight">Models</h2>
-        <div className="mt-4 grid gap-3 sm:grid-cols-3 lg:max-w-3xl">
-          <div>
-            <span className="label block">type</span>
-            <Select
-              className="mt-1.5"
-              ariaLabel="Shoe type"
-              value={type}
-              onChange={setType}
-              options={[{ value: '', label: 'All types' }, ...SHOE_TYPES.map((t) => ({ value: t.id, label: t.name }))]}
-            />
-          </div>
-          <div>
-            <span className="label block">brand</span>
-            <Select
-              className="mt-1.5"
-              ariaLabel="Brand"
-              value={brand}
-              onChange={setBrand}
-              options={[{ value: '', label: 'All brands' }, ...brands.map((b) => ({ value: b, label: b }))]}
-            />
-          </div>
-          <div>
-            <span className="label block">plate</span>
-            <Select
-              className="mt-1.5"
-              ariaLabel="Plate"
-              value={plate}
-              onChange={setPlate}
-              options={[
-                { value: '', label: 'Any' },
-                { value: 'plated', label: 'Plated' },
-                { value: 'none', label: 'No plate' },
-              ]}
-            />
-          </div>
-        </div>
-
-        <ul className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
-          {models.map((s) => (
-            <li key={s.brand + s.model} className="panel p-4">
-              <p className="label">{s.brand}</p>
-              <h3 className="mt-1 text-base font-semibold">{s.model}</h3>
-              <dl className="mt-3 grid grid-cols-2 gap-3">
-                <div>
-                  <dt className="label">type</dt>
-                  <dd className="mt-1 text-sm">{typeName(s.type)}</dd>
-                </div>
-                <div>
-                  <dt className="label">drop</dt>
-                  <dd className="mono mt-1 text-sm">{s.dropMm} mm</dd>
-                </div>
-                <div>
-                  <dt className="label">foam</dt>
-                  <dd className="mt-1 text-sm">{s.foam}</dd>
-                </div>
-                <div>
-                  <dt className="label">plate</dt>
-                  <dd className="mt-1 text-sm">{s.plate}</dd>
-                </div>
-              </dl>
-            </li>
-          ))}
-        </ul>
-        <p className="mt-4 max-w-2xl text-xs" style={{ color: 'var(--ink-faint)' }}>
-          Brand-listed specs for the version named. Shoes are updated often and labs measure drop and stack differently, so
-          check the current version before buying.
-        </p>
-      </section>
     </div>
+  )
+}
+
+const KIND_LABEL: Record<Shoe['kind'], string> = {
+  daily: 'Daily trainer',
+  max: 'Max cushion',
+  stability: 'Stability',
+  tempo: 'Tempo / speed',
+  race: 'Plated racer',
+  trail: 'Trail',
+  minimal: 'Low / zero drop',
+}
+
+function ShoeCatalogue() {
+  const [query, setQuery] = useState('')
+  const [kind, setKind] = useState('')
+  const [brand, setBrand] = useState('')
+  const [plate, setPlate] = useState('')
+  const [drop, setDrop] = useState('')
+  const [open, setOpen] = useState<Shoe | null>(null)
+  const brands = [...new Set(SHOES.map((s) => s.brand))].sort()
+
+  const q = query.trim().toLowerCase()
+  const list = SHOES.filter((s) => {
+    if (q && !`${s.brand} ${s.model} ${s.foam} ${s.description}`.toLowerCase().includes(q)) return false
+    if (kind && s.kind !== kind) return false
+    if (brand && s.brand !== brand) return false
+    if (plate === 'carbon' && !/carbon/i.test(s.plate)) return false
+    if (plate === 'any' && s.plate === 'None') return false
+    if (plate === 'none' && s.plate !== 'None') return false
+    if (drop === 'low' && !(s.dropMm !== null && s.dropMm <= 4)) return false
+    if (drop === 'mid' && !(s.dropMm !== null && s.dropMm > 4 && s.dropMm <= 8)) return false
+    if (drop === 'high' && !(s.dropMm !== null && s.dropMm > 8)) return false
+    return true
+  })
+
+  return (
+    <section>
+      <h2 className="text-lg font-semibold tracking-tight">Shoe catalogue</h2>
+      <p className="mt-1 text-sm" style={{ color: 'var(--ink-soft)' }}>
+        {SHOES.length} popular models across {brands.length} brands.
+      </p>
+      <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+        <div>
+          <span className="label block">search</span>
+          <input className="field mt-1.5" placeholder="model, foam…" value={query} onChange={(e) => setQuery(e.target.value)} />
+        </div>
+        <div>
+          <span className="label block">type</span>
+          <Select
+            className="mt-1.5"
+            ariaLabel="Shoe type"
+            value={kind}
+            onChange={setKind}
+            options={[{ value: '', label: 'All types' }, ...Object.entries(KIND_LABEL).map(([value, label]) => ({ value, label }))]}
+          />
+        </div>
+        <div>
+          <span className="label block">brand</span>
+          <Select
+            className="mt-1.5"
+            ariaLabel="Brand"
+            value={brand}
+            onChange={setBrand}
+            options={[{ value: '', label: 'All brands' }, ...brands.map((b) => ({ value: b, label: b }))]}
+          />
+        </div>
+        <div>
+          <span className="label block">plate</span>
+          <Select
+            className="mt-1.5"
+            ariaLabel="Plate"
+            value={plate}
+            onChange={setPlate}
+            options={[
+              { value: '', label: 'Any' },
+              { value: 'carbon', label: 'Carbon' },
+              { value: 'any', label: 'Any plate or rods' },
+              { value: 'none', label: 'No plate' },
+            ]}
+          />
+        </div>
+        <div>
+          <span className="label block">drop</span>
+          <Select
+            className="mt-1.5"
+            ariaLabel="Drop"
+            value={drop}
+            onChange={setDrop}
+            options={[
+              { value: '', label: 'Any drop' },
+              { value: 'low', label: 'Low (0–4 mm)' },
+              { value: 'mid', label: 'Mid (5–8 mm)' },
+              { value: 'high', label: 'High (9 mm+)' },
+            ]}
+          />
+        </div>
+      </div>
+      <p className="label mt-4">{list.length} shoes</p>
+
+      <ul className="mt-3 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+        {list.map((s) => (
+          <li key={s.brand + s.model}>
+            <button type="button" className="pick h-full" onClick={() => setOpen(s)}>
+              <span className="label block">
+                {s.brand} · {KIND_LABEL[s.kind]}
+              </span>
+              <span className="mt-1 block text-base font-semibold">{s.model}</span>
+              <span className="mt-1.5 block text-sm" style={{ color: 'var(--ink-soft)' }}>
+                {s.description}
+              </span>
+              <span className="mt-3 grid grid-cols-3 gap-2">
+                <MiniSpec label="foam" value={s.foam} />
+                <MiniSpec label="plate" value={s.plate} />
+                <MiniSpec label="drop" value={s.dropMm === null ? '—' : `${s.dropMm} mm`} />
+              </span>
+            </button>
+          </li>
+        ))}
+      </ul>
+      <p className="mt-4 max-w-2xl text-xs" style={{ color: 'var(--ink-faint)' }}>
+        Compiled from brand-published information for the version named. Drop is left blank where it was not certain. Shoes
+        are revised often and labs measure drop and stack differently — check the current version before buying.
+      </p>
+
+      {open && <ShoeModal shoe={open} onClose={() => setOpen(null)} />}
+    </section>
+  )
+}
+
+function MiniSpec({ label, value }: { label: string; value: string }) {
+  return (
+    <span className="block min-w-0">
+      <span className="label block">{label}</span>
+      <span className="mt-0.5 block truncate text-xs">{value}</span>
+    </span>
+  )
+}
+
+function ShoeModal({ shoe, onClose }: { shoe: Shoe; onClose: () => void }) {
+  const specs: [string, string][] = [
+    ['surface', shoe.surface === 'road' ? 'Road' : 'Trail'],
+    ['midsole foam', shoe.foam],
+    ['plate', shoe.plate],
+    ['heel-to-toe drop', shoe.dropMm === null ? 'Not listed here' : `${shoe.dropMm} mm`],
+    ['upper', shoe.upper],
+    ['outsole', shoe.outsole],
+  ]
+  return (
+    <Modal eyebrow={`${shoe.brand} · ${KIND_LABEL[shoe.kind]}`} title={shoe.model} onClose={onClose} wide>
+      <p className="text-sm leading-relaxed">{shoe.description}</p>
+      <dl className="mt-5 grid grid-cols-2 gap-4 sm:grid-cols-3">
+        {specs.map(([k, v]) => (
+          <div key={k}>
+            <dt className="label">{k}</dt>
+            <dd className="mt-1 text-sm">{v}</dd>
+          </div>
+        ))}
+      </dl>
+      <h3 className="label mt-5">best for</h3>
+      <p className="mt-1 text-sm">{shoe.bestFor}</p>
+      <h3 className="label mt-5">features</h3>
+      <ul className="mt-2 space-y-1.5 text-sm">
+        {shoe.features.map((f) => (
+          <li key={f} className="flex gap-2">
+            <span style={{ color: 'var(--accent)' }}>—</span>
+            {f}
+          </li>
+        ))}
+      </ul>
+    </Modal>
+  )
+}
+
+// ---------- disciplines ----------
+
+function DisciplinesTab() {
+  const [family, setFamily] = useState('')
+  const [fame, setFame] = useState('')
+  const [open, setOpen] = useState<Discipline | null>(null)
+  const families = [...new Set(DISCIPLINES.map((d) => d.family))]
+  const list = DISCIPLINES.filter((d) => (!family || d.family === family) && (!fame || d.fame === fame))
+
+  return (
+    <>
+      <div className="mb-5 grid max-w-xl gap-3 sm:grid-cols-2">
+        <div>
+          <span className="label block">family</span>
+          <Select
+            className="mt-1.5"
+            ariaLabel="Family"
+            value={family}
+            onChange={setFamily}
+            options={[{ value: '', label: 'All families' }, ...families.map((f) => ({ value: f, label: f }))]}
+          />
+        </div>
+        <div>
+          <span className="label block">how well known</span>
+          <Select
+            className="mt-1.5"
+            ariaLabel="How well known"
+            value={fame}
+            onChange={setFame}
+            options={[
+              { value: '', label: 'All' },
+              { value: 'Classic', label: 'Classics' },
+              { value: 'Well known', label: 'Well known' },
+              { value: 'Deep cut', label: 'Deep cuts' },
+            ]}
+          />
+        </div>
+      </div>
+      <p className="label mb-3">{list.length} disciplines</p>
+      <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+        {list.map((d) => (
+          <button key={d.id} type="button" className="pick" onClick={() => setOpen(d)}>
+            <span className="label block">
+              {d.family} · {d.fame}
+            </span>
+            <span className="mt-1.5 block text-base leading-snug font-semibold">{d.name}</span>
+            <span className="mt-1.5 block text-sm" style={{ color: 'var(--ink-soft)' }}>
+              {d.how}
+            </span>
+          </button>
+        ))}
+      </div>
+
+      {open && (
+        <Modal eyebrow={`${open.family} · ${open.fame}`} title={open.name} onClose={() => setOpen(null)} wide>
+          <h3 className="label">origin</h3>
+          <p className="mt-1 text-sm">{open.origin}</p>
+          <h3 className="label mt-5">how it works</h3>
+          <p className="mt-1 text-sm leading-relaxed">{open.how}</p>
+          <div className="panel mt-5 p-4" style={{ background: 'var(--accent-dim)', borderColor: 'var(--accent)' }}>
+            <p className="label">example session</p>
+            <p className="mt-1.5 text-sm">{open.example}</p>
+          </div>
+          <h3 className="label mt-5">benefits</h3>
+          <ul className="mt-2 space-y-1.5 text-sm">
+            {open.benefits.map((b) => (
+              <li key={b} className="flex gap-2">
+                <span style={{ color: 'var(--accent)' }}>—</span>
+                {b}
+              </li>
+            ))}
+          </ul>
+        </Modal>
+      )}
+    </>
   )
 }
 

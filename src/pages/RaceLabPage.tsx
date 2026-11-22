@@ -5,7 +5,11 @@ import { Select } from '../components/Select'
 import { ConfirmModal } from '../components/ConfirmModal'
 import { parseDuration } from '../lib/running'
 import {
+  KM_PER_MILE,
   RACE_DISTANCES,
+  loadCustomDistances,
+  saveCustomDistances,
+  type RaceDistance,
   buildSplits,
   computeStats,
   formatClock,
@@ -258,8 +262,32 @@ function QuickBuild({ onBuild }: { onBuild: (segs: Segment[]) => void }) {
   const [pace, setPace] = useState(330)
   const [strategy, setStrategy] = useState<'even' | 'negative' | 'positive'>('negative')
   const [parts, setParts] = useState('4')
+  const [customs, setCustoms] = useState<RaceDistance[]>(() => loadCustomDistances())
+  const [customName, setCustomName] = useState('')
+  const [customValue, setCustomValue] = useState('')
+  const [customUnit, setCustomUnit] = useState<'km' | 'mi'>('km')
 
-  const km = RACE_DISTANCES.find((d) => d.id === distance)?.km ?? 10
+  const all = [...RACE_DISTANCES, ...customs]
+  const customKm = (() => {
+    const n = Number(customValue)
+    return customValue.trim() && Number.isFinite(n) && n > 0 ? (customUnit === 'mi' ? n * KM_PER_MILE : n) : 0
+  })()
+  const km = distance === 'custom' ? customKm : (all.find((d) => d.id === distance)?.km ?? 0)
+
+  function updateCustoms(next: RaceDistance[]) {
+    setCustoms(next)
+    saveCustomDistances(next)
+  }
+
+  function saveCustom() {
+    if (!customKm) return
+    const label = customName.trim() || `${customValue} ${customUnit}`
+    const d: RaceDistance = { id: `custom-${crypto.randomUUID()}`, label, km: customKm }
+    updateCustoms([...customs, d])
+    setDistance(d.id)
+    setCustomName('')
+    setCustomValue('')
+  }
 
   return (
     <section className="panel p-4">
@@ -269,7 +297,15 @@ function QuickBuild({ onBuild }: { onBuild: (segs: Segment[]) => void }) {
       </p>
       <div className="mt-4 grid gap-3 sm:grid-cols-4 sm:items-end">
         <Field label="Race">
-          <Select value={distance} onChange={setDistance} options={RACE_DISTANCES.map((d) => ({ value: d.id, label: d.label }))} />
+          <Select
+            value={distance}
+            onChange={setDistance}
+            options={[
+              ...RACE_DISTANCES.map((d) => ({ value: d.id, label: d.label })),
+              ...customs.map((d) => ({ value: d.id, label: `${d.label} · ${round2(d.km)} km` })),
+              { value: 'custom', label: 'Custom distance…' },
+            ]}
+          />
         </Field>
         <Field label="Goal pace" hint="/km">
           <PaceInput value={pace} onChange={setPace} />
@@ -289,11 +325,72 @@ function QuickBuild({ onBuild }: { onBuild: (segs: Segment[]) => void }) {
           <Select value={parts} onChange={setParts} options={['1', '2', '3', '4', '5', '6', '8', '10'].map((n) => ({ value: n, label: n }))} />
         </Field>
       </div>
+      {distance === 'custom' && (
+        <div className="mt-3 grid gap-3 sm:grid-cols-[1.4fr_1fr_8rem_auto] sm:items-end">
+          <Field label="Name" hint="optional">
+            <input className="field" placeholder="Sundown 8K" value={customName} onChange={(e) => setCustomName(e.target.value)} />
+          </Field>
+          <Field label="Distance">
+            <input
+              className="field mono"
+              inputMode="decimal"
+              placeholder="8"
+              value={customValue}
+              onChange={(e) => setCustomValue(e.target.value)}
+            />
+          </Field>
+          <Field label="Unit">
+            <Select
+              value={customUnit}
+              onChange={(v) => setCustomUnit(v as 'km' | 'mi')}
+              options={[
+                { value: 'km', label: 'km' },
+                { value: 'mi', label: 'miles' },
+              ]}
+            />
+          </Field>
+          <button type="button" className="btn" disabled={!customKm} onClick={saveCustom}>
+            Save distance
+          </button>
+        </div>
+      )}
+
+      {customs.length > 0 && (
+        <div className="mt-3">
+          <p className="label">your distances</p>
+          <div className="mt-1.5 flex flex-wrap gap-2">
+            {customs.map((d) => (
+              <span key={d.id} className="chip chip-neutral">
+                <button type="button" onClick={() => setDistance(d.id)} className="cursor-pointer">
+                  {d.label} · {round2(d.km)} km
+                </button>
+                <button
+                  type="button"
+                  aria-label={`Remove ${d.label}`}
+                  className="cursor-pointer"
+                  onClick={() => {
+                    updateCustoms(customs.filter((c) => c.id !== d.id))
+                    if (distance === d.id) setDistance('10k')
+                  }}
+                >
+                  ✕
+                </button>
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
+
       <div className="mt-3 flex flex-wrap items-center gap-3">
-        <button type="button" className="btn btn-primary" onClick={() => onBuild(buildSplits(km, pace, strategy, Number(parts)))}>
+        <button
+          type="button"
+          className="btn btn-primary"
+          disabled={!km}
+          onClick={() => onBuild(buildSplits(km, pace, strategy, Number(parts)))}
+        >
           Fill segments
         </button>
-        <span className="label">≈ {formatClock(km * pace)} at even pace</span>
+        <span className="label">{km ? `${round2(km)} km · ≈ ${formatClock(km * pace)} at even pace` : 'enter a distance'}</span>
       </div>
     </section>
   )
