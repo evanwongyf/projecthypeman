@@ -5,7 +5,7 @@ import { useData } from '../lib/data-context'
 import { isOverdue, displayState } from '../lib/status'
 import { useNow } from '../lib/useNow'
 import { Logo } from './Logo'
-import { IconClass, IconHomework, IconLogout, IconRoster, IconRun, IconSettings } from './Icons'
+import { IconArchive, IconClass, IconHomework, IconLab, IconLogout, IconRoster, IconRun, IconSettings } from './Icons'
 import { useProfile } from '../lib/profile-context'
 import { LemonAvatar } from './profile/LemonAvatar'
 import { ModeMedal } from './profile/ModeMedal'
@@ -19,7 +19,9 @@ const NAV = {
     { to: '/settings', label: 'Settings', Icon: IconSettings },
   ],
   running: [
-    { to: '/running', label: 'Runs', Icon: IconRun },
+    { to: '/running', label: 'Runs', Icon: IconRun, end: true },
+    { to: '/running/race-lab', label: 'Race Lab', Icon: IconLab },
+    { to: '/running/archive', label: 'Archive', Icon: IconArchive },
     { to: '/settings', label: 'Settings', Icon: IconSettings },
   ],
 }
@@ -80,10 +82,11 @@ export function TerminalLayout() {
         </div>
 
         <nav className="flex gap-1 overflow-x-auto p-3 lg:flex-col lg:overflow-visible">
-          {NAV[mode].map(({ to, label, Icon }) => (
+          {NAV[mode].map(({ to, label, Icon, ...rest }) => (
             <NavLink
               key={to}
               to={to}
+              end={'end' in rest ? rest.end : undefined}
               className={({ isActive }) =>
                 `flex items-center gap-2.5 border px-3 py-2 font-mono text-[11px] font-medium tracking-[0.1em] uppercase whitespace-nowrap transition-colors ${
                   isActive ? '' : 'border-transparent'
