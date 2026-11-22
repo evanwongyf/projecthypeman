@@ -4,6 +4,7 @@ import { useData } from '../lib/data-context'
 import type { Student } from '../lib/types'
 import { Field } from './Field'
 import { Modal } from './Modal'
+import { Select } from './Select'
 
 export function StudentFormModal({
   student,
@@ -87,15 +88,14 @@ export function StudentFormModal({
         </div>
 
         <Field label="Class" hint="leave unassigned to keep them in the pool">
-          <select className="field" value={classId} onChange={(e) => setClassId(e.target.value)}>
-            <option value="">— no class —</option>
-            {classes.map((c) => (
-              <option key={c.id} value={c.id}>
-                {c.name}
-                {c.subject ? ` · ${c.subject}` : ''}
-              </option>
-            ))}
-          </select>
+          <Select
+            value={classId}
+            onChange={setClassId}
+            options={[
+              { value: "", label: "— no class —" },
+              ...classes.map((c) => ({ value: c.id, label: c.subject ? `${c.name} · ${c.subject}` : c.name })),
+            ]}
+          />
         </Field>
 
         {error && (

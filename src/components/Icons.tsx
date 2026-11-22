@@ -147,3 +147,10 @@ export const IconSeating = (p: Props) => (
     <rect x="12.5" y="12" width="5" height="5" />
   </Svg>
 )
+
+export const IconRun = (p: Props) => (
+  <Svg {...p}>
+    <circle cx="12.5" cy="3.8" r="1.6" />
+    <path d="M6 9l3-3 3 2 2 3h3M9 6l-1.5 5 3.5 2-1 4.5M7.5 11L4 14.5" />
+  </Svg>
+)

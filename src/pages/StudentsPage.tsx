@@ -11,6 +11,7 @@ import { Empty } from '../components/Empty'
 import { IconClass, IconPlus } from '../components/Icons'
 import { MetaItem, PageHeader } from '../components/PageHeader'
 import { StudentFormModal } from '../components/StudentFormModal'
+import { Select } from '../components/Select'
 
 type Sort = 'name' | 'outstanding'
 
@@ -119,11 +120,17 @@ export function StudentsPage() {
                 />
               </div>
               <div>
-                <span className="label">sort by</span>
-                <select className="field mt-1.5" value={sort} onChange={(e) => setSort(e.target.value as Sort)}>
-                  <option value="name">Name</option>
-                  <option value="outstanding">Outstanding homework</option>
-                </select>
+                <span className="label block">sort by</span>
+                <Select
+                  className="mt-1.5"
+                  ariaLabel="Sort by"
+                  value={sort}
+                  onChange={(v) => setSort(v as Sort)}
+                  options={[
+                    { value: 'name', label: 'Name' },
+                    { value: 'outstanding', label: 'Outstanding homework' },
+                  ]}
+                />
               </div>
             </div>
 

@@ -14,6 +14,7 @@ import type { RelationshipKind, Student } from '../../lib/types'
 import { Field, FieldGroup } from '../Field'
 import { IconPlus, IconTrash } from '../Icons'
 import { Modal } from '../Modal'
+import { Select } from '../Select'
 
 export function Relationships({ student }: { student: Student }) {
   const { data, reload } = useData()
@@ -251,21 +252,17 @@ function RelationshipForm({ student, onClose }: { student: Student; onClose: () 
         </FieldGroup>
 
         <Field label="The other person" required hint="a student here, or type a name">
-          <select
-            className="field"
+          <Select
             value={otherStudentId}
-            onChange={(e) => {
-              setOtherStudentId(e.target.value)
-              if (e.target.value) setOtherName('')
+            onChange={(v) => {
+              setOtherStudentId(v)
+              if (v) setOtherName("")
             }}
-          >
-            <option value="">— someone not in the terminal —</option>
-            {candidates.map((s) => (
-              <option key={s.id} value={s.id}>
-                {s.fullName}
-              </option>
-            ))}
-          </select>
+            options={[
+              { value: "", label: "— someone not in the terminal —" },
+              ...candidates.map((s) => ({ value: s.id, label: s.fullName })),
+            ]}
+          />
         </Field>
 
         {!otherStudentId && (

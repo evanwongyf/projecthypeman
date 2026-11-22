@@ -30,7 +30,7 @@ export function PageHeader({
         <div className="min-w-0">
           {eyebrow && <p className="label mb-2">{eyebrow}</p>}
           <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">{title}</h1>
-          {meta && <div className="mt-2.5 flex flex-wrap items-center gap-x-4 gap-y-1.5 text-sm">{meta}</div>}
+          {meta && <div className="mt-3 flex flex-wrap items-start gap-x-6 gap-y-2 text-sm">{meta}</div>}
         </div>
         {actions && <div className="flex flex-wrap items-center gap-2">{actions}</div>}
       </div>
@@ -40,7 +40,7 @@ export function PageHeader({
 
 export function MetaItem({ label, children }: { label: string; children: ReactNode }) {
   return (
-    <span className="inline-flex items-baseline gap-2">
+    <span className="inline-flex flex-col gap-0.5">
       <span className="label">{label}</span>
       <span style={{ color: 'var(--ink-soft)' }}>{children}</span>
     </span>

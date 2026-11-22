@@ -5,20 +5,32 @@ import { useData } from '../lib/data-context'
 import { isOverdue, displayState } from '../lib/status'
 import { useNow } from '../lib/useNow'
 import { Logo } from './Logo'
-import { IconClass, IconHomework, IconLogout, IconRoster, IconSettings } from './Icons'
+import { IconClass, IconHomework, IconLogout, IconRoster, IconRun, IconSettings } from './Icons'
+import { useProfile } from '../lib/profile-context'
+import { LemonAvatar } from './profile/LemonAvatar'
+import { ModeMedal } from './profile/ModeMedal'
+import { ProfileModal } from './profile/ProfileModal'
 
-const NAV = [
-  { to: '/students', label: 'Students', Icon: IconRoster },
-  { to: '/classes', label: 'Classes', Icon: IconClass },
-  { to: '/homework', label: 'Homework', Icon: IconHomework },
-  { to: '/settings', label: 'Settings', Icon: IconSettings },
-]
+const NAV = {
+  teaching: [
+    { to: '/students', label: 'Students', Icon: IconRoster },
+    { to: '/classes', label: 'Classes', Icon: IconClass },
+    { to: '/homework', label: 'Homework', Icon: IconHomework },
+    { to: '/settings', label: 'Settings', Icon: IconSettings },
+  ],
+  running: [
+    { to: '/running', label: 'Runs', Icon: IconRun },
+    { to: '/settings', label: 'Settings', Icon: IconSettings },
+  ],
+}
 
 export function TerminalLayout() {
   const { user, logout } = useAuth()
   const { data, loading, error } = useData()
   const navigate = useNavigate()
   const [signingOut, setSigningOut] = useState(false)
+  const [profileOpen, setProfileOpen] = useState(false)
+  const { mode } = useProfile()
 
   const now = useNow()
   const outstanding = data.homework.reduce((sum, hw) => {
@@ -41,7 +53,21 @@ export function TerminalLayout() {
         style={{ borderColor: 'var(--line)', background: 'var(--panel)' }}
       >
         <div className="flex items-center justify-between gap-3 border-b px-5 py-4 hairline">
-          <Logo />
+          <div className="flex min-w-0 items-center gap-3 lg:flex-col lg:items-start">
+            <button
+              type="button"
+              className="avatar-btn shrink-0"
+              onClick={() => setProfileOpen(true)}
+              aria-label="Profile options"
+              title="Profile options"
+            >
+              <LemonAvatar className="h-9 w-9" />
+            </button>
+            <div className="flex min-w-0 flex-col items-start gap-1.5">
+              <Logo />
+              <ModeMedal mode={mode} />
+            </div>
+          </div>
           <button
             type="button"
             className="btn btn-ghost !px-2 lg:hidden"
@@ -54,7 +80,7 @@ export function TerminalLayout() {
         </div>
 
         <nav className="flex gap-1 overflow-x-auto p-3 lg:flex-col lg:overflow-visible">
-          {NAV.map(({ to, label, Icon }) => (
+          {NAV[mode].map(({ to, label, Icon }) => (
             <NavLink
               key={to}
               to={to}
@@ -76,28 +102,15 @@ export function TerminalLayout() {
         </nav>
 
         <div className="mt-auto hidden border-t p-5 lg:block hairline">
-          <dl className="space-y-2.5">
-            <div className="flex items-baseline justify-between gap-3">
-              <dt className="label">outstanding</dt>
-              <dd className="mono text-sm font-semibold" style={{ color: outstanding ? 'var(--assigned)' : 'var(--ink-faint)' }}>
-                {loading ? '—' : outstanding}
-              </dd>
-            </div>
-            <div className="flex items-baseline justify-between gap-3">
-              <dt className="label">past due</dt>
-              <dd className="mono text-sm font-semibold" style={{ color: overdueCount ? 'var(--overdue)' : 'var(--ink-faint)' }}>
-                {loading ? '—' : overdueCount}
-              </dd>
-            </div>
-            <div className="flex items-baseline justify-between gap-3">
-              <dt className="label">students</dt>
-              <dd className="mono text-sm font-semibold" style={{ color: 'var(--ink-soft)' }}>
-                {loading ? '—' : data.students.length}
-              </dd>
-            </div>
-          </dl>
+          {mode === 'teaching' && (
+            <dl className="grid grid-cols-3 gap-3">
+              <SideStat label="outstanding" value={loading ? '—' : outstanding} tone={outstanding ? 'var(--assigned)' : 'var(--ink-faint)'} />
+              <SideStat label="past due" value={loading ? '—' : overdueCount} tone={overdueCount ? 'var(--overdue)' : 'var(--ink-faint)'} />
+              <SideStat label="students" value={loading ? '—' : data.students.length} tone="var(--ink-soft)" />
+            </dl>
+          )}
 
-          <div className="mt-5 border-t pt-4 hairline">
+          <div className={mode === 'teaching' ? 'mt-5 border-t pt-4 hairline' : ''}>
             <p className="truncate text-sm font-medium">{user?.name}</p>
             <p className="label mt-0.5 truncate">{user?.username}</p>
             <button type="button" className="btn btn-ghost mt-3 w-full" onClick={signOut} disabled={signingOut}>
@@ -120,6 +133,27 @@ export function TerminalLayout() {
         )}
         <Outlet />
       </main>
+
+      {profileOpen && (
+        <ProfileModal
+          onClose={() => setProfileOpen(false)}
+          onSignOut={() => {
+            setProfileOpen(false)
+            void signOut()
+          }}
+        />
+      )}
+    </div>
+  )
+}
+
+function SideStat({ label, value, tone }: { label: string; value: number | string; tone: string }) {
+  return (
+    <div className="min-w-0">
+      <dt className="label truncate">{label}</dt>
+      <dd className="mono mt-1 text-sm font-semibold" style={{ color: tone }}>
+        {value}
+      </dd>
     </div>
   )
 }

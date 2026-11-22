@@ -3,6 +3,7 @@ import { useData } from '../../lib/data-context'
 import { sortBehaviours } from '../../lib/points'
 import type { Behaviour, BehaviourKind } from '../../lib/types'
 import { Modal } from '../Modal'
+import { Select } from '../Select'
 
 /**
  * Step one: choose the effect. Positives read as a reward sheet, negatives as
@@ -61,12 +62,18 @@ export function EffectPicker({
         </div>
 
         <div className="shrink-0">
-          <span className="label">sort by</span>
-          <select className="field mt-1.5" value={sort} onChange={(e) => setSort(e.target.value as Sort)}>
-            <option value="name">Name</option>
-            <option value="points">Points</option>
-            <option value="recent">Recently added</option>
-          </select>
+          <span className="label block">sort by</span>
+          <Select
+            className="mt-1.5"
+            ariaLabel="Sort by"
+            value={sort}
+            onChange={(v) => setSort(v as Sort)}
+            options={[
+              { value: 'name', label: 'Name' },
+              { value: 'points', label: 'Points' },
+              { value: 'recent', label: 'Recently added' },
+            ]}
+          />
         </div>
       </div>
 

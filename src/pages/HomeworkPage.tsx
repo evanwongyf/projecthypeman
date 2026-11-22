@@ -6,6 +6,7 @@ import { isOverdue, tally } from '../lib/status'
 import { useNow } from '../lib/useNow'
 import { Empty } from '../components/Empty'
 import { MetaItem, PageHeader } from '../components/PageHeader'
+import { Select } from '../components/Select'
 
 type Sort = 'due' | 'outstanding'
 
@@ -66,22 +67,27 @@ export function HomeworkPage() {
           <>
             <div className="mb-6 flex flex-wrap items-end gap-3">
               <div>
-                <span className="label">class</span>
-                <select className="field mt-1.5" value={classFilter} onChange={(e) => setClassFilter(e.target.value)}>
-                  <option value="">All classes</option>
-                  {classes.map((c) => (
-                    <option key={c.id} value={c.id}>
-                      {c.name}
-                    </option>
-                  ))}
-                </select>
+                <span className="label block">class</span>
+                <Select
+                  className="mt-1.5"
+                  ariaLabel="Class"
+                  value={classFilter}
+                  onChange={setClassFilter}
+                  options={[{ value: '', label: 'All classes' }, ...classes.map((c) => ({ value: c.id, label: c.name }))]}
+                />
               </div>
               <div>
-                <span className="label">sort by</span>
-                <select className="field mt-1.5" value={sort} onChange={(e) => setSort(e.target.value as Sort)}>
-                  <option value="due">Due date</option>
-                  <option value="outstanding">Outstanding</option>
-                </select>
+                <span className="label block">sort by</span>
+                <Select
+                  className="mt-1.5"
+                  ariaLabel="Sort by"
+                  value={sort}
+                  onChange={(v) => setSort(v as Sort)}
+                  options={[
+                    { value: 'due', label: 'Due date' },
+                    { value: 'outstanding', label: 'Outstanding' },
+                  ]}
+                />
               </div>
             </div>
 
