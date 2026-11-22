@@ -1,9 +1,7 @@
 /**
  * Gear archive: shoe types, midsole materials, models and apparel fabrics.
  *
- * Model specs are the brand-listed figures for the version named. Shoes are
- * updated often, and drop/stack are measured differently by different labs,
- * so treat the numbers as a guide and check the current version.
+ * The 100+ model catalogue lives in shoes.ts.
  */
 
 export type ShoeType = {
@@ -138,42 +136,6 @@ export const SHOE_PARTS: Material[] = [
     feel: 'Grip and durability',
     notes: 'Carbon rubber lasts longer; blown rubber is lighter and softer. Super shoes often use very little.',
   },
-]
-
-export type ShoeModel = {
-  brand: string
-  model: string
-  type: ShoeType['id']
-  foam: string
-  plate: string
-  dropMm: number
-}
-
-export const SHOE_MODELS: ShoeModel[] = [
-  { brand: 'Nike', model: 'Pegasus 41', type: 'daily', foam: 'ReactX + Air Zoom units', plate: 'None', dropMm: 10 },
-  { brand: 'Nike', model: 'Vaporfly 3', type: 'race', foam: 'ZoomX (PEBA)', plate: 'Carbon', dropMm: 8 },
-  { brand: 'Nike', model: 'Alphafly 3', type: 'race', foam: 'ZoomX (PEBA) + Air Zoom pods', plate: 'Carbon', dropMm: 8 },
-  { brand: 'Adidas', model: 'Adizero Adios Pro 3', type: 'race', foam: 'Lightstrike Pro', plate: 'Carbon EnergyRods', dropMm: 6.5 },
-  { brand: 'Adidas', model: 'Adizero Boston 12', type: 'tempo', foam: 'Lightstrike Pro + Lightstrike 2.0', plate: 'Glass-fibre EnergyRods', dropMm: 6.5 },
-  { brand: 'ASICS', model: 'Novablast 4', type: 'daily', foam: 'FF Blast+ Eco', plate: 'None', dropMm: 8 },
-  { brand: 'ASICS', model: 'Gel-Nimbus 26', type: 'max', foam: 'FF Blast+ Eco + PureGEL', plate: 'None', dropMm: 8 },
-  { brand: 'ASICS', model: 'Gel-Kayano 31', type: 'stability', foam: 'FF Blast+ Eco', plate: 'None', dropMm: 10 },
-  { brand: 'ASICS', model: 'Superblast 2', type: 'tempo', foam: 'FF Turbo+ / FF Blast+', plate: 'None', dropMm: 8 },
-  { brand: 'ASICS', model: 'Metaspeed Sky Paris', type: 'race', foam: 'FF Turbo+', plate: 'Carbon', dropMm: 5 },
-  { brand: 'Hoka', model: 'Clifton 9', type: 'daily', foam: 'Compression-moulded EVA', plate: 'None', dropMm: 5 },
-  { brand: 'Hoka', model: 'Bondi 8', type: 'max', foam: 'Compression-moulded EVA', plate: 'None', dropMm: 4 },
-  { brand: 'Hoka', model: 'Mach 6', type: 'tempo', foam: 'Supercritical EVA', plate: 'None', dropMm: 5 },
-  { brand: 'Hoka', model: 'Speedgoat 6', type: 'trail', foam: 'Supercritical EVA', plate: 'None', dropMm: 5 },
-  { brand: 'Brooks', model: 'Ghost 16', type: 'daily', foam: 'DNA Loft v3', plate: 'None', dropMm: 12 },
-  { brand: 'Brooks', model: 'Glycerin 21', type: 'max', foam: 'DNA Loft v3', plate: 'None', dropMm: 10 },
-  { brand: 'Brooks', model: 'Adrenaline GTS 24', type: 'stability', foam: 'DNA Loft v3 + GuideRails', plate: 'None', dropMm: 12 },
-  { brand: 'Saucony', model: 'Triumph 22', type: 'max', foam: 'PWRRUN PB', plate: 'None', dropMm: 10 },
-  { brand: 'Saucony', model: 'Kinvara 15', type: 'tempo', foam: 'PWRRUN', plate: 'None', dropMm: 4 },
-  { brand: 'Saucony', model: 'Endorphin Speed 4', type: 'tempo', foam: 'PWRRUN PB', plate: 'Nylon', dropMm: 8 },
-  { brand: 'Saucony', model: 'Endorphin Pro 4', type: 'race', foam: 'PWRRUN HG + PWRRUN PB', plate: 'Carbon', dropMm: 8 },
-  { brand: 'New Balance', model: 'Fresh Foam X 1080v14', type: 'max', foam: 'Fresh Foam X', plate: 'None', dropMm: 6 },
-  { brand: 'New Balance', model: 'FuelCell SC Elite v4', type: 'race', foam: 'FuelCell (PEBA blend)', plate: 'Carbon', dropMm: 4 },
-  { brand: 'Altra', model: 'Torin 7', type: 'minimal', foam: 'Altra EGO MAX', plate: 'None', dropMm: 0 },
 ]
 
 export const APPAREL: Material[] = [
