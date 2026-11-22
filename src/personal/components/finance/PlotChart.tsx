@@ -48,6 +48,20 @@ export function PlotChart({ block }: { block: PlotBlock }) {
               )}
             </g>
           ))}
+          {(block.areas ?? []).map((a, i) => {
+            const cx = a.at?.[0] ?? a.pts.reduce((s, p) => s + p[0], 0) / a.pts.length
+            const cy = a.at?.[1] ?? a.pts.reduce((s, p) => s + p[1], 0) / a.pts.length
+            return (
+              <g key={`a${i}`}>
+                <polygon points={a.pts.map(([px, py]) => `${sx(px).toFixed(1)},${sy(py).toFixed(1)}`).join(' ')} fill={a.color ?? PALETTE[i % PALETTE.length]} opacity={0.26} />
+                {a.label && (
+                  <text x={sx(cx)} y={sy(cy) + 4} fontSize={11.5} fontWeight={700} textAnchor="middle" fill="var(--ink)" paintOrder="stroke" stroke="var(--surface)" strokeWidth={3.5} strokeLinejoin="round">
+                    {a.label}
+                  </text>
+                )}
+              </g>
+            )
+          })}
           {ticks(y0, y1).map((t) => (
             <g key={`y${t}`}>
               <line x1={M.l} x2={W - M.r} y1={sy(t)} y2={sy(t)} stroke="var(--line)" />
@@ -111,6 +125,24 @@ export function PlotChart({ block }: { block: PlotBlock }) {
               </g>
             ))}
           </g>
+          {(block.segments ?? []).map((s, i) => {
+            const [ax, ay] = [sx(s.from[0]), sy(s.from[1])]
+            const [bx, by] = [sx(s.to[0]), sy(s.to[1])]
+            const col = s.color ?? 'var(--ink)'
+            const ang = Math.atan2(by - ay, bx - ax)
+            const head = s.arrow ? `M${bx},${by} L${bx - 10 * Math.cos(ang - 0.45)},${by - 10 * Math.sin(ang - 0.45)} M${bx},${by} L${bx - 10 * Math.cos(ang + 0.45)},${by - 10 * Math.sin(ang + 0.45)}` : ''
+            return (
+              <g key={`g${i}`}>
+                <line x1={ax} y1={ay} x2={bx} y2={by} stroke={col} strokeWidth={s.arrow ? 2 : 1.3} strokeDasharray={s.dashed ? '5 4' : undefined} />
+                {head && <path d={head} stroke={col} strokeWidth={2} fill="none" strokeLinecap="round" />}
+                {s.label && (
+                  <text x={(ax + bx) / 2 + 6} y={(ay + by) / 2 - 6} fontSize={11.5} fontWeight={700} fill="var(--ink)" paintOrder="stroke" stroke="var(--surface)" strokeWidth={3.5} strokeLinejoin="round">
+                    {s.label}
+                  </text>
+                )}
+              </g>
+            )
+          })}
           {(block.points ?? []).map((p, i) => (
             <g key={`p${i}`}>
               <circle cx={sx(p.x)} cy={sy(p.y)} r={5} fill="var(--ink)" />
