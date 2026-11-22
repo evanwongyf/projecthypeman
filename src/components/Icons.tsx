@@ -154,3 +154,16 @@ export const IconRun = (p: Props) => (
     <path d="M6 9l3-3 3 2 2 3h3M9 6l-1.5 5 3.5 2-1 4.5M7.5 11L4 14.5" />
   </Svg>
 )
+
+export const IconLab = (p: Props) => (
+  <Svg {...p}>
+    <path d="M7.5 2.5h5M8.5 2.5v5L4 16.5h12l-4.5-9v-5" />
+    <path d="M6 12.5h8" />
+  </Svg>
+)
+
+export const IconArchive = (p: Props) => (
+  <Svg {...p}>
+    <path d="M3 4h14v3H3zM4 7v9h12V7M8 10.5h4" />
+  </Svg>
+)

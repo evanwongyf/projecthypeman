@@ -17,6 +17,8 @@ import { HomeworkDetailPage } from './pages/HomeworkDetailPage'
 import { SettingsPage } from './pages/SettingsPage'
 import { NotFound } from './pages/NotFound'
 import { RunningPage } from './pages/RunningPage'
+import { RaceLabPage } from './pages/RaceLabPage'
+import { ArchivePage } from './pages/ArchivePage'
 
 export default function App() {
   return (
@@ -39,6 +41,8 @@ export default function App() {
             <Route path="/homework" element={<HomeworkPage />} />
             <Route path="/homework/:homeworkId" element={<HomeworkDetailPage />} />
             <Route path="/running" element={<RunningPage />} />
+            <Route path="/running/race-lab" element={<RaceLabPage />} />
+            <Route path="/running/archive" element={<ArchivePage />} />
             <Route path="/settings" element={<SettingsPage />} />
             <Route path="*" element={<NotFound />} />
           </Route>
