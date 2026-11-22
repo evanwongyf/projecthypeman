@@ -182,3 +182,27 @@ export const IconNetwork = (p: Props) => (
     <path d="M7 5.3 13 5.8M6 6.8l3 6.4M14 7.8l-3 5.4" />
   </Svg>
 )
+
+export const IconDocument = (p: Props) => (
+  <Svg {...p}>
+    <path d="M5 2.5h6l4 4v11H5z" />
+    <path d="M11 2.5v4h4" />
+    <path d="M7.5 10.5h5M7.5 13.5h5" />
+  </Svg>
+)
+
+export const IconDownload = (p: Props) => (
+  <Svg {...p}>
+    <path d="M10 3v9" />
+    <path d="M6.5 8.5 10 12l3.5-3.5" />
+    <path d="M4 15.5h12" />
+  </Svg>
+)
+
+export const IconPrint = (p: Props) => (
+  <Svg {...p}>
+    <path d="M6 7.5V3h8v4.5" />
+    <path d="M3.5 7.5h13v6H14v3.5H6V13.5H3.5z" />
+    <path d="M7.5 11h5" />
+  </Svg>
+)

@@ -1027,3 +1027,69 @@ textarea.field {
 
 /* KaTeX picks up the ink colour; give display maths room to scroll on phones. */
 .st-archive .katex-display { overflow-x: auto; overflow-y: hidden; padding: 0.25rem 0; }
+
+/* ---- document lab: A4 preview + print ---- */
+.doc-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+}
+.doc-page {
+  width: 100%;
+  max-width: 595.28px;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.18), 0 14px 30px -16px rgba(0, 0, 0, 0.45);
+}
+.doc-page svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+/* Hidden until a print starts: the layout is computed in JavaScript, so these
+   pages never need to be measured on screen first. */
+#print-root {
+  display: none;
+}
+
+@media print {
+  @page {
+    size: A4;
+    margin: 0;
+  }
+  html,
+  body {
+    height: auto !important;
+    background: #fff !important;
+    background-image: none !important;
+  }
+  #root {
+    display: none !important;
+  }
+  #print-root {
+    display: block !important;
+  }
+  .doc-stack {
+    display: block !important;
+    gap: 0 !important;
+  }
+  .doc-page {
+    max-width: none !important;
+    width: 210mm !important;
+    box-shadow: none !important;
+    break-after: page;
+    page-break-after: always;
+  }
+  .doc-page:last-child {
+    break-after: auto;
+    page-break-after: auto;
+  }
+  .doc-page svg {
+    width: 210mm !important;
+    height: 297mm !important;
+  }
+  * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
