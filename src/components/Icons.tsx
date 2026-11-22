@@ -167,3 +167,9 @@ export const IconArchive = (p: Props) => (
     <path d="M3 4h14v3H3zM4 7v9h12V7M8 10.5h4" />
   </Svg>
 )
+
+export const IconBook = (p: Props) => (
+  <Svg {...p}>
+    <path d="M4 3.5h8.5a2 2 0 0 1 2 2V17H6a2 2 0 0 1-2-2zM4 15a2 2 0 0 1 2-2h8.5" />
+  </Svg>
+)

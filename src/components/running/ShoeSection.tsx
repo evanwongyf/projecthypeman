@@ -169,9 +169,9 @@ function ShoeCatalogue() {
                 {s.description}
               </span>
               <span className="mt-3 grid grid-cols-4 gap-2">
-                <MiniSpec label="weight" value={s.spec ? `${s.spec.weightG} g` : '—'} />
-                <MiniSpec label="heel" value={s.spec ? `${s.spec.heelMm} mm` : '—'} />
-                <MiniSpec label="drop" value={s.drop === null ? '—' : `${s.drop} mm`} />
+                <MiniSpec label="weight" value={s.spec ? `${s.spec.weightG} g` : '-'} />
+                <MiniSpec label="heel" value={s.spec ? `${s.spec.heelMm} mm` : '-'} />
+                <MiniSpec label="drop" value={s.drop === null ? '-' : `${s.drop} mm`} />
                 <MiniSpec label="foam" value={s.foam} />
               </span>
             </button>
@@ -180,7 +180,7 @@ function ShoeCatalogue() {
       </ul>
       <p className="mt-4 max-w-3xl text-xs" style={{ color: 'var(--ink-faint)' }}>
         Weight, stack and lab drop are RunRepeat lab measurements (men&apos;s sample) where a review exists; drop on cards is
-        the brand-stated figure. Descriptions and features are compiled from brand information. Shoes are revised often —
+        the brand-stated figure. Descriptions and features are compiled from brand information. Shoes are revised often,
         check the current version before buying.
       </p>
 
@@ -225,7 +225,7 @@ function ShoeModal({ shoe, onClose }: { shoe: Merged; onClose: () => void }) {
     ['plate', shoe.plate],
     ['upper', shoe.upper],
     ['outsole', shoe.outsole],
-    ['drop (brand)', shoe.drop === null ? '—' : `${shoe.drop} mm`],
+    ['drop (brand)', shoe.drop === null ? '-' : `${shoe.drop} mm`],
   ]
   if (spec) {
     specs.push(
@@ -233,7 +233,7 @@ function ShoeModal({ shoe, onClose }: { shoe: Merged; onClose: () => void }) {
       ['heel stack (lab)', `${spec.heelMm} mm · ${stackBand(spec.heelMm)}`],
       ['forefoot stack (lab)', `${spec.foreMm} mm`],
       ['drop (lab)', `${spec.labDropMm} mm`],
-      ['list price', spec.msrpUsd ? `US$${spec.msrpUsd}` : '—']
+      ['list price', spec.msrpUsd ? `US$${spec.msrpUsd}` : '-']
     )
   }
 
@@ -254,21 +254,21 @@ function ShoeModal({ shoe, onClose }: { shoe: Merged; onClose: () => void }) {
         <div className="panel mt-5 p-4">
           <p className="label">what the numbers mean</p>
           <ul className="mt-2 space-y-1.5 text-sm" style={{ color: 'var(--ink-soft)' }}>
-            {weightNote && <li>— Weight: {weightNote}. Each extra 100 g per shoe costs roughly 1% more energy.</li>}
+            {weightNote && <li>Weight: {weightNote}. Each extra 100 g per shoe costs roughly 1% more energy.</li>}
             <li>
-              — Stack: {spec.heelMm} mm at the heel puts it in the <b>{stackBand(spec.heelMm).toLowerCase()}</b> band.{' '}
+              Stack: {spec.heelMm} mm at the heel puts it in the <b>{stackBand(spec.heelMm).toLowerCase()}</b> band.{' '}
               {spec.heelMm > 40
-                ? 'That is above the 40 mm World Athletics limit for road racing shoes — although official measurement differs from lab measurement, check the approved list before elite competition.'
+                ? 'That is above the 40 mm World Athletics limit for road racing shoes, although official measurement differs from lab measurement, check the approved list before elite competition.'
                 : 'More stack means more cushioning and less ground feel.'}
             </li>
             {dropGap !== null && (
               <li>
-                — Drop: the brand states {spec.brandDropMm} mm; the lab measured {spec.labDropMm} mm
-                {Math.abs(dropGap) >= 2 ? ` — a ${Math.abs(dropGap).toFixed(1)} mm difference, so it may feel ${dropGap > 0 ? 'higher' : 'lower'}-dropped than listed.` : ', close to the listed figure.'}
+                Drop: the brand states {spec.brandDropMm} mm; the lab measured {spec.labDropMm} mm
+                {Math.abs(dropGap) >= 2 ? `, a ${Math.abs(dropGap).toFixed(1)} mm difference, so it may feel ${dropGap > 0 ? 'higher' : 'lower'}-dropped than listed.` : ', close to the listed figure.'}
               </li>
             )}
             <li>
-              — Forefoot: {spec.foreMm} mm under the ball of the foot, where most runners push off.
+              Forefoot: {spec.foreMm} mm under the ball of the foot, where most runners push off.
             </li>
           </ul>
         </div>
@@ -301,7 +301,7 @@ function ShoeModal({ shoe, onClose }: { shoe: Merged; onClose: () => void }) {
       <ul className="mt-2 space-y-1.5 text-sm">
         {shoe.features.map((f) => (
           <li key={f} className="flex gap-2">
-            <span style={{ color: 'var(--accent)' }}>—</span>
+            <span style={{ color: 'var(--accent)' }}>-</span>
             {f}
           </li>
         ))}
@@ -397,7 +397,7 @@ function ShoeInsights() {
             <b>{Math.round(data.groupMedian[1].weight)} g</b> for road trainers, despite a similar or taller median heel stack (
             {data.groupMedian[0].stack.toFixed(1)} vs {data.groupMedian[1].stack.toFixed(1)} mm). That is the point of PEBA-class
             foams: more height for less mass. Across road shoes, stack and weight are only {Math.abs(data.r) < 0.3 ? 'weakly' : Math.abs(data.r) < 0.6 ? 'moderately' : 'strongly'}{' '}
-            related (r = {data.r.toFixed(2)}) — foam type matters more than height. {data.over40} shoes measure above 40 mm at
+            related (r = {data.r.toFixed(2)}), foam type matters more than height. {data.over40} shoes measure above 40 mm at
             the heel.
           </p>
         }
@@ -408,7 +408,7 @@ function ShoeInsights() {
 
       <ChartFrame
         title="Median weight by shoe type"
-        subtitle="Grams, men's sample — the middle shoe of each type"
+        subtitle="Grams, men's sample, the middle shoe of each type"
         table={{ head: ['type', 'median g', 'shoes'], rows: data.kindRows.map((r) => [r.label, r.value, r.n]) }}
         interpretation={
           <p>
@@ -416,7 +416,7 @@ function ShoeInsights() {
             {data.kindRows[data.kindRows.length - 1].value - data.kindRows[0].value} g per shoe lighter than the heaviest,{' '}
             {data.kindRows[data.kindRows.length - 1].label.toLowerCase()} ({data.kindRows[data.kindRows.length - 1].value} g). Using
             the rule of thumb of about 1% more energy per 100 g per shoe, that gap alone is worth roughly{' '}
-            {((data.kindRows[data.kindRows.length - 1].value - data.kindRows[0].value) / 100).toFixed(1)}% in running cost —
+            {((data.kindRows[data.kindRows.length - 1].value - data.kindRows[0].value) / 100).toFixed(1)}% in running cost,
             before any difference in foam or plate.
           </p>
         }
@@ -427,14 +427,14 @@ function ShoeInsights() {
 
       <ChartFrame
         title="Measured drop vs the brand's number"
-        subtitle="Lab drop minus brand-stated drop, mm — the 12 largest gaps"
+        subtitle="Lab drop minus brand-stated drop, mm, the 12 largest gaps"
         table={{ head: ['shoe', 'lab − brand (mm)'], rows: [...data.drops].sort((a, b) => b.value - a.value).map((d) => [d.label, d.value]) }}
         interpretation={
           <p>
             On average the lab figure differs from the brand&apos;s by <b>{data.meanAbs.toFixed(1)} mm</b>, and {data.within2} of{' '}
             {data.drops.length} shoes are within 2 mm. In {data.higher} cases the lab measured more drop than stated. Part of
-            the gap is method — brands measure the midsole alone, often unloaded, while the lab measures the whole shoe
-            including insole at set points — and part is soft heels compressing differently. Treat any drop figure as ±2 mm.
+            the gap is method, brands measure the midsole alone, often unloaded, while the lab measures the whole shoe
+            including insole at set points, and part is soft heels compressing differently. Treat any drop figure as ±2 mm.
           </p>
         }
         source="Data: RunRepeat lab measurements vs manufacturer specifications."
@@ -452,7 +452,7 @@ function Anatomy() {
     <section>
       <h2 className="text-lg font-semibold tracking-tight">Anatomy of a running shoe</h2>
       <p className="mt-1 max-w-3xl text-sm" style={{ color: 'var(--ink-soft)' }}>
-        From the ground up — what each part is and why it matters.
+        From the ground up, what each part is and why it matters.
       </p>
       <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
         {SHOE_ANATOMY.map((p, i) => (
@@ -506,7 +506,7 @@ function FoamFamilies() {
           <p>
             Classification is by the main foam named for each shoe; dual-foam shoes count under the first-listed foam. PEBA
             dominates racers, while supercritical and nitrogen-infused EVA blends have become the default for daily
-            trainers — cheaper than PEBA, lighter and bouncier than old-style EVA.
+            trainers, cheaper than PEBA, lighter and bouncier than old-style EVA.
           </p>
         }
       >

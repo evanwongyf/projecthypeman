@@ -128,7 +128,7 @@ export function Select({
           else openList()
         }}
       >
-        <span className="truncate">{selected?.label ?? '—'}</span>
+        <span className="truncate">{selected?.label ?? '-'}</span>
         <svg viewBox="0 0 10 6" className="select-caret" aria-hidden="true" data-open={open}>
           <path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" strokeWidth="1.4" />
         </svg>

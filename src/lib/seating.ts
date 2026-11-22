@@ -121,7 +121,7 @@ export function conflictsIfSeated(
 
   for (const key of neighbours(plan, row, col)) {
     const occupant = plan.seats[key]
-    // Ignore the seat they are leaving — they will not be next to themselves.
+    // Ignore the seat they are leaving, they will not be next to themselves.
     if (!occupant || occupant === studentId) continue
     if (theirs.has(occupant)) {
       const other = students.find((s) => s.id === occupant)

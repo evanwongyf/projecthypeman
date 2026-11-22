@@ -7,7 +7,7 @@ import { Select } from '../Select'
 
 /**
  * Step one: choose the effect. Positives read as a reward sheet, negatives as
- * a plain list — the tone of each tab is deliberate, not decoration.
+ * a plain list, the tone of each tab is deliberate, not decoration.
  */
 type Sort = 'name' | 'points' | 'recent'
 

@@ -92,7 +92,7 @@ export function StudentFormModal({
             value={classId}
             onChange={setClassId}
             options={[
-              { value: "", label: "— no class —" },
+              { value: "", label: "no class" },
               ...classes.map((c) => ({ value: c.id, label: c.subject ? `${c.name} · ${c.subject}` : c.name })),
             ]}
           />

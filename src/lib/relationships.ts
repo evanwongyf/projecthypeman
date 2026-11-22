@@ -31,7 +31,7 @@ export const RELATIONSHIP_ORDER: RelationshipKind[] = [
 /**
  * A relationship is stored once, on whichever student it was added from. Both
  * profiles should show it, so the other side is derived rather than duplicated
- * — that way editing or deleting it can never leave a half-record behind.
+ *, that way editing or deleting it can never leave a half-record behind.
  */
 export type ResolvedRelationship = {
   id: string

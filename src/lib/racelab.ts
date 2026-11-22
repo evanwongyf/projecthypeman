@@ -169,7 +169,7 @@ export function parsePace(input: string): number | null {
 }
 
 export function formatPaceSec(sec: number): string {
-  if (!sec || !Number.isFinite(sec)) return '—'
+  if (!sec || !Number.isFinite(sec)) return '-'
   let m = Math.floor(sec / 60)
   let s = Math.round(sec - m * 60)
   if (s === 60) {

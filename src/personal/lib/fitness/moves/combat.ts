@@ -1,0 +1,193 @@
+import type { PosePart } from '../pose'
+import type { Exercise } from './kit'
+import { GUARD, flat, hold, k, km } from './kit'
+
+// Combat fitness: an orthodox stance (left foot forward) and the basic punches, kicks and
+// defensive moves used in boxing and kickboxing conditioning.
+
+const STANCE: PosePart = {
+  yaw: -30,
+  spine: [6, 0, 0],
+  neck: [10, 0, -25],
+  L: { hip: [18, 6, 10], knee: 22, ankle: flat(0, 18, 22), ...GUARD },
+  R: { hip: [-18, 8, 25], knee: 26, ankle: -18, ...GUARD },
+}
+
+// The stance with changes to one side.
+const st = (p: PosePart = {}): PosePart => ({
+  ...STANCE,
+  ...p,
+  spine: p.spine ?? STANCE.spine,
+  neck: p.neck ?? STANCE.neck,
+  L: { ...STANCE.L, ...p.L },
+  R: { ...STANCE.R, ...p.R },
+})
+
+const COMBAT_CUES = ['Hands back to the guard straight away', 'Breathe out sharply on each strike', 'Stay light on your feet']
+
+export const COMBAT: Record<string, Exercise> = {
+  stance: {
+    name: 'Fighting stance',
+    ms: 900,
+    view: 'three',
+    keys: [k(0, st()), k(0.5, st({ lift: 0.025 }))],
+    muscles: ['legs', 'calves'],
+    steps: [
+      'Stand with feet shoulder-width apart, then step your left foot forward (right-handers).',
+      'Turn your body about 45° so your left shoulder leads.',
+      'Bend the knees a little and lift the back heel.',
+      'Fists by your cheeks, elbows in, chin tucked.',
+    ],
+    cues: ['Chin down', 'Elbows protect the ribs', 'Bounce lightly'],
+    mistakes: ['Standing square on', 'Feet in a line, so you tip over easily'],
+    dose: 'Bounce in stance for 30 seconds between combinations.',
+  },
+  jab: {
+    name: 'Jab',
+    ms: 1100,
+    view: 'three',
+    keys: [k(0, st()), k(0.18, st({ spine: [6, 0, 10], L: { shoulder: [86, 4, 0], elbow: 2 } })), k(0.38, st()), k(0.99, st())],
+    muscles: ['shoulders', 'arms', 'core'],
+    steps: ['From your stance, punch the lead (left) hand straight out.', 'Turn the fist over so the palm faces down as the arm straightens.', 'Snap it straight back to your cheek.'],
+    cues: ['Straight out, straight back', ...COMBAT_CUES.slice(0, 2)],
+    mistakes: ['Dropping the other hand', 'Pushing the punch instead of snapping it'],
+    dose: '3 × 1-minute rounds of jabs on the move.',
+  },
+  cross: {
+    name: 'Cross',
+    ms: 1200,
+    view: 'three',
+    keys: [k(0, st()), k(0.2, st({ yaw: 0, spine: [6, 0, -22], R: { shoulder: [86, -4, 0], elbow: 2, knee: 16, ankle: -34 } })), k(0.42, st()), k(0.99, st())],
+    muscles: ['shoulders', 'arms', 'core', 'legs'],
+    steps: ['From your stance, drive off the back (right) foot.', 'Turn your hips and shoulders towards the target as the rear hand punches straight out.', 'Pivot on the ball of the back foot, then bring everything back.'],
+    cues: ['Power comes from the back foot and hips', 'Rear heel turns out', ...COMBAT_CUES.slice(0, 1)],
+    mistakes: ['Arm-only punching', 'Leaning too far over the front foot'],
+  },
+  hook: {
+    name: 'Lead hook',
+    ms: 1200,
+    view: 'front',
+    keys: [k(0, st()), k(0.22, st({ yaw: -10, spine: [6, 0, 30], L: { shoulder: [25, 85, 0], elbow: 95, ankle: -10 } })), k(0.44, st()), k(0.99, st())],
+    muscles: ['shoulders', 'core', 'arms'],
+    steps: ['From your stance, raise the lead elbow until the forearm is level with the floor.', 'Turn the hips and lead foot together, swinging the fist across in a short arc.', 'Return to the guard.'],
+    cues: ['Elbow at the height of the fist', 'Turn the lead foot with the punch', 'Short and tight'],
+    mistakes: ['Looping it wide', 'Dropping the right hand'],
+  },
+  uppercut: {
+    name: 'Rear uppercut',
+    ms: 1300,
+    view: 'three',
+    keys: [
+      k(0, st()),
+      k(0.16, st({ spine: [10, 6, -6], L: { knee: 38, ankle: flat(0, 18, 38) }, R: { knee: 40, shoulder: [10, 14, 0], elbow: 100 } })),
+      k(0.3, st({ spine: [2, 0, -24], lift: 0.01, R: { shoulder: [40, 10, 0], elbow: 95, ankle: -30 } })),
+      k(0.5, st()),
+      k(0.99, st()),
+    ],
+    muscles: ['legs', 'core', 'shoulders', 'arms'],
+    steps: ['Dip slightly to the right by bending the knees.', 'Drive up through the legs and turn the hips, bringing the rear fist up under the target.', 'Palm faces you; elbow stays bent.'],
+    cues: ['Legs first, arm last', 'Short, not a big swing'],
+    mistakes: ['Dropping the hand low before throwing it, which telegraphs it'],
+  },
+  'jab-cross-hook': {
+    name: 'Combination: jab, cross, hook',
+    ms: 2200,
+    view: 'three',
+    keys: [
+      k(0, st()),
+      k(0.1, st({ spine: [6, 0, 10], L: { shoulder: [86, 4, 0], elbow: 2 } })),
+      k(0.2, st()),
+      k(0.3, st({ yaw: 0, spine: [6, 0, -22], R: { shoulder: [86, -4, 0], elbow: 2, knee: 16, ankle: -34 } })),
+      k(0.42, st()),
+      k(0.52, st({ yaw: -10, spine: [6, 0, 30], L: { shoulder: [25, 85, 0], elbow: 95, ankle: -10 } })),
+      k(0.66, st()),
+      k(0.99, st({ lift: 0.02 })),
+    ],
+    muscles: ['shoulders', 'arms', 'core', 'legs'],
+    steps: ['Jab with the lead hand.', 'Cross with the rear hand as the jab comes back.', 'Hook with the lead hand as the cross comes back.', 'Return to your guard and move.'],
+    cues: ['Each punch sets up the next', ...COMBAT_CUES],
+    mistakes: ['Rushing so the punches lose shape'],
+    dose: 'Shadowboxing: 3 × 2-minute rounds, 1 minute rest.',
+  },
+  roundhouse: {
+    name: 'Roundhouse kick',
+    ms: 1900,
+    view: 'front',
+    keys: [
+      k(0, st()),
+      k(0.18, st({ yaw: -70, roll: -8, R: { hip: [72, 45, 40], knee: 110, ankle: -30, shoulder: [-20, 30, 0], elbow: 30 }, L: { ankle: -25 } })),
+      k(0.32, st({ yaw: -95, roll: -22, spine: [2, -18, 0], R: { hip: [72, 62, 45], knee: 12, ankle: -35, shoulder: [-35, 30, 0], elbow: 20 }, L: { ankle: -30 } })),
+      k(0.48, st({ yaw: -70, roll: -8, R: { hip: [72, 45, 40], knee: 110, ankle: -30, shoulder: [-20, 30, 0], elbow: 30 }, L: { ankle: -25 } })),
+      k(0.66, st()),
+      k(0.99, st()),
+    ],
+    muscles: ['legs', 'glutes', 'core'],
+    steps: ['Step the lead foot slightly out and pivot on its ball, heel turning towards the target.', 'Lift the rear knee and turn the hips over.', 'Snap the shin round into the target, swinging the rear arm down for balance.', 'Bring the leg back the same way and return to stance.'],
+    cues: ['Pivot the standing foot', 'Turn the hips over', 'Kick through with the shin'],
+    mistakes: ['Not pivoting, which strains the knee', 'Leaning back so far that you lose balance'],
+    dose: '3 × 10 each side, slowly at first.',
+  },
+  teep: {
+    name: 'Teep (push kick)',
+    ms: 1500,
+    view: 'side',
+    keys: [
+      k(0, st()),
+      k(0.18, st({ L: { hip: [90, 4, 6], knee: 95, ankle: 10 }, R: { knee: 18, ankle: -10 } })),
+      k(0.3, st({ spine: [-8, 0, 0], L: { hip: [92, 4, 6], knee: 10, ankle: 25 }, R: { knee: 14, ankle: -14 } })),
+      k(0.46, st({ L: { hip: [90, 4, 6], knee: 95, ankle: 10 } })),
+      k(0.62, st()),
+      k(0.99, st()),
+    ],
+    muscles: ['legs', 'core', 'glutes'],
+    steps: ['Lift the lead knee up to the chest.', 'Push the foot straight out, sole first, into the target, leaning back slightly.', 'Pull it back and put it down in your stance.'],
+    cues: ['Knee up first', 'Push through the heel or ball', 'Hands stay up'],
+    mistakes: ['Swinging the leg up straight'],
+  },
+  'knee-strike': {
+    name: 'Knee strike',
+    ms: 1300,
+    view: 'side',
+    keys: [
+      k(0, st()),
+      k(0.22, st({ pitch: -8, spine: [12, 0, 0], L: { ankle: -25, shoulder: [80, 10, 0], elbow: 70, grip: 1 }, R: { hip: [108, 6, 0], knee: 128, ankle: -35, shoulder: [80, 10, 0], elbow: 70, grip: 1 } })),
+      k(0.45, st()),
+      k(0.99, st()),
+    ],
+    muscles: ['legs', 'core'],
+    steps: ['Reach forward as if holding the back of someone’s neck.', 'Drive the rear knee up and forward while pulling the hands down.', 'Rise onto the ball of the standing foot, then return.'],
+    cues: ['Hips forward', 'Pull down with the hands'],
+    mistakes: ['Leaning back instead of driving the hips through'],
+  },
+  sprawl: {
+    name: 'Sprawl',
+    ms: 2000,
+    view: 'side',
+    keys: [
+      k(0, st()),
+      ...hold(0.24, 0.42, { pitch: 82, spine: [-18], neck: [-25], both: { hip: [-8, 22, 0], knee: 0, ankle: -10, shoulder: [80, 14, 0], elbow: 12, grip: 0 } }),
+      k(0.66, st()),
+      k(0.99, st()),
+    ],
+    muscles: ['core', 'chest', 'legs'],
+    steps: ['From your stance, drop your hands to the floor.', 'Throw your legs back and wide, dropping your hips to the floor.', 'Snap back up to your stance.'],
+    cues: ['Hips down, legs back', 'Up fast'],
+    mistakes: ['Landing on your knees'],
+    dose: '30 seconds of sprawls, or mixed into shadowboxing.',
+  },
+  'bob-weave': {
+    name: 'Bob and weave',
+    ms: 1800,
+    view: 'front',
+    keys: [
+      k(0, st()),
+      k(0.25, st({ pitch: 18, x: -0.08, spine: [10, 14, 0], L: { hip: [40, 6, 10], knee: 55, ankle: flat(18, 40, 55) }, R: { hip: [20, 8, 25], knee: 55, ankle: -10 } })),
+      k(0.5, st()),
+      km(0.75, st({ pitch: 18, x: -0.08, spine: [10, 14, 0], L: { hip: [40, 6, 10], knee: 55, ankle: flat(18, 40, 55) }, R: { hip: [20, 8, 25], knee: 55, ankle: -10 } })),
+    ],
+    muscles: ['legs', 'core'],
+    steps: ['From your stance, bend the knees to drop under an imaginary punch.', 'Move your head in a U shape to the other side.', 'Come up on the other side with your hands still up.'],
+    cues: ['Bend the knees, not the waist', 'Eyes on the target'],
+    mistakes: ['Bending forward at the waist and looking at the floor'],
+  },
+}

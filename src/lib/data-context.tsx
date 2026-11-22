@@ -11,7 +11,7 @@ type DataContextValue = {
   error: string | null
   /** Re-read everything from R2. Mutations call this so every view stays in step. */
   reload: () => Promise<void>
-  /** Monotonic counter, bumped on every reload — used to bust photo caches. */
+  /** Monotonic counter, bumped on every reload, used to bust photo caches. */
   version: number
 }
 

@@ -37,7 +37,7 @@ export function EconomyMath() {
         <Formula>Economy = VO₂ ÷ speed   →   ml O₂ · kg⁻¹ · km⁻¹</Formula>
         <p>
           Trained runners typically use around <b>180–220 ml O₂/kg/km</b>. At roughly 20 J per ml of oxygen, that is about{' '}
-          <b>4 J/kg/m</b>, or close to <b>1 kcal per kg per km</b> — so a 70 kg runner burns about 70 kcal per km, almost
+          <b>4 J/kg/m</b>, or close to <b>1 kcal per kg per km</b>, so a 70 kg runner burns about 70 kcal per km, almost
           regardless of pace.
         </p>
       </Section>
@@ -63,7 +63,7 @@ export function EconomyMath() {
         <CostCurveChart />
       </Section>
 
-      <Section title="VDOT — Daniels & Gilbert">
+      <Section title="VDOT, Daniels & Gilbert">
         <p>
           Jack Daniels and Jimmy Gilbert fitted two curves to racing data. The first is the oxygen cost of a speed, the second
           the fraction of VO₂max you can hold for a duration:
@@ -72,7 +72,7 @@ export function EconomyMath() {
         <Formula>%max(t) = 0.8 + 0.1894393 · e^(−0.012778 · t) + 0.2989558 · e^(−0.1932605 · t)</Formula>
         <Formula>VDOT = VO₂(v) ÷ %max(t)</Formula>
         <p>
-          v is in m/min and t in minutes. VDOT is an "effective VO₂max" that bundles economy in — two runners with the same
+          v is in m/min and t in minutes. VDOT is an "effective VO₂max" that bundles economy in, two runners with the same
           VDOT race the same times even if their lab numbers differ. The v² term is partly air resistance, which is why the
           cost rises faster than speed.
         </p>
@@ -91,17 +91,17 @@ export function EconomyMath() {
 
       <Section title="What an economy gain is worth">
         <p>
-          If you sustain the same oxygen uptake but each metre costs less, you go faster. A 4% economy gain — about what the
-          first carbon-plated super shoes showed in lab tests — does not give a full 4% faster time, because the cost of
+          If you sustain the same oxygen uptake but each metre costs less, you go faster. A 4% economy gain, about what the
+          first carbon-plated super shoes showed in lab tests, does not give a full 4% faster time, because the cost of
           running rises faster than speed itself (air resistance is part of that). Using the Daniels cost curve:
         </p>
         <EconomyGainCalculator />
         <EconomyGainChart />
         <FoamReturnChart />
         <ul className="mt-4 space-y-1.5">
-          <li>— Shoe mass: roughly 1% more energy per 100 g added to each shoe.</li>
-          <li>— Drafting behind other runners cuts the air-resistance part of the cost.</li>
-          <li>— Heavy strength and plyometric training typically improve economy by a few percent.</li>
+          <li>Shoe mass: roughly 1% more energy per 100 g added to each shoe.</li>
+          <li>Drafting behind other runners cuts the air-resistance part of the cost.</li>
+          <li>Heavy strength and plyometric training typically improve economy by a few percent.</li>
         </ul>
       </Section>
 
@@ -147,10 +147,10 @@ function AcsmCalculator() {
       </div>
       <Results
         items={[
-          ['VO₂', p ? `${vo2.toFixed(1)} ml/kg/min` : '—'],
-          ['net cost', p ? `${perKm.toFixed(0)} ml/kg/km` : '—'],
-          ['energy', kcalKm ? `${kcalKm.toFixed(0)} kcal/km` : '—'],
-          ['metabolic power', p ? `${watts.toFixed(1)} W/kg` : '—'],
+          ['VO₂', p ? `${vo2.toFixed(1)} ml/kg/min` : '-'],
+          ['net cost', p ? `${perKm.toFixed(0)} ml/kg/km` : '-'],
+          ['energy', kcalKm ? `${kcalKm.toFixed(0)} kcal/km` : '-'],
+          ['metabolic power', p ? `${watts.toFixed(1)} W/kg` : '-'],
         ]}
       />
     </Calc>
@@ -174,7 +174,7 @@ function VdotCalculator() {
           <input className="field mono" value={time} onChange={(e) => setTime(e.target.value)} />
         </Field>
       </div>
-      <Results items={[['VDOT', score ? score.toFixed(1) : '—']]} />
+      <Results items={[['VDOT', score ? score.toFixed(1) : '-']]} />
       {score && t && (
         <div className="mt-4 overflow-x-auto">
           <table className="w-full text-left text-sm">
@@ -234,7 +234,7 @@ function VdotCalculator() {
                 ))}
                 <tr className="border-t hairline">
                   <td className="py-2 pr-4">Marathon</td>
-                  <td className="mono py-2 pr-4">—</td>
+                  <td className="mono py-2 pr-4">-</td>
                   <td className="mono py-2 pr-4">{formatPaceSec(predictFromVdot(score, 42195) / 42.195)}</td>
                   <td className="py-2 text-xs" style={{ color: 'var(--ink-soft)' }}>
                     Predicted marathon pace
@@ -270,7 +270,7 @@ function EconomyGainCalculator() {
         <Field label="Current time">
           <input className="field mono" value={time} onChange={(e) => setTime(e.target.value)} />
         </Field>
-        <Field label={`Economy gain — ${gain}%`}>
+        <Field label={`Economy gain, ${gain}%`}>
           <input
             type="range"
             min={0}
@@ -285,9 +285,9 @@ function EconomyGainCalculator() {
       </div>
       <Results
         items={[
-          ['new time', after ? formatClock(after) : '—'],
-          ['saved', after && t ? formatClock(t - after) : '—'],
-          ['time improvement', after && t ? `${(((t - after) / t) * 100).toFixed(2)}%` : '—'],
+          ['new time', after ? formatClock(after) : '-'],
+          ['saved', after && t ? formatClock(t - after) : '-'],
+          ['time improvement', after && t ? `${(((t - after) / t) * 100).toFixed(2)}%` : '-'],
         ]}
       />
     </Calc>
@@ -315,11 +315,11 @@ function CostCurveChart() {
       interpretation={
         <p>
           ACSM is a straight line: every extra km/h costs the same oxygen. The Daniels–Gilbert curve is steeper and bends
-          upward because of its v² term — partly air resistance, which grows with the square of speed. At slow speeds ACSM
+          upward because of its v² term, partly air resistance, which grows with the square of speed. At slow speeds ACSM
           reads much higher ({a10.toFixed(1)} vs {d10.toFixed(1)} at 10 km/h), partly because it adds 3.5 ml/kg/min of
           resting metabolism and was built for general fitness testing. By 20 km/h the two nearly meet ({a20.toFixed(1)} vs{' '}
           {d20.toFixed(1)}). Daniels–Gilbert was fitted to trained runners racing, so it is the better guide for race pace;
-          neither is your personal value — only a lab test gives that.
+          neither is your personal value, only a lab test gives that.
         </p>
       }
       source="ACSM Guidelines for Exercise Testing and Prescription; Daniels & Gilbert (1979), Oxygen Power."
@@ -344,7 +344,7 @@ function FractionChart() {
         <p>
           The curve falls steeply over the first half hour and then flattens towards 80%. A 15-minute race (a fast 5K) uses
           about {f(15)}% of VO₂max, a one-hour effort about {f(60)}%, and a three-hour marathon about {f(180)}%. That flattening
-          is why marathon pace is not dramatically slower than half-marathon pace for trained runners — and why threshold
+          is why marathon pace is not dramatically slower than half-marathon pace for trained runners, and why threshold
           training, which raises the fraction you can hold, matters so much for longer races. Below about 10 minutes the
           formula passes 100%, because races that short also draw heavily on anaerobic energy, so the chart starts there.
         </p>
@@ -382,7 +382,7 @@ function EconomyGainChart() {
       interpretation={
         <p>
           A 4% economy gain saves about <b>{min4[0].toFixed(1)}</b>, <b>{min4[1].toFixed(1)}</b> and <b>{min4[2].toFixed(1)}</b>{' '}
-          minutes at 2:30, 3:30 and 4:30 — slower runners save more time simply because they are out there longer. As a
+          minutes at 2:30, 3:30 and 4:30, slower runners save more time simply because they are out there longer. As a
           percentage the gain is almost the same for everyone ({pct4[0].toFixed(2)}%, {pct4[1].toFixed(2)}% and{' '}
           {pct4[2].toFixed(2)}%), with {fasterGainsMore ? 'faster' : 'slower'} runners gaining very slightly more in this model.
           In every case it is less than the 4% economy gain itself, because the cost of running rises faster than speed.
@@ -407,7 +407,7 @@ function FoamReturnChart() {
         <p>
           In the lab tests behind the first super-shoe study, the PEBA foam returned {FOAM_ENERGY_RETURN[0].value}% of the
           energy put into it, against {FOAM_ENERGY_RETURN[1].value}% for TPU and {FOAM_ENERGY_RETURN[2].value}% for EVA. That
-          extra rebound — combined with a stiff plate and low weight — is a large part of why the prototype shoe lowered the
+          extra rebound, combined with a stiff plate and low weight, is a large part of why the prototype shoe lowered the
           energy cost of running by about 4% on average in the same study.
         </p>
       }

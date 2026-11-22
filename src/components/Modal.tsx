@@ -9,6 +9,7 @@ export function Modal({
   children,
   footer,
   wide,
+  xl,
 }: {
   title: string
   eyebrow?: string
@@ -16,6 +17,8 @@ export function Modal({
   children: ReactNode
   footer?: ReactNode
   wide?: boolean
+  /** For long reads with charts, such as theory articles. */
+  xl?: boolean
 }) {
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -38,7 +41,7 @@ export function Modal({
       }}
     >
       <div
-        className={`panel my-auto w-full ${wide ? 'max-w-2xl' : 'max-w-md'}`}
+        className={`panel my-auto w-full ${xl ? 'max-w-4xl' : wide ? 'max-w-2xl' : 'max-w-md'}`}
         role="dialog"
         aria-modal="true"
         aria-label={title}

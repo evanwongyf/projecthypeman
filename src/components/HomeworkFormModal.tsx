@@ -104,7 +104,7 @@ export function HomeworkFormModal({
         {!homework && (
           <p className="text-xs" style={{ color: 'var(--ink-faint)' }}>
             {rosterSize === 0
-              ? 'No students in this class yet — add some and they will show up on this homework.'
+              ? 'No students in this class yet, add some and they will show up on this homework.'
               : `All ${rosterSize} ${rosterSize === 1 ? 'student' : 'students'} in ${cls?.name} start out assigned.`}
           </p>
         )}

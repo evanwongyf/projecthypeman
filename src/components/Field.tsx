@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 
-/** A mono micro-label above a control — the house form pattern. */
+/** A mono micro-label above a control, the house form pattern. */
 export function Field({
   label,
   hint,
@@ -17,7 +17,7 @@ export function Field({
       <span className="label flex items-baseline gap-1.5">
         {label}
         {required && <span style={{ color: 'var(--accent)' }}>*</span>}
-        {hint && <span className="normal-case tracking-normal" style={{ color: 'var(--ink-faint)' }}>— {hint}</span>}
+        {hint && <span className="normal-case tracking-normal" style={{ color: 'var(--ink-faint)' }}>{hint}</span>}
       </span>
       <div className="mt-1.5">{children}</div>
     </label>
@@ -26,7 +26,7 @@ export function Field({
 
 /**
  * The same look as Field, but for a group of controls rather than one input.
- * A <label> may only point at a single control — wrapping a button group in
+ * A <label> may only point at a single control, wrapping a button group in
  * one leaks the label text into every button's accessible name.
  */
 export function FieldGroup({
@@ -47,7 +47,7 @@ export function FieldGroup({
         {required && <span style={{ color: 'var(--accent)' }}>*</span>}
         {hint && (
           <span className="normal-case tracking-normal" style={{ color: 'var(--ink-faint)' }}>
-            — {hint}
+            {hint}
           </span>
         )}
       </legend>

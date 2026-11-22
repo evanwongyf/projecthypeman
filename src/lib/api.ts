@@ -99,7 +99,7 @@ export const api = {
     kind: RelationshipKind
     otherStudentId?: string
     otherName?: string
-    /** Required — a relationship starts with one note. */
+    /** Required, a relationship starts with one note. */
     note: string
   }) => send<Relationship>('/api/relationships', json('POST', body)),
   updateRelationship: (id: string, body: { kind: RelationshipKind }) =>
@@ -139,7 +139,7 @@ export const api = {
   logout: () => send<{ ok: true }>('/api/auth/logout', { method: 'POST' }),
 }
 
-/** Cache-busting photo URL — bumped whenever a student record changes. */
+/** Cache-busting photo URL, bumped whenever a student record changes. */
 export function photoUrl(studentId: string, version: string | number = ''): string {
   return `/api/students/${studentId}/photo${version ? `?v=${version}` : ''}`
 }

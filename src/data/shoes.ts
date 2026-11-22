@@ -4,7 +4,7 @@
  * No openly licensed shoe-spec dataset exists, so this catalogue is written
  * by hand from brand-published information about each model. Drop is the
  * brand-listed figure for the version named, and is left null where it was
- * not certain. Shoes are revised often — verify against the current version.
+ * not certain. Shoes are revised often, verify against the current version.
  */
 
 export type ShoeKind = 'daily' | 'max' | 'stability' | 'tempo' | 'race' | 'trail' | 'minimal'
@@ -63,7 +63,7 @@ export const SHOES: Shoe[] = [
   s('Nike', 'Zoom Fly 6', 'tempo', 'ZoomX + SR-02', 'Carbon', 8, 'A carbon-plated trainer that approximates race-day feel for workouts.', 'Tempo runs, long runs with pace', ['Full-length carbon Flyplate', 'More durable than race shoes', 'Rocker geometry']),
   s('Nike', 'Vaporfly 3', 'race', 'ZoomX (PEBA)', 'Carbon', 8, 'The shoe that started the super-shoe era, refined.', 'Road races 5K to marathon', ['Full-length carbon Flyplate', 'Very light', 'Aggressive rocker'], { upper: 'Flyknit' }),
   s('Nike', 'Alphafly 3', 'race', 'ZoomX + Air Zoom pods', 'Carbon', 8, 'Maximal-stack marathon racer with forefoot Air pods.', 'Marathons and half marathons', ['Forefoot Air Zoom pods', 'Carbon Flyplate', 'Atomknit upper'], { upper: 'Atomknit' }),
-  s('Nike', 'Streakfly', 'race', 'ZoomX (PEBA)', 'None', 6, 'Low, light ZoomX racer for short, fast road races.', '5K and 10K racing', ['Very low weight', 'No plate — more ground feel', 'Snug race fit']),
+  s('Nike', 'Streakfly', 'race', 'ZoomX (PEBA)', 'None', 6, 'Low, light ZoomX racer for short, fast road races.', '5K and 10K racing', ['Very low weight', 'No plate, more ground feel', 'Snug race fit']),
   s('Nike', 'Pegasus Trail 5', 'trail', 'ReactX', 'None', null, 'Road-to-trail version of the Pegasus.', 'Mixed surfaces, light trails', ['Moderate lugs', 'Works on pavement too', 'Comfortable upper'], { surface: 'trail' }),
   s('Nike', 'Zegama 2', 'trail', 'ZoomX (PEBA)', 'None', null, 'High-cushion trail shoe for long mountain days.', 'Ultras and long trail runs', ['ZoomX for trail', 'Vibram outsole', 'Protective upper'], { outsole: 'Vibram' }),
   s('Nike', 'Ultrafly', 'trail', 'ZoomX (PEBA)', 'Carbon', null, 'Carbon-plated trail racer.', 'Trail racing', ['Carbon Flyplate', 'Vibram Litebase outsole', 'Race-oriented fit'], { outsole: 'Vibram Litebase' }),

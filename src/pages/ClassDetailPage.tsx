@@ -59,7 +59,7 @@ export function ClassDetailPage() {
         title={cls.name}
         meta={
           <>
-            <MetaItem label="subject">{cls.subject || '—'}</MetaItem>
+            <MetaItem label="subject">{cls.subject || '-'}</MetaItem>
             <MetaItem label="roster">{roster.length}</MetaItem>
             <MetaItem label="homework">{homework.length}</MetaItem>
             <MetaItem label="points">

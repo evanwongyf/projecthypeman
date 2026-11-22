@@ -10,7 +10,7 @@ export function initials(fullName: string): string {
   return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase()
 }
 
-/** Surname-ish key for "sort by name" — last word, then the rest. */
+/** Surname-ish key for "sort by name"last word, then the rest. */
 export function nameKey(fullName: string): string {
   const parts = fullName.trim().toLowerCase().split(/\s+/).filter(Boolean)
   if (parts.length < 2) return fullName.trim().toLowerCase()
@@ -29,7 +29,7 @@ const STAMP_FMT = new Intl.DateTimeFormat('en-GB', {
 
 /** A plain YYYY-MM-DD, read as a local date. */
 export function formatDate(iso: string): string {
-  if (!iso) return '—'
+  if (!iso) return '-'
   const [y, m, d] = iso.split('-').map(Number)
   if (!y || !m || !d) return iso
   return DATE_FMT.format(new Date(y, m - 1, d))

@@ -251,7 +251,7 @@ function ExerciseModal({ ex, onClose }: { ex: Exercise; onClose: () => void }) {
         </div>
         <div>
           <dt className="label">secondary</dt>
-          <dd className="mt-1 text-sm">{ex.secondary.length ? ex.secondary.map(cap).join(', ') : '—'}</dd>
+          <dd className="mt-1 text-sm">{ex.secondary.length ? ex.secondary.map(cap).join(', ') : '-'}</dd>
         </div>
         <div>
           <dt className="label">equipment</dt>
@@ -362,7 +362,7 @@ function DisciplinesTab() {
           <ul className="mt-2 space-y-1.5 text-sm">
             {open.benefits.map((b) => (
               <li key={b} className="flex gap-2">
-                <span style={{ color: 'var(--accent)' }}>—</span>
+                <span style={{ color: 'var(--accent)' }}>-</span>
                 {b}
               </li>
             ))}
@@ -386,9 +386,9 @@ function ApparelTab() {
         interpretation={
           <p>
             Moisture regain is how much water a fibre takes up from humid air. Polyester ({MOISTURE_REGAIN[4].value}%) and
-            polypropylene (≈0%) barely absorb water, so sweat stays on the surface where it can wick and evaporate — that is
+            polypropylene (≈0%) barely absorb water, so sweat stays on the surface where it can wick and evaporate, that is
             why they dry fast. Cotton ({MOISTURE_REGAIN[1].value}%) soaks it up, gets heavy and chafes. Wool absorbs the most (
-            {MOISTURE_REGAIN[0].value}%) yet still feels dry and stays warm when wet, because water is held inside the fibre —
+            {MOISTURE_REGAIN[0].value}%) yet still feels dry and stays warm when wet, because water is held inside the fibre,
             great for socks and cold runs, less ideal for tropical heat.
           </p>
         }
@@ -405,7 +405,7 @@ function ApparelTab() {
               ['Denier / gsm', 'Yarn thickness (denier) and fabric weight in grams per square metre (gsm). Lower numbers mean lighter, airier fabric.'],
               ['Knit vs woven', 'Knits stretch and breathe (tees, tights); wovens are stable and wind-resistant (shorts shells, jackets).'],
               ['Flatlock seams', 'Seams sewn flat against the fabric to reduce chafing.'],
-              ['DWR', 'Durable water repellent — a surface finish that beads light rain without a membrane.'],
+              ['DWR', 'Durable water repellent, a surface finish that beads light rain without a membrane.'],
               ['Anti-odour finishes', 'Silver or zinc treatments that slow bacteria growth on synthetics, which otherwise hold smell.'],
             ] as const
           ).map(([k, v]) => (
@@ -423,12 +423,12 @@ function ApparelTab() {
         <ul className="mt-3 space-y-1.5 text-sm">
           {[
             'Light colours and loose singlets or vented tees.',
-            'Synthetic or merino socks — never cotton — to cut blisters.',
+            'Synthetic or merino socks, never cotton, to cut blisters.',
             'Split or short-inseam shorts with a liner; anti-chafe balm on long runs.',
             'A cap or visor for sun; sunglasses on bright days.',
           ].map((t) => (
             <li key={t} className="flex gap-2">
-              <span style={{ color: 'var(--accent)' }}>—</span>
+              <span style={{ color: 'var(--accent)' }}>-</span>
               {t}
             </li>
           ))}
@@ -478,7 +478,7 @@ function IntensitySpread() {
       table={{ head: ['intensity', 'disciplines'], rows: rows.map((r) => [r.label, r.value]) }}
       interpretation={
         <p>
-          Most named workouts are hard sessions, because that is what gets names — but most of your running should be easy.
+          Most named workouts are hard sessions, because that is what gets names, but most of your running should be easy.
           Pick one or two quality sessions a week from the threshold, VO₂max and mixed groups, and fill the rest of the week
           with the easy methods.
         </p>
@@ -562,10 +562,10 @@ function StrengthProgramming() {
       <dl className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         {(
           [
-            ['1RM', 'One-rep max — the heaviest load you can lift once with good form.'],
+            ['1RM', 'One-rep max, the heaviest load you can lift once with good form.'],
             ['Reps in reserve', 'How many more reps you could have done. 1–2 RIR is heavy but safe.'],
             ['Eccentric', 'The lengthening phase of a lift (lowering). Strong eccentrics protect tendons.'],
-            ['Rate of force development', 'How fast you can produce force — what plyometrics train.'],
+            ['Rate of force development', 'How fast you can produce force, what plyometrics train.'],
           ] as const
         ).map(([k, v]) => (
           <div key={k} className="panel p-3">

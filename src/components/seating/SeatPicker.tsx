@@ -166,7 +166,7 @@ function Group({
         <h3 className="label">{title}</h3>
         {note && (
           <span className="text-[10px]" style={{ color: 'var(--ink-faint)' }}>
-            — {note}
+            {note}
           </span>
         )}
       </div>

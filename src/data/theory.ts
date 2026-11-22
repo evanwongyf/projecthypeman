@@ -36,13 +36,13 @@ export const THEORY: TheoryArticle[] = [
       {
         heading: 'ATP is the only currency',
         body: [
-          'Muscles can only contract by splitting adenosine triphosphate (ATP). The body stores just a few seconds\' worth, so it has to rebuild ATP continuously. Three systems do this, and they all run at once — what changes is the share each one supplies.',
+          'Muscles can only contract by splitting adenosine triphosphate (ATP). The body stores just a few seconds\' worth, so it has to rebuild ATP continuously. Three systems do this, and they all run at once, what changes is the share each one supplies.',
         ],
       },
       {
         heading: 'The three systems',
         body: [
-          'Phosphocreatine (PCr): creatine phosphate donates its phosphate to rebuild ATP almost instantly. It is the most powerful system but empties in roughly 10 seconds of all-out effort — the energy behind a sprint start or a hill sprint.',
+          'Phosphocreatine (PCr): creatine phosphate donates its phosphate to rebuild ATP almost instantly. It is the most powerful system but empties in roughly 10 seconds of all-out effort, the energy behind a sprint start or a hill sprint.',
           'Anaerobic glycolysis: glucose is broken down to pyruvate without needing oxygen, yielding ATP fast but in small amounts. When pyruvate is produced faster than mitochondria can take it, it is converted to lactate. Dominant from roughly 10 seconds to 2 minutes of hard effort.',
           'Aerobic (oxidative) metabolism: carbohydrate and fat are fully oxidised in the mitochondria using oxygen. It is slower to ramp up but yields far more ATP per molecule and can run for hours. Even in an 800 m race it supplies over half the energy; in a 5K it is around 90% or more; in a marathon almost all of it.',
         ],
@@ -55,7 +55,7 @@ export const THEORY: TheoryArticle[] = [
       },
     ],
     terms: [
-      { term: 'ATP', def: 'Adenosine triphosphate — the molecule whose breakdown powers muscle contraction.' },
+      { term: 'ATP', def: 'Adenosine triphosphate, the molecule whose breakdown powers muscle contraction.' },
       { term: 'Mitochondria', def: 'Structures inside cells where aerobic metabolism happens. Endurance training increases their number and size.' },
       { term: 'Glycolysis', def: 'The breakdown of glucose to pyruvate, releasing a little ATP quickly.' },
       { term: 'Lactate', def: 'Produced from pyruvate when glycolysis outpaces the mitochondria. It is a fuel, not a waste product, and is not the cause of next-day soreness.' },
@@ -68,7 +68,7 @@ export const THEORY: TheoryArticle[] = [
       },
     ],
     keyPoints: ['All three systems work together; intensity and duration shift the mix.', 'Races of 5K and longer are about 90%+ aerobic.', 'Lactate is a fuel and a signal, not a poison.'],
-    tryThis: 'Add 6 × 10-second hill sprints with full recovery to one easy run a week — that trains the PCr system with almost no fatigue.',
+    tryThis: 'Add 6 × 10-second hill sprints with full recovery to one easy run a week, that trains the PCr system with almost no fatigue.',
     references: [
       'Gastin PB (2001). Energy system interaction and relative contribution during maximal exercise. Sports Medicine.',
       'Holloszy JO, Coyle EF (1984). Adaptations of skeletal muscle to endurance exercise and their metabolic consequences. Journal of Applied Physiology.',
@@ -84,7 +84,7 @@ export const THEORY: TheoryArticle[] = [
         heading: 'What easy running builds',
         body: [
           'Easy running grows the structures that deliver and use oxygen: more capillaries around each muscle fibre, more and larger mitochondria, higher activity of aerobic enzymes, more stored glycogen, and a heart that pumps more blood per beat (a larger stroke volume). These changes accumulate over months and years.',
-          'Because the stimulus is volume rather than intensity, the way to get more of it is to run more easy kilometres — not to run easy days faster.',
+          'Because the stimulus is volume rather than intensity, the way to get more of it is to run more easy kilometres, not to run easy days faster.',
         ],
       },
       {
@@ -103,10 +103,10 @@ export const THEORY: TheoryArticle[] = [
     terms: [
       { term: 'Stroke volume', def: 'The amount of blood the heart pumps with each beat. Endurance training increases it.' },
       { term: 'Capillary density', def: 'How many tiny blood vessels surround each muscle fibre; more capillaries means better oxygen delivery.' },
-      { term: 'VT1 / LT1', def: 'The first ventilatory or lactate threshold — the upper edge of truly easy running, where breathing and lactate first rise.' },
+      { term: 'VT1 / LT1', def: 'The first ventilatory or lactate threshold, the upper edge of truly easy running, where breathing and lactate first rise.' },
     ],
     keyPoints: ['Easy = full sentences.', 'Aerobic adaptations come from volume at low intensity.', 'Keep easy days easy so hard days can be hard.'],
-    tryThis: 'Run your next easy day purely by the talk test and note the pace. It is probably slower than you expected — that is normal.',
+    tryThis: 'Run your next easy day purely by the talk test and note the pace. It is probably slower than you expected, that is normal.',
     references: [
       'Seiler S (2010). What is best practice for training intensity and duration distribution in endurance athletes? International Journal of Sports Physiology and Performance.',
       'Holloszy JO, Coyle EF (1984). Adaptations of skeletal muscle to endurance exercise and their metabolic consequences. Journal of Applied Physiology.',
@@ -165,14 +165,14 @@ export const THEORY: TheoryArticle[] = [
       {
         heading: 'Two thresholds',
         body: [
-          'Physiologists describe two turn points. The first (LT1/VT1) is where lactate first rises above resting levels — the top of easy running. The second (LT2/VT2, often just called "the threshold") is the highest intensity at which lactate production and clearance stay in balance. Above it, lactate and the associated acidosis climb steadily until you must slow down.',
+          'Physiologists describe two turn points. The first (LT1/VT1) is where lactate first rises above resting levels, the top of easy running. The second (LT2/VT2, often just called "the threshold") is the highest intensity at which lactate production and clearance stay in balance. Above it, lactate and the associated acidosis climb steadily until you must slow down.',
           'Closely related ideas include the maximal lactate steady state (MLSS) and critical speed. They are measured differently but all mark the boundary between sustainable and unsustainable effort.',
         ],
       },
       {
         heading: 'What it feels like and where it sits',
         body: [
-          'For trained runners threshold pace is roughly what they could race for about an hour — between 10K and half-marathon pace for many. It feels "comfortably hard": you can say a few words, not sentences.',
+          'For trained runners threshold pace is roughly what they could race for about an hour, between 10K and half-marathon pace for many. It feels "comfortably hard": you can say a few words, not sentences.',
           'In blood terms it is often around 2–4 mmol/L of lactate, but the exact value varies a lot between people, which is why fixed numbers like "4 mmol" are only a rough guide.',
         ],
       },
@@ -185,9 +185,9 @@ export const THEORY: TheoryArticle[] = [
     ],
     terms: [
       { term: 'LT2 / VT2', def: 'Second lactate or ventilatory threshold; the boundary between sustainable and unsustainable effort.' },
-      { term: 'MLSS', def: 'Maximal lactate steady state — the highest intensity at which blood lactate stays stable over 30 minutes.' },
+      { term: 'MLSS', def: 'Maximal lactate steady state, the highest intensity at which blood lactate stays stable over 30 minutes.' },
       { term: 'Critical speed', def: 'The asymptote of the speed–duration relationship; above it, fatigue accumulates to exhaustion.' },
-      { term: 'mmol/L', def: 'Millimoles per litre — the unit for blood lactate concentration.' },
+      { term: 'mmol/L', def: 'Millimoles per litre, the unit for blood lactate concentration.' },
     ],
     keyPoints: ['Threshold ≈ one-hour race effort, "comfortably hard".', 'Train it with tempos and cruise intervals.', 'Thresholds vary between people; use feel and pace, not fixed lactate numbers.'],
     tryThis: 'After a warm-up, run 3 × 10 minutes at comfortably-hard effort with 2 minutes easy jogging between.',
@@ -224,9 +224,9 @@ export const THEORY: TheoryArticle[] = [
       },
     ],
     terms: [
-      { term: 'ml/kg/min', def: 'Millilitres of oxygen per kilogram of body mass per minute — the standard VO₂ unit.' },
+      { term: 'ml/kg/min', def: 'Millilitres of oxygen per kilogram of body mass per minute, the standard VO₂ unit.' },
       { term: 'Cardiac output', def: 'Heart rate × stroke volume: litres of blood pumped per minute.' },
-      { term: 'vVO₂max', def: 'The slowest speed that elicits VO₂max — roughly 3K race pace for trained runners.' },
+      { term: 'vVO₂max', def: 'The slowest speed that elicits VO₂max, roughly 3K race pace for trained runners.' },
     ],
     maths: [
       { title: 'Cooper 12-minute test', lines: ['VO₂max ≈ (d − 504.9) ÷ 44.73', 'd = metres covered in 12 minutes'], note: 'Example: 2,800 m → (2800 − 504.9) ÷ 44.73 ≈ 51 ml/kg/min.' },
@@ -245,7 +245,7 @@ export const THEORY: TheoryArticle[] = [
     id: 'economy',
     title: 'Running economy',
     topic: 'Physiology',
-    summary: 'How much oxygen it costs you to run at a given pace — the third pillar of performance.',
+    summary: 'How much oxygen it costs you to run at a given pace, the third pillar of performance.',
     sections: [
       {
         heading: 'Definition',
@@ -257,7 +257,7 @@ export const THEORY: TheoryArticle[] = [
       {
         heading: 'What improves it',
         body: [
-          'Years of consistent running; heavy strength and plyometric training (stiffer, springier tendons return more elastic energy); running more at race pace; reduced body mass where appropriate; and footwear — lighter shoes with high-rebound foam and stiff plates measurably lower the cost of running.',
+          'Years of consistent running; heavy strength and plyometric training (stiffer, springier tendons return more elastic energy); running more at race pace; reduced body mass where appropriate; and footwear, lighter shoes with high-rebound foam and stiff plates measurably lower the cost of running.',
           'The full maths, with calculators, is in the Economy maths tab.',
         ],
       },
@@ -292,7 +292,7 @@ export const THEORY: TheoryArticle[] = [
         heading: 'What elites do',
         body: [
           'Studies of elite runners, rowers, skiers and cyclists find they spend roughly 75–80% of sessions in Zone 1, with the rest split between Zones 2 and 3. Some follow a "polarised" pattern (very little Zone 2); others a "pyramidal" one (more Zone 2 than Zone 3, as with threshold-heavy approaches such as the Norwegian model). Both share a large easy base.',
-          'Recreational runners often do the opposite — most runs at a moderate effort — which limits both recovery and quality.',
+          'Recreational runners often do the opposite, most runs at a moderate effort, which limits both recovery and quality.',
         ],
       },
     ],
@@ -345,7 +345,7 @@ export const THEORY: TheoryArticle[] = [
       {
         heading: 'Stress, recovery, adaptation',
         body: [
-          'Fitness comes from applying a stress and recovering from it (sometimes called supercompensation). Increase load gradually so tissues — especially tendons and bones, which adapt more slowly than heart and lungs — can keep up.',
+          'Fitness comes from applying a stress and recovering from it (sometimes called supercompensation). Increase load gradually so tissues, especially tendons and bones, which adapt more slowly than heart and lungs, can keep up.',
         ],
       },
       {
@@ -362,11 +362,11 @@ export const THEORY: TheoryArticle[] = [
     ],
     terms: [
       { term: 'Supercompensation', def: 'The idea that, after recovery, the body rebounds to a slightly higher capacity than before the stress.' },
-      { term: 'ACWR', def: 'Acute:chronic workload ratio — last 7 days\' load ÷ the 28-day weekly average.' },
+      { term: 'ACWR', def: 'Acute:chronic workload ratio, last 7 days\' load ÷ the 28-day weekly average.' },
       { term: 'Down week', def: 'A planned lower-volume week to consolidate adaptation.' },
     ],
     maths: [
-      { title: 'Compounding growth', lines: ['Week n distance = start × 1.10ⁿ'], note: '30 km rising 10% a week reaches ≈ 78 km after 10 weeks — which is why down weeks and plateaus matter.' },
+      { title: 'Compounding growth', lines: ['Week n distance = start × 1.10ⁿ'], note: '30 km rising 10% a week reaches ≈ 78 km after 10 weeks, which is why down weeks and plateaus matter.' },
       { title: 'Acute:chronic ratio', lines: ['ACWR = this week\'s distance ÷ average of last 4 weeks'] },
     ],
     visual: 'ramp',
@@ -388,7 +388,7 @@ export const THEORY: TheoryArticle[] = [
       {
         heading: 'Cycles within cycles',
         body: [
-          'A macrocycle is the whole season or year. It is divided into mesocycles of 3–6 weeks with a particular focus, which are made of microcycles — usually a week.',
+          'A macrocycle is the whole season or year. It is divided into mesocycles of 3–6 weeks with a particular focus, which are made of microcycles, usually a week.',
           'Traditional (linear) periodisation moves from high volume and low intensity to lower volume and higher intensity. Arthur Lydiard\'s model is the classic running version: aerobic base → hills → anaerobic and track work → sharpening → taper and racing.',
         ],
       },
@@ -425,7 +425,7 @@ export const THEORY: TheoryArticle[] = [
       {
         heading: 'Ground contact and leg stiffness',
         body: [
-          'The leg behaves much like a spring: it compresses on landing and recoils at push-off. Ground contact time (GCT) is typically 200–300 ms for recreational runners and under 200 ms for fast runners at speed. Stiffer, quicker contacts — trained by plyometrics — return more elastic energy.',
+          'The leg behaves much like a spring: it compresses on landing and recoils at push-off. Ground contact time (GCT) is typically 200–300 ms for recreational runners and under 200 ms for fast runners at speed. Stiffer, quicker contacts, trained by plyometrics, return more elastic energy.',
           'Vertical oscillation is how much your centre of mass rises and falls each step. Some bounce is necessary; excessive bounce wastes energy.',
         ],
       },
@@ -433,7 +433,7 @@ export const THEORY: TheoryArticle[] = [
         heading: 'Overstriding and cadence',
         body: [
           'Overstriding means landing with the foot well ahead of the body and a straight knee, which increases braking and loading at the knee. Increasing cadence by 5–10% shortens the step and has been shown to reduce loads at the knee and hip.',
-          'There is no universal ideal cadence — the often-quoted 180 steps per minute came from observing elite runners at race pace. Taller runners and slower paces naturally have lower cadences.',
+          'There is no universal ideal cadence, the often-quoted 180 steps per minute came from observing elite runners at race pace. Taller runners and slower paces naturally have lower cadences.',
         ],
       },
       {
@@ -446,7 +446,7 @@ export const THEORY: TheoryArticle[] = [
     terms: [
       { term: 'Cadence', def: 'Steps per minute (both feet counted).' },
       { term: 'Step length', def: 'Distance from one foot contact to the next foot\'s contact.' },
-      { term: 'GCT', def: 'Ground contact time — how long the foot is on the ground each step.' },
+      { term: 'GCT', def: 'Ground contact time, how long the foot is on the ground each step.' },
       { term: 'Vertical oscillation', def: 'The up-and-down movement of the body\'s centre of mass per step.' },
       { term: 'Leg stiffness', def: 'Peak force ÷ how much the leg compresses; higher stiffness means a springier stride.' },
     ],
@@ -478,7 +478,7 @@ export const THEORY: TheoryArticle[] = [
       {
         heading: 'Hills, wind and heat',
         body: [
-          'On hilly courses aim for even effort, not even pace — slower uphill, a little faster downhill. Into a headwind, tuck in behind other runners: drafting reduces air resistance. In heat, start more conservatively.',
+          'On hilly courses aim for even effort, not even pace, slower uphill, a little faster downhill. Into a headwind, tuck in behind other runners: drafting reduces air resistance. In heat, start more conservatively.',
         ],
       },
     ],
@@ -505,7 +505,7 @@ export const THEORY: TheoryArticle[] = [
         heading: 'What the evidence says',
         body: [
           'A meta-analysis of tapering studies found the best results came from a taper of about two weeks with training volume cut by roughly 41–60%, while keeping intensity and session frequency. Cutting intensity, or cutting frequency too much, tended to blunt the benefit.',
-          'A well-executed taper typically improves performance by around 2–3% compared with racing without one — fatigue clears faster than fitness fades.',
+          'A well-executed taper typically improves performance by around 2–3% compared with racing without one, fatigue clears faster than fitness fades.',
         ],
       },
       {
@@ -517,7 +517,7 @@ export const THEORY: TheoryArticle[] = [
     ],
     terms: [
       { term: 'Taper', def: 'A planned reduction in training before a key race.' },
-      { term: 'Detraining', def: 'Loss of fitness from reduced training — much slower than fatigue recovery over 1–3 weeks.' },
+      { term: 'Detraining', def: 'Loss of fitness from reduced training, much slower than fatigue recovery over 1–3 weeks.' },
     ],
     visual: 'taper',
     keyPoints: ['Cut volume 40–60%, keep intensity.', 'About 2 weeks for most races; up to 3 for a marathon.', 'Feeling sluggish in a taper is normal.'],
@@ -528,7 +528,7 @@ export const THEORY: TheoryArticle[] = [
     id: 'race-prediction',
     title: 'Predicting race times',
     topic: 'Racing',
-    summary: 'How Riegel and VDOT turn one result into a forecast — and where they break down.',
+    summary: 'How Riegel and VDOT turn one result into a forecast, and where they break down.',
     sections: [
       {
         heading: 'Why prediction is possible',
@@ -559,7 +559,7 @@ export const THEORY: TheoryArticle[] = [
     id: 'mental',
     title: 'The mental side of endurance',
     topic: 'Racing',
-    summary: 'Perceived effort limits performance — and it can be trained.',
+    summary: 'Perceived effort limits performance, and it can be trained.',
     sections: [
       {
         heading: 'Effort is a perception',
@@ -575,7 +575,7 @@ export const THEORY: TheoryArticle[] = [
       },
     ],
     terms: [
-      { term: 'RPE', def: 'Rating of perceived exertion — how hard an effort feels, often on a 6–20 or 1–10 scale.' },
+      { term: 'RPE', def: 'Rating of perceived exertion, how hard an effort feels, often on a 6–20 or 1–10 scale.' },
       { term: 'Self-talk', def: 'Deliberate phrases you say to yourself to manage effort and focus.' },
     ],
     keyPoints: ['Perceived effort is a key limiter.', 'Practise self-talk in training, not just on race day.', 'Chunk races into manageable pieces.'],
@@ -597,7 +597,7 @@ export const THEORY: TheoryArticle[] = [
         heading: 'The evidence',
         body: [
           'In a controlled study, eight weeks of heavy half-squats (4 × 4 at a heavy load, three times a week) improved running economy by about 5% and time to exhaustion at maximal aerobic speed, with no change in body mass. Another study replaced part of runners\' training with explosive strength work and found 5K times and economy improved.',
-          'A systematic review concluded that strength training — heavy, explosive or plyometric — generally improves running economy and time-trial performance in middle- and long-distance runners.',
+          'A systematic review concluded that strength training, heavy, explosive or plyometric, generally improves running economy and time-trial performance in middle- and long-distance runners.',
         ],
       },
       {
@@ -616,7 +616,7 @@ export const THEORY: TheoryArticle[] = [
     terms: [
       { term: 'Neuromuscular adaptation', def: 'Improvements in how the nervous system recruits and coordinates muscle, often before muscles grow.' },
       { term: 'Reps in reserve (RIR)', def: 'How many more reps you could have done at the end of a set.' },
-      { term: 'Posterior chain', def: 'The muscles on the back of the body — glutes, hamstrings, calves and back.' },
+      { term: 'Posterior chain', def: 'The muscles on the back of the body, glutes, hamstrings, calves and back.' },
     ],
     keyPoints: ['2 sessions a week.', 'Heavy-ish loads, 3–6 reps once technique is solid.', 'Single-leg, calves, glutes, hamstrings, trunk.'],
     tryThis: 'Start with the "Runner essentials" in the Strength & plyo tab.',
@@ -647,7 +647,7 @@ export const THEORY: TheoryArticle[] = [
       },
     ],
     terms: [
-      { term: 'SSC', def: 'Stretch-shortening cycle — a rapid stretch followed by a contraction, as in running.' },
+      { term: 'SSC', def: 'Stretch-shortening cycle, a rapid stretch followed by a contraction, as in running.' },
       { term: 'Foot contact', def: 'One landing; the unit for counting plyometric volume.' },
       { term: 'Reactive strength', def: 'The ability to produce force quickly after landing; often measured as jump height ÷ contact time.' },
     ],
@@ -698,8 +698,8 @@ export const THEORY: TheoryArticle[] = [
       {
         heading: 'How much fuel you carry',
         body: [
-          'A trained runner stores roughly 400–500 g of glycogen in muscle and around 100 g in the liver — about 2,000 kcal. At marathon pace that runs low around the 30 km mark for many runners, which is one cause of "hitting the wall".',
-          'Higher-carbohydrate diets increase stored glycogen and extend how long you can work hard — a finding going back to classic studies in the 1960s.',
+          'A trained runner stores roughly 400–500 g of glycogen in muscle and around 100 g in the liver, about 2,000 kcal. At marathon pace that runs low around the 30 km mark for many runners, which is one cause of "hitting the wall".',
+          'Higher-carbohydrate diets increase stored glycogen and extend how long you can work hard, a finding going back to classic studies in the 1960s.',
         ],
       },
       {
@@ -763,12 +763,12 @@ export const THEORY: TheoryArticle[] = [
     id: 'energy-availability',
     title: 'Energy availability and RED-S',
     topic: 'Health',
-    summary: 'Under-fuelling harms bones, hormones and performance — in all genders.',
+    summary: 'Under-fuelling harms bones, hormones and performance, in all genders.',
     sections: [
       {
         heading: 'Energy availability',
         body: [
-          'Energy availability (EA) is the energy left for the body\'s basic functions after exercise, per kilogram of fat-free mass. When it stays low — from eating too little, training a lot, or both — the body down-regulates "non-essential" systems.',
+          'Energy availability (EA) is the energy left for the body\'s basic functions after exercise, per kilogram of fat-free mass. When it stays low, from eating too little, training a lot, or both, the body down-regulates "non-essential" systems.',
         ],
       },
       {
@@ -781,13 +781,13 @@ export const THEORY: TheoryArticle[] = [
     ],
     terms: [
       { term: 'EA', def: 'Energy availability: (energy in − exercise energy) ÷ fat-free mass.' },
-      { term: 'FFM', def: 'Fat-free mass — body mass minus fat mass.' },
+      { term: 'FFM', def: 'Fat-free mass, body mass minus fat mass.' },
       { term: 'RED-S', def: 'Relative Energy Deficiency in Sport.' },
     ],
-    maths: [{ title: 'Energy availability', lines: ['EA = (energy intake − exercise energy expenditure) ÷ FFM'], note: 'Example: (2,400 − 700) kcal ÷ 52 kg FFM ≈ 33 kcal/kg FFM/day — on the low side.' }],
+    maths: [{ title: 'Energy availability', lines: ['EA = (energy intake − exercise energy expenditure) ÷ FFM'], note: 'Example: (2,400 − 700) kcal ÷ 52 kg FFM ≈ 33 kcal/kg FFM/day, on the low side.' }],
     visual: 'energy-availability',
     keyPoints: ['~45 kcal/kg FFM/day is adequate; under ~30 is low.', 'Missed periods, frequent illness and bone stress injuries are warning signs.', 'Speak to a doctor or sports dietitian if worried.'],
-    tryThis: 'If you\'re often tired, ill or injured, track food intake against training for a week — or see a professional.',
+    tryThis: 'If you\'re often tired, ill or injured, track food intake against training for a week, or see a professional.',
     references: [
       'Mountjoy M et al. (2018). IOC consensus statement on relative energy deficiency in sport (RED-S): 2018 update. British Journal of Sports Medicine.',
       'Loucks AB, Thuma JR (2003). Luteinizing hormone pulsatility is disrupted at a threshold of energy availability in regularly menstruating women. Journal of Clinical Endocrinology & Metabolism.',
@@ -850,7 +850,7 @@ export const THEORY: TheoryArticle[] = [
     ],
     terms: [
       { term: 'Plasma volume', def: 'The liquid part of blood; it expands with heat acclimatisation.' },
-      { term: 'WBGT', def: 'Wet-bulb globe temperature — a combined heat-stress index.' },
+      { term: 'WBGT', def: 'Wet-bulb globe temperature, a combined heat-stress index.' },
       { term: 'Core temperature', def: 'Internal body temperature, normally about 37 °C.' },
     ],
     keyPoints: ['Run by effort or heart rate in heat.', 'Acclimatise over 1–2 weeks before a hot race.', 'Start conservatively and drink to plan.'],
@@ -870,12 +870,12 @@ export const THEORY: TheoryArticle[] = [
         heading: 'What altitude does',
         body: [
           'At altitude each breath carries less oxygen, so the kidneys release more erythropoietin (EPO), which stimulates red blood cell production over weeks. More red cells means more oxygen-carrying capacity back at sea level.',
-          'The catch: you can\'t train as fast at altitude. "Live high, train low" — living at about 2,000–2,500 m while doing hard sessions lower down — improved sea-level 5,000 m performance in a landmark study.',
+          'The catch: you can\'t train as fast at altitude. "Live high, train low"living at about 2,000–2,500 m while doing hard sessions lower down, improved sea-level 5,000 m performance in a landmark study.',
         ],
       },
     ],
     terms: [
-      { term: 'EPO', def: 'Erythropoietin — the hormone that stimulates red blood cell production.' },
+      { term: 'EPO', def: 'Erythropoietin, the hormone that stimulates red blood cell production.' },
       { term: 'Haemoglobin', def: 'The oxygen-carrying protein in red blood cells.' },
     ],
     keyPoints: ['3–4 weeks at moderate altitude are needed for blood changes.', 'Keep hard sessions fast (train low).', 'Iron status matters for the response.'],
@@ -886,7 +886,7 @@ export const THEORY: TheoryArticle[] = [
     id: 'injuries',
     title: 'Common running injuries and load',
     topic: 'Health',
-    summary: 'Most running injuries are overuse injuries — too much, too soon, for the tissue.',
+    summary: 'Most running injuries are overuse injuries, too much, too soon, for the tissue.',
     sections: [
       {
         heading: 'How common',

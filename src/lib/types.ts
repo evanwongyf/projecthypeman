@@ -11,7 +11,7 @@ export type RelationshipKind = (typeof RELATIONSHIP_KINDS)[number]
 export type Guardian = {
   id: string
   name: string
-  /** Mother, Father, Grandmother, Guardian — free text, since families vary. */
+  /** Mother, Father, Grandmother, Guardian, free text, since families vary. */
   relation?: string
   phone?: string
   email?: string

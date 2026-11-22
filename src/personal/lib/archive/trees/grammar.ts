@@ -1,0 +1,111 @@
+import type { ArchiveNode } from '../topics'
+
+// English grammar from the ground up: the parts of speech, how sentences are built, verbs
+// and tenses, punctuation, and the usage mistakes everyone makes, with many examples and
+// practice with answers throughout.
+
+export const GRAMMAR: ArchiveNode = {
+  slug: 'grammar',
+  title: 'Grammar',
+  blurb: 'English grammar from the basics up: parts of speech, sentences and clauses, every tense, punctuation and the mistakes everyone makes, with a lot of examples and practice with answers.',
+  glyph: 'Aa',
+  color: 'color-mix(in srgb, var(--lavender) 50%, var(--pink))',
+  tags: ['grammar', 'english', 'writing', 'language', 'punctuation', 'tenses', 'parts of speech', 'sentences'],
+  children: [
+    { slug: 'start-here', title: 'Start here', blurb: 'Why grammar matters, how this shelf is organised, and a self-test to find where to begin.', minutes: 7, glyph: '★', tags: ['beginner', 'overview', 'roadmap', 'diagnostic'] },
+    {
+      slug: 'parts-of-speech',
+      title: 'Parts of speech',
+      blurb: 'The eight word classes, with many examples of each and how to tell which class a word is in a given sentence.',
+      glyph: 'n.',
+      tags: ['parts of speech', 'word classes', 'noun', 'verb', 'adjective'],
+      children: [
+        { slug: 'nouns', title: 'Nouns', blurb: 'Common, proper, abstract, collective, countable and uncountable nouns; plurals and possessives.', minutes: 12, tags: ['noun', 'plural', 'countable', 'uncountable', 'collective noun', 'possessive', 'proper noun'] },
+        { slug: 'pronouns', title: 'Pronouns', blurb: 'Personal, possessive, reflexive, relative, demonstrative and indefinite pronouns, and I versus me.', minutes: 13, tags: ['pronoun', 'i vs me', 'reflexive', 'relative pronoun', 'possessive', 'they', 'subject object'] },
+        { slug: 'verbs-basics', title: 'Verbs: the basics', blurb: 'Action, linking and auxiliary verbs, transitive and intransitive, regular and irregular, the verb forms.', minutes: 12, tags: ['verb', 'auxiliary', 'linking verb', 'transitive', 'intransitive', 'verb forms', 'base form'] },
+        { slug: 'adjectives', title: 'Adjectives', blurb: 'Describing nouns: order of adjectives, comparatives and superlatives, and adjectives versus adverbs.', minutes: 11, tags: ['adjective', 'comparative', 'superlative', 'order of adjectives', 'cumulative'] },
+        { slug: 'adverbs', title: 'Adverbs', blurb: 'How, when, where and how much: forms, placement, adverbs of degree and frequency, and common slips.', minutes: 11, tags: ['adverb', 'ly', 'frequency', 'degree', 'placement', 'adverb of manner'] },
+        { slug: 'prepositions', title: 'Prepositions', blurb: 'In, on, at and the rest: time, place and movement, dependent prepositions and ending a sentence with one.', minutes: 12, tags: ['preposition', 'in on at', 'dependent preposition', 'time', 'place', 'phrasal'] },
+        { slug: 'conjunctions', title: 'Conjunctions', blurb: 'Coordinating, subordinating and correlative conjunctions, and joining ideas with FANBOYS.', minutes: 10, tags: ['conjunction', 'fanboys', 'subordinating', 'correlative', 'because', 'although'] },
+        { slug: 'determiners-and-articles', title: 'Determiners and articles', blurb: 'A, an and the, plus this, that, some, any, much, many and the rules for when to use none.', minutes: 11, tags: ['article', 'determiner', 'a an the', 'zero article', 'quantifier', 'some any'] },
+        { slug: 'interjections-and-word-class-test', title: 'Interjections, and telling word classes apart', blurb: 'Oh! Wow! Plus how the same word changes class: a test you can apply to any word.', minutes: 9, tags: ['interjection', 'word class', 'conversion', 'function words', 'content words'] },
+      ],
+    },
+    {
+      slug: 'sentences',
+      title: 'Building sentences',
+      blurb: 'Subjects, predicates, phrases and clauses, the four sentence structures, and the fragments and run-ons that go wrong.',
+      glyph: '¶',
+      tags: ['sentence', 'clause', 'phrase', 'syntax'],
+      children: [
+        { slug: 'subject-predicate-object', title: 'Subjects, predicates and objects', blurb: 'The skeleton of every sentence: finding the subject, the verb and what follows it.', minutes: 11, tags: ['subject', 'predicate', 'direct object', 'indirect object', 'complement', 'svo'] },
+        { slug: 'phrases-and-clauses', title: 'Phrases and clauses', blurb: 'Noun, verb, prepositional and participial phrases; independent and dependent clauses.', minutes: 12, tags: ['phrase', 'clause', 'independent clause', 'dependent clause', 'relative clause', 'noun clause'] },
+        { slug: 'sentence-structures', title: 'Simple, compound, complex and compound-complex', blurb: 'The four structures with many examples, and how to vary them for rhythm.', minutes: 11, tags: ['simple sentence', 'compound sentence', 'complex sentence', 'compound-complex', 'sentence variety'] },
+        { slug: 'fragments-run-ons-splices', title: 'Fragments, run-ons and comma splices', blurb: 'How to spot and fix a sentence that is incomplete or joined wrongly, with a repair kit.', minutes: 11, tags: ['fragment', 'run-on', 'comma splice', 'fused sentence', 'sentence errors', 'fix'] },
+        { slug: 'questions-negatives-word-order', title: 'Questions, negatives and word order', blurb: 'Forming questions and negatives with do-support, question tags, and the rules of English word order.', minutes: 11, tags: ['question', 'negative', 'do support', 'question tag', 'word order', 'inversion', 'imperative'] },
+      ],
+    },
+    {
+      slug: 'verbs',
+      title: 'Verbs in depth',
+      blurb: 'Every tense with examples, agreement, irregular verbs, modals, the passive, conditionals, reported speech and phrasal verbs.',
+      glyph: 'v.',
+      tags: ['verbs', 'tenses', 'conjugation', 'agreement'],
+      children: [
+        { slug: 'tenses-overview', title: 'The twelve tenses at a glance', blurb: 'Past, present and future crossed with simple, continuous, perfect and perfect continuous: a single map of all twelve.', minutes: 13, tags: ['tenses', 'present simple', 'past simple', 'future', 'aspect', 'timeline', 'twelve tenses'] },
+        { slug: 'present-tenses', title: 'The present tenses', blurb: 'Present simple, continuous, perfect and perfect continuous: when each one is used, with examples.', minutes: 12, tags: ['present simple', 'present continuous', 'present perfect', 'present perfect continuous', 'for since'] },
+        { slug: 'past-tenses', title: 'The past tenses', blurb: 'Past simple, continuous, perfect and perfect continuous, and used to / would: telling a story in the past.', minutes: 12, tags: ['past simple', 'past continuous', 'past perfect', 'past perfect continuous', 'used to', 'narrative'] },
+        { slug: 'future-forms', title: 'Talking about the future', blurb: 'Will, going to, present continuous for plans, future perfect and future continuous.', minutes: 11, tags: ['future', 'will', 'going to', 'future perfect', 'future continuous', 'plans', 'predictions'] },
+        { slug: 'subject-verb-agreement', title: 'Subject-verb agreement', blurb: 'Making the verb match: collective nouns, either/or, indefinite pronouns, and the tricky cases.', minutes: 12, tags: ['agreement', 'subject verb', 'collective noun', 'either or', 'each', 'none', 'there is'] },
+        { slug: 'irregular-verbs', title: 'Irregular verbs', blurb: 'The verbs that break the -ed rule: groups, patterns and a reference table to learn from.', minutes: 12, tags: ['irregular verbs', 'past participle', 'principal parts', 'lie lay', 'verb table'] },
+        { slug: 'modal-verbs', title: 'Modal verbs', blurb: 'Can, could, may, might, must, should, would: ability, permission, possibility, obligation and advice.', minutes: 12, tags: ['modal verbs', 'can could', 'may might', 'must', 'should', 'would', 'obligation', 'possibility'] },
+        { slug: 'active-and-passive', title: 'Active and passive voice', blurb: 'Forming the passive in every tense, when to use it, and when it hides the doer.', minutes: 11, tags: ['passive voice', 'active voice', 'agent', 'by phrase', 'get passive', 'scientific writing'] },
+        { slug: 'conditionals-and-mood', title: 'Conditionals and the subjunctive', blurb: 'Zero, first, second and third conditionals, mixed conditionals, wishes and the subjunctive mood.', minutes: 13, tags: ['conditionals', 'if clause', 'second conditional', 'third conditional', 'subjunctive', 'wish', 'mood', 'were'] },
+        { slug: 'reported-speech', title: 'Reported speech', blurb: 'Turning what someone said into reported speech: tense backshift, pronouns, time words and reporting verbs.', minutes: 11, tags: ['reported speech', 'indirect speech', 'backshift', 'reporting verbs', 'said told'] },
+        { slug: 'verbals-and-phrasal-verbs', title: 'Gerunds, infinitives, participles and phrasal verbs', blurb: 'The verb forms that act as other word classes, verbs followed by -ing or to, and phrasal verbs.', minutes: 13, tags: ['gerund', 'infinitive', 'participle', 'phrasal verbs', 'verbal', 'stop doing stop to do', 'split infinitive'] },
+      ],
+    },
+    {
+      slug: 'punctuation',
+      title: 'Punctuation',
+      blurb: 'Commas, semicolons, colons, dashes, apostrophes, quotation marks, hyphens and capital letters, with rules you can actually apply.',
+      glyph: ',;',
+      tags: ['punctuation', 'comma', 'apostrophe', 'semicolon'],
+      children: [
+        { slug: 'commas', title: 'Commas', blurb: 'The eight comma rules that cover almost everything, the Oxford comma and the commas to leave out.', minutes: 13, tags: ['comma', 'oxford comma', 'serial comma', 'introductory', 'non-restrictive', 'comma rules', 'fanboys'] },
+        { slug: 'semicolons-colons-dashes', title: 'Semicolons, colons and dashes', blurb: 'Joining and listing: when a semicolon, colon, en dash or em dash is the right mark.', minutes: 11, tags: ['semicolon', 'colon', 'dash', 'em dash', 'en dash', 'parentheses', 'brackets', 'ellipsis'] },
+        { slug: 'apostrophes', title: 'Apostrophes', blurb: 'Possession and contraction: its versus it’s, plurals of letters and numbers, and shared ownership.', minutes: 10, tags: ['apostrophe', 'its it\'s', 'possessive', 'contraction', 'plural', 'greengrocer'] },
+        { slug: 'quotation-marks-and-speech', title: 'Quotation marks and dialogue', blurb: 'Direct speech, punctuating dialogue, single versus double quotes, titles and quoting inside quotes.', minutes: 10, tags: ['quotation marks', 'dialogue', 'direct speech', 'inverted commas', 'scare quotes', 'titles'] },
+        { slug: 'hyphens-capitals-numbers', title: 'Hyphens, capitals, numbers and abbreviations', blurb: 'Compound words, when to capitalise, writing numbers and dates, and abbreviations and acronyms.', minutes: 11, tags: ['hyphen', 'capital letters', 'numbers', 'dates', 'abbreviations', 'acronyms', 'compound modifiers'] },
+      ],
+    },
+    {
+      slug: 'usage',
+      title: 'Usage, style and common errors',
+      blurb: 'Who versus whom, commonly confused words, dangling modifiers, parallelism, spelling rules and register, including Singapore English.',
+      glyph: '✓',
+      tags: ['usage', 'common errors', 'style', 'confused words', 'spelling'],
+      children: [
+        { slug: 'commonly-confused-words', title: 'Commonly confused words', blurb: 'Their/there, affect/effect, then/than, lose/loose and 60 more pairs, each with a memory trick.', minutes: 14, tags: ['confused words', 'their there they\'re', 'affect effect', 'then than', 'homophones', 'lose loose', 'accept except'] },
+        { slug: 'who-whom-that-which', title: 'Who, whom, that, which, whose', blurb: 'Choosing relative pronouns and the who/whom test, plus restrictive versus non-restrictive clauses.', minutes: 10, tags: ['who whom', 'that which', 'whose', 'relative pronouns', 'restrictive', 'non-restrictive'] },
+        { slug: 'countable-fewer-less-much-many', title: 'Fewer or less, much or many, and other quantity words', blurb: 'Countable versus uncountable quantities, and the quantity words that follow from them.', minutes: 9, tags: ['fewer less', 'much many', 'countable', 'uncountable', 'amount number', 'quantity'] },
+        { slug: 'modifiers-and-parallelism', title: 'Modifiers and parallelism', blurb: 'Misplaced and dangling modifiers, and keeping lists and pairs in matching form.', minutes: 11, tags: ['dangling modifier', 'misplaced modifier', 'parallelism', 'parallel structure', 'squinting modifier', 'lists'] },
+        { slug: 'pronoun-reference-and-agreement', title: 'Pronoun reference and agreement', blurb: 'Making every pronoun point clearly at one noun, and singular they.', minutes: 10, tags: ['pronoun reference', 'pronoun agreement', 'singular they', 'ambiguous', 'antecedent', 'which', 'this'] },
+        { slug: 'spelling-rules', title: 'Spelling rules and patterns', blurb: 'I before e, doubling consonants, dropping the e, -ize/-ise, and British versus American spelling.', minutes: 11, tags: ['spelling', 'i before e', 'doubling', 'silent e', 'british american', 'ize ise', 'suffix', 'prefix'] },
+        { slug: 'register-and-singapore-english', title: 'Register, tone and Singapore English', blurb: 'Formal versus informal English, plain style, and how Standard Singapore English and Singlish differ.', minutes: 11, tags: ['register', 'formal', 'informal', 'tone', 'plain english', 'singlish', 'singapore english', 'code switching'] },
+      ],
+    },
+    {
+      slug: 'practice',
+      title: 'Practice and editing',
+      blurb: 'Exercises with full answers: diagnose, drill each area, and edit real paragraphs.',
+      glyph: '✎',
+      tags: ['practice', 'exercises', 'quiz', 'editing', 'answers'],
+      children: [
+        { slug: 'drills-parts-and-sentences', title: 'Drills: parts of speech and sentences', blurb: 'Fifty practice items with answers and explanations on word classes, clauses and sentence errors.', minutes: 15, tags: ['drill', 'exercises', 'answers', 'parts of speech', 'clauses'] },
+        { slug: 'drills-verbs-and-punctuation', title: 'Drills: verbs and punctuation', blurb: 'Fifty practice items with answers on tenses, agreement, voice, commas and apostrophes.', minutes: 15, tags: ['drill', 'exercises', 'answers', 'tenses', 'commas', 'apostrophes'] },
+        { slug: 'proofreading-workshop', title: 'Proofreading workshop', blurb: 'Five paragraphs full of mistakes, corrected step by step, and a checklist for editing your own writing.', minutes: 14, tags: ['proofreading', 'editing', 'checklist', 'workshop', 'revision', 'common errors'] },
+      ],
+    },
+  ],
+}
