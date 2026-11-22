@@ -6,6 +6,7 @@ import type {
   Entry,
   Guardian,
   Homework,
+  HomeworkQuestion,
   Relationship,
   RelationshipKind,
   SeatingPlan,
@@ -81,6 +82,13 @@ export const api = {
   deleteHomework: (id: string) => send<{ ok: true }>(`/api/homework/${id}`, { method: 'DELETE' }),
   setSubmission: (homeworkId: string, studentId: string, state: SubmissionState) =>
     send<{ ok: true }>(`/api/homework/${homeworkId}/status`, json('PATCH', { studentId, state })),
+  /** Set up (or change) the questions for item analysis. `reset` clears marks already entered. */
+  setHomeworkQuestions: (homeworkId: string, questions: HomeworkQuestion[], reset = false) =>
+    send<{ ok: true }>(`/api/homework/${homeworkId}/items`, json('PUT', { questions, reset })),
+  clearHomeworkQuestions: (homeworkId: string) =>
+    send<{ ok: true }>(`/api/homework/${homeworkId}/items`, { method: 'DELETE' }),
+  setHomeworkScores: (homeworkId: string, studentId: string, scores: (number | null)[]) =>
+    send<{ ok: true }>(`/api/homework/${homeworkId}/scores`, json('PATCH', { studentId, scores })),
 
   addGuardian: (body: {
     studentId: string

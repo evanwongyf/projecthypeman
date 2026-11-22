@@ -173,3 +173,12 @@ export const IconBook = (p: Props) => (
     <path d="M4 3.5h8.5a2 2 0 0 1 2 2V17H6a2 2 0 0 1-2-2zM4 15a2 2 0 0 1 2-2h8.5" />
   </Svg>
 )
+
+export const IconNetwork = (p: Props) => (
+  <Svg {...p}>
+    <circle cx="5" cy="5" r="2" />
+    <circle cx="15" cy="6" r="2" />
+    <circle cx="10" cy="15" r="2" />
+    <path d="M7 5.3 13 5.8M6 6.8l3 6.4M14 7.8l-3 5.4" />
+  </Svg>
+)

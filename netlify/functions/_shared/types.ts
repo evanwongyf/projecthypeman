@@ -101,7 +101,26 @@ export type Homework = {
   submissions: Record<string, SubmissionState>
   /** studentId -> when it was marked collected. */
   collectedAt: Record<string, string>
+  /**
+   * Item analysis. Set once the teacher initialises the paper: one entry per
+   * question with its full marks and, optionally, the concept it tests.
+   */
+  questions?: HomeworkQuestion[]
+  itemsInitialisedAt?: string
+  /** studentId -> one score per question, null where not yet marked. */
+  scores?: Record<string, (number | null)[]>
 }
+
+export type HomeworkQuestion = {
+  /** Full marks for the question; decimals allowed (2 places). */
+  marks: number
+  concept?: string
+}
+
+/** Limits shared by the browser and the API. */
+export const ITEM_MAX_QUESTIONS = 100
+export const ITEM_MAX_MARKS = 1000
+export const ITEM_CONCEPT_MAX = 80
 
 /** Free-form on purpose: the design catalogue lives in the browser, and the
  *  client normalises whatever it reads back, so adding an axis needs no

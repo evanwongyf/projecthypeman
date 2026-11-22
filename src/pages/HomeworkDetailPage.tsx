@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import { Link, Navigate, useNavigate, useParams } from 'react-router-dom'
+import { Link, Navigate, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { api } from '../lib/api'
 import { useData } from '../lib/data-context'
 import { displayName, dueRelative, formatDate, formatStamp, nameKey } from '../lib/format'
@@ -12,6 +12,7 @@ import { HomeworkFormModal } from '../components/HomeworkFormModal'
 import { IconCheck, IconEdit, IconTrash, IconUndo } from '../components/Icons'
 import { MetaItem, PageHeader } from '../components/PageHeader'
 import { Select } from '../components/Select'
+import { ItemAnalysis } from '../components/homework/ItemAnalysis'
 
 type Sort = 'name' | 'completion'
 
@@ -20,6 +21,8 @@ export function HomeworkDetailPage() {
   const { data, loading, version, reload } = useData()
   const navigate = useNavigate()
 
+  const [params, setParams] = useSearchParams()
+  const tab = params.get('tab') === 'marks' ? 'marks' : 'submissions'
   const [sort, setSort] = useState<Sort>('completion')
   const [editing, setEditing] = useState(false)
   const [deleting, setDeleting] = useState(false)
@@ -117,6 +120,31 @@ export function HomeworkDetailPage() {
           </div>
         )}
 
+        <div className="mb-6 flex gap-2" role="tablist" aria-label="Homework views">
+          {(
+            [
+              ['submissions', 'Submissions'],
+              ['marks', hw.questions?.length ? 'Marks and item analysis' : 'Item analysis'],
+            ] as const
+          ).map(([key, label]) => (
+            <button
+              key={key}
+              type="button"
+              role="tab"
+              aria-selected={tab === key}
+              className="pick !inline-flex !w-auto !px-3 !py-1.5 text-sm"
+              aria-pressed={tab === key}
+              onClick={() => setParams(key === 'marks' ? { tab: 'marks' } : {}, { replace: true })}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+
+        {tab === 'marks' ? (
+          <ItemAnalysis hw={hw} roster={[...rows.map((r) => r.student)].sort((a, b) => nameKey(a.fullName).localeCompare(nameKey(b.fullName)))} />
+        ) : (
+        <>
         {/* state counters */}
         <div className="mb-6 grid grid-cols-3 gap-3">
           {(['assigned', 'overdue', 'collected'] as DisplayState[]).map((state) => (
@@ -214,6 +242,8 @@ export function HomeworkDetailPage() {
               )
             })}
           </ul>
+        )}
+        </>
         )}
       </div>
 
