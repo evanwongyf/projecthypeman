@@ -5,7 +5,7 @@ import { useData } from '../lib/data-context'
 import { isOverdue, displayState } from '../lib/status'
 import { useNow } from '../lib/useNow'
 import { Logo } from './Logo'
-import { IconArchive, IconClass, IconHomework, IconLab, IconLogout, IconRoster, IconRun, IconSettings } from './Icons'
+import { IconArchive, IconBook, IconClass, IconHomework, IconLab, IconLogout, IconRoster, IconRun, IconSettings } from './Icons'
 import { useProfile } from '../lib/profile-context'
 import { LemonAvatar } from './profile/LemonAvatar'
 import { ModeMedal } from './profile/ModeMedal'
@@ -16,6 +16,10 @@ const NAV = {
     { to: '/students', label: 'Students', Icon: IconRoster },
     { to: '/classes', label: 'Classes', Icon: IconClass },
     { to: '/homework', label: 'Homework', Icon: IconHomework },
+    { to: '/settings', label: 'Settings', Icon: IconSettings },
+  ],
+  personal: [
+    { to: '/personal/archive', label: 'Archive', Icon: IconBook },
     { to: '/settings', label: 'Settings', Icon: IconSettings },
   ],
   running: [
@@ -107,9 +111,9 @@ export function TerminalLayout() {
         <div className="mt-auto hidden border-t p-5 lg:block hairline">
           {mode === 'teaching' && (
             <dl className="grid grid-cols-3 gap-3">
-              <SideStat label="outstanding" value={loading ? '—' : outstanding} tone={outstanding ? 'var(--assigned)' : 'var(--ink-faint)'} />
-              <SideStat label="past due" value={loading ? '—' : overdueCount} tone={overdueCount ? 'var(--overdue)' : 'var(--ink-faint)'} />
-              <SideStat label="students" value={loading ? '—' : data.students.length} tone="var(--ink-soft)" />
+              <SideStat label="outstanding" value={loading ? '-' : outstanding} tone={outstanding ? 'var(--assigned)' : 'var(--ink-faint)'} />
+              <SideStat label="past due" value={loading ? '-' : overdueCount} tone={overdueCount ? 'var(--overdue)' : 'var(--ink-faint)'} />
+              <SideStat label="students" value={loading ? '-' : data.students.length} tone="var(--ink-soft)" />
             </dl>
           )}
 

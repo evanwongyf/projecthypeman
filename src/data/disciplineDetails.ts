@@ -15,16 +15,16 @@ export type DisciplineDetail = {
 export const DISCIPLINE_DETAILS: Record<string, DisciplineDetail> = {
   fartlek: {
     intensity: 'Mixed',
-    physiology: 'Alternating surges and floats recruit fast-twitch fibres and push lactate up, then teach the body to clear it while still running — the same demand as surges in a race.',
+    physiology: 'Alternating surges and floats recruit fast-twitch fibres and push lactate up, then teach the body to clear it while still running, the same demand as surges in a race.',
     progression: 'Lengthen surges or reduce float time; later make the floats steady rather than easy.',
     mistakes: 'Turning every surge into a sprint, or letting the session drift into an unstructured easy run.',
-    forWhom: 'Everyone — especially runners who dislike the track.',
+    forWhom: 'Everyone, especially runners who dislike the track.',
   },
   tempo: {
     intensity: 'Threshold',
     physiology: 'Sustained work near LT2 raises the pace at which lactate production and clearance stay balanced and increases the fraction of VO₂max you can hold.',
     progression: 'Extend from 15–20 minutes towards 40 minutes before speeding up.',
-    mistakes: 'Running it as a race — finishing exhausted means it was too fast.',
+    mistakes: 'Running it as a race, finishing exhausted means it was too fast.',
     forWhom: '10K to marathon runners.',
   },
   cruise: {
@@ -36,7 +36,7 @@ export const DISCIPLINE_DETAILS: Record<string, DisciplineDetail> = {
   },
   'double-threshold': {
     intensity: 'Threshold',
-    physiology: 'Two controlled threshold doses a day accumulate large weekly threshold volume while staying below the intensity that causes heavy fatigue — often checked with lactate meters at roughly 2–3 mmol/L.',
+    physiology: 'Two controlled threshold doses a day accumulate large weekly threshold volume while staying below the intensity that causes heavy fatigue, often checked with lactate meters at roughly 2–3 mmol/L.',
     progression: 'Begin with one session a week of two light sessions; only advanced, high-mileage runners should do it twice weekly.',
     mistakes: 'Running too hard (it is sub-threshold control, not racing) and copying elite volume without the base.',
     forWhom: 'Experienced runners with high weekly mileage.',
@@ -52,14 +52,14 @@ export const DISCIPLINE_DETAILS: Record<string, DisciplineDetail> = {
     intensity: 'VO₂max',
     physiology: 'Essentially a VO₂max interval session; the marathon link is an empirical rule of thumb, not physiology.',
     progression: 'Start with 4–6 reps and build to 10 over several weeks.',
-    mistakes: 'Treating the result as a guaranteed marathon time — it ignores endurance and fuelling.',
+    mistakes: 'Treating the result as a guaranteed marathon time, it ignores endurance and fuelling.',
     forWhom: 'Marathoners wanting a simple benchmark.',
   },
   mona: {
     intensity: 'Mixed',
     physiology: 'Floats run well above easy pace keep lactate elevated, so you learn to run fast while partially fatigued.',
     progression: 'Repeat every few weeks and compare total distance covered in the 20 minutes.',
-    mistakes: 'Jogging the floats — they should be steady.',
+    mistakes: 'Jogging the floats, they should be steady.',
     forWhom: 'Runners from 5K to marathon who want a repeatable test.',
   },
   'kenyan-fartlek': {
@@ -71,7 +71,7 @@ export const DISCIPLINE_DETAILS: Record<string, DisciplineDetail> = {
   },
   'hill-repeats': {
     intensity: 'VO₂max',
-    physiology: 'The incline raises muscle force per stride and cardiovascular load while lowering impact speed — strength and fitness with less pounding.',
+    physiology: 'The incline raises muscle force per stride and cardiovascular load while lowering impact speed, strength and fitness with less pounding.',
     progression: 'Add reps, then lengthen the hill.',
     mistakes: 'Hammering the descent, where most impact injuries happen.',
     forWhom: 'Everyone; especially useful early in a build.',
@@ -94,7 +94,7 @@ export const DISCIPLINE_DETAILS: Record<string, DisciplineDetail> = {
     intensity: 'Speed',
     physiology: 'Brief accelerations reinforce fast mechanics and nerve-muscle coordination without metabolic fatigue.',
     progression: 'Add a few reps or do them on a slight downhill or uphill.',
-    mistakes: 'Sprinting flat-out with tension — relaxed speed is the goal.',
+    mistakes: 'Sprinting flat-out with tension, relaxed speed is the goal.',
     forWhom: 'Everyone, two or three times a week.',
   },
   progression: {
@@ -106,7 +106,7 @@ export const DISCIPLINE_DETAILS: Record<string, DisciplineDetail> = {
   },
   cutdown: {
     intensity: 'Mixed',
-    physiology: 'Each rep is faster than the last, so the hardest running comes when fatigue is highest — like a race finish.',
+    physiology: 'Each rep is faster than the last, so the hardest running comes when fatigue is highest, like a race finish.',
     progression: 'Add a rung at the top or tighten recoveries.',
     mistakes: 'Making the first rep too fast.',
     forWhom: 'Track and road racers.',
@@ -120,7 +120,7 @@ export const DISCIPLINE_DETAILS: Record<string, DisciplineDetail> = {
   },
   michigan: {
     intensity: 'Mixed',
-    physiology: 'Track reps raise lactate well above threshold, then tempo miles force you to clear it at speed — a hard, combined threshold and VO₂max load.',
+    physiology: 'Track reps raise lactate well above threshold, then tempo miles force you to clear it at speed, a hard, combined threshold and VO₂max load.',
     progression: 'Shorten it at first (two track reps), building to the full session.',
     mistakes: 'Doing it without a solid threshold base.',
     forWhom: 'Experienced 5K–10K runners.',
@@ -178,7 +178,7 @@ export const DISCIPLINE_DETAILS: Record<string, DisciplineDetail> = {
     intensity: 'Easy',
     physiology: 'A heart-rate cap keeps running at low intensity, maximising aerobic adaptation and fat oxidation with little stress.',
     progression: 'Retest pace at your MAF heart rate monthly; it should get faster.',
-    mistakes: 'Ignoring heat — heart rate rises in hot weather, so pace must fall.',
+    mistakes: 'Ignoring heat, heart rate rises in hot weather, so pace must fall.',
     forWhom: 'Beginners and runners who chronically run easy days too hard.',
   },
   zone2: {
@@ -186,7 +186,7 @@ export const DISCIPLINE_DETAILS: Record<string, DisciplineDetail> = {
     physiology: 'Steady low-intensity running stimulates mitochondrial and capillary growth and fat oxidation with very little fatigue.',
     progression: 'Increase duration and frequency.',
     mistakes: 'Drifting into moderate effort.',
-    forWhom: 'Everyone — the bulk of training.',
+    forWhom: 'Everyone, the bulk of training.',
   },
   'recovery-run': {
     intensity: 'Easy',
@@ -197,7 +197,7 @@ export const DISCIPLINE_DETAILS: Record<string, DisciplineDetail> = {
   },
   hansons: {
     intensity: 'Mixed',
-    physiology: 'Frequent running and moderate rest mean you start key sessions partially fatigued — the cumulative fatigue mimics late-race tiredness.',
+    physiology: 'Frequent running and moderate rest mean you start key sessions partially fatigued, the cumulative fatigue mimics late-race tiredness.',
     progression: 'Follow the plan structure; volume rises gradually over 18 weeks.',
     mistakes: 'Adding extra long runs on top.',
     forWhom: 'Marathoners who can run six days a week.',
@@ -233,7 +233,7 @@ export const DISCIPLINE_DETAILS: Record<string, DisciplineDetail> = {
   zatopek: {
     intensity: 'VO₂max',
     physiology: 'High volume of medium-speed reps builds aerobic capacity and rhythm at faster-than-race pace.',
-    progression: 'Add reps gradually — Zátopek\'s 100 × 400 m was an extreme.',
+    progression: 'Add reps gradually, Zátopek\'s 100 × 400 m was an extreme.',
     mistakes: 'Running each rep too fast.',
     forWhom: 'Track and road runners who like rhythm work.',
   },

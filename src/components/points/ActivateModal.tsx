@@ -10,7 +10,7 @@ import { Modal } from '../Modal'
 const QUICK = [1, 2, 3, 5, 10]
 
 /**
- * Step two — the intermediate modal. It states the effect that was chosen, lets
+ * Step two, the intermediate modal. It states the effect that was chosen, lets
  * the magnitude be dialled up or down, and shows the resulting total before
  * anything is written. Nothing is saved until Activate.
  */

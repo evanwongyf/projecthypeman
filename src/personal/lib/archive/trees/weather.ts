@@ -1,0 +1,83 @@
+import type { ArchiveNode } from '../topics'
+
+// Weather and meteorology: the physics of the atmosphere, how to read charts and forecasts,
+// and the climate of Singapore and the tropics: monsoons, rain, heat and haze.
+
+export const WEATHER: ArchiveNode = {
+  slug: 'weather',
+  title: 'Weather and meteorology',
+  blurb: 'How the atmosphere works and how to read it: pressure, wind, moisture and stability, weather charts and radar, forecasts and their skill, and the climate of Singapore and the tropics, from monsoons and thunderstorms to heat and haze.',
+  glyph: '☂',
+  color: 'color-mix(in srgb, var(--sky) 65%, var(--teal))',
+  tags: ['weather', 'meteorology', 'climate', 'rain', 'forecast', 'monsoon', 'singapore weather', 'atmosphere', 'storms', 'clouds'],
+  children: [
+    { slug: 'start-here', title: 'Start here', blurb: 'What meteorology covers, the five ingredients of weather, and a route through the shelf from the atmosphere to a Singapore forecast.', minutes: 6, glyph: '★', tags: ['beginner', 'overview', 'roadmap'] },
+    {
+      slug: 'atmosphere',
+      title: 'The atmosphere and its physics',
+      blurb: 'Layers and energy, pressure and wind, moisture and cloud, stability and storms, and the air masses and fronts of the mid-latitudes and the tropics.',
+      glyph: '◌',
+      tags: ['atmosphere', 'pressure', 'wind', 'humidity', 'clouds', 'stability', 'fronts'],
+      children: [
+        { slug: 'energy-and-layers', title: 'The atmosphere, sunlight and the energy balance', blurb: 'Layers of the atmosphere, how sunlight heats the surface unevenly, the greenhouse effect and why the tropics are warm.', minutes: 11, tags: ['troposphere', 'energy balance', 'greenhouse effect', 'solar radiation', 'albedo', 'latitude', 'stefan boltzmann'] },
+        { slug: 'pressure-and-wind', title: 'Pressure, wind and the global circulation', blurb: 'The hydrostatic equation, the pressure-gradient and Coriolis forces, geostrophic wind, Hadley cells, the ITCZ and sea breezes.', minutes: 13, tags: ['pressure', 'wind', 'coriolis', 'geostrophic', 'hadley cell', 'itcz', 'sea breeze', 'trade winds', 'barometer'] },
+        { slug: 'moisture-and-clouds', title: 'Moisture, humidity and clouds', blurb: 'Vapour pressure, relative humidity, dew point, adiabatic cooling and the main cloud types, with a dew-point lab.', minutes: 12, tags: ['humidity', 'dew point', 'clouds', 'saturation', 'clausius clapeyron', 'cumulus', 'cumulonimbus', 'condensation'] },
+        { slug: 'stability-and-convection', title: 'Stability, convection and thunderstorms', blurb: 'Lapse rates, buoyancy and CAPE, how a thunderstorm grows, lightning and why tropical storms are afternoon events.', minutes: 13, tags: ['lapse rate', 'stability', 'cape', 'convection', 'thunderstorm', 'lightning', 'buoyancy', 'updraft'] },
+        { slug: 'air-masses-and-fronts', title: 'Air masses, fronts and cyclones', blurb: 'Warm and cold fronts, depressions of the mid-latitudes, and how tropical cyclones and monsoon depressions differ.', minutes: 11, tags: ['front', 'cold front', 'warm front', 'depression', 'cyclone', 'typhoon', 'air mass', 'low pressure'] },
+      ],
+    },
+    {
+      slug: 'charts-and-forecasts',
+      title: 'Reading charts and forecasts',
+      blurb: 'Surface charts, upper-air charts, satellite and radar, numerical models and ensembles, and how to judge a forecast.',
+      glyph: '▦',
+      tags: ['weather chart', 'synoptic chart', 'radar', 'satellite', 'forecast', 'model', 'ensemble'],
+      children: [
+        { slug: 'reading-surface-charts', title: 'Reading a surface weather chart', blurb: 'Isobars, highs and lows, front symbols and the station model, with a live station-model decoder.', minutes: 12, tags: ['surface chart', 'synoptic chart', 'isobars', 'station model', 'front symbols', 'pressure systems', 'weather map'] },
+        { slug: 'upper-air-and-soundings', title: 'Upper-air charts and soundings', blurb: 'Geopotential height, jet streams, the tephigram and skew-T, and reading a tropical sounding for storm potential.', minutes: 12, tags: ['upper air', '500 hpa', 'jet stream', 'skew t', 'tephigram', 'sounding', 'radiosonde', 'cape'] },
+        { slug: 'radar-and-satellite', title: 'Radar and satellite imagery', blurb: 'Reflectivity and dBZ, Doppler velocity, infrared and visible imagery, and reading a rain-radar loop for a nowcast.', minutes: 12, tags: ['radar', 'satellite', 'dbz', 'reflectivity', 'doppler', 'infrared', 'nowcast', 'rain radar', 'cloud top temperature'] },
+        { slug: 'models-and-ensembles', title: 'Numerical models, ensembles and chaos', blurb: 'How forecast models work, why the atmosphere is chaotic, ensemble spread and what a probability of rain means.', minutes: 13, tags: ['numerical weather prediction', 'ensemble', 'chaos', 'lorenz', 'probability of precipitation', 'forecast uncertainty', 'model resolution'] },
+        { slug: 'forecast-skill', title: 'How good is a forecast? Verification and skill', blurb: 'Hit rates, the Brier score, reliability, skill against climatology and persistence, and how to use forecasts well.', minutes: 11, tags: ['verification', 'brier score', 'skill score', 'reliability', 'persistence', 'climatology', 'false alarm'] },
+      ],
+    },
+    {
+      slug: 'chart-atlas',
+      title: 'Weather chart atlas',
+      blurb: 'Every conventional weather chart, one at a time and with live examples: radar and its green, yellow and red scale, satellite imagery, wind barbs and roses, isobar charts and fronts, skew-T diagrams, meteograms, ensembles, rainfall statistics, cloud cover and METAR, and Hovmöller diagrams.',
+      glyph: '▥',
+      color: 'color-mix(in srgb, var(--sky) 55%, var(--mint))',
+      tags: ['weather charts', 'radar', 'satellite', 'wind barb', 'wind rose', 'isobars', 'fronts', 'skew t', 'meteogram', 'metar', 'ensemble', 'hovmoller'],
+      children: [
+        { slug: 'radar-and-reflectivity', title: 'Weather radar: the colour scale, rain rates and storm shapes', blurb: 'How radar sees rain, what green, yellow, orange and red mean in dBZ and mm/h, the Z–R relation, artefacts, and the shapes of squall lines and supercells, with a live radar lab.', minutes: 14, tags: ['radar', 'dbz', 'reflectivity', 'rain rate', 'z-r', 'squall line', 'hook echo', 'doppler', 'bright band', 'clutter'] },
+        { slug: 'satellite-imagery', title: 'Satellite imagery: visible, infrared and water vapour', blurb: 'Geostationary satellites, the main channels, brightness temperature and cloud-top height, the colour-enhanced infrared table and reading tropical convection.', minutes: 12, tags: ['satellite', 'himawari', 'infrared', 'visible', 'water vapour', 'brightness temperature', 'cloud top', 'enhanced ir', 'overshooting top'] },
+        { slug: 'wind-barbs-and-roses', title: 'Wind barbs, direction arcs and wind roses', blurb: 'Reading a barb, why wind direction is where it comes from, Beaufort and units, variable-wind arcs, wind roses and the seasonal winds of Singapore.', minutes: 11, tags: ['wind barb', 'wind rose', 'beaufort', 'knots', 'wind direction', 'monsoon winds', 'gust'] },
+        { slug: 'isobars-and-synoptic-charts', title: 'Isobar charts and the geostrophic wind', blurb: 'Reading isobars, highs and lows, pressure gradient and wind speed, friction, Buys Ballot’s law and why the equator is different, with a live isobar chart.', minutes: 13, tags: ['isobars', 'synoptic chart', 'geostrophic wind', 'pressure gradient', 'high', 'low', 'coriolis', 'buys ballot'] },
+        { slug: 'fronts-and-symbols', title: 'Fronts and chart symbols', blurb: 'Cold, warm, occluded and stationary fronts, their slopes and weather, the symbols on a chart and the tropical equivalents of fronts.', minutes: 10, tags: ['front', 'cold front', 'warm front', 'occluded', 'stationary', 'symbols', 'itcz', 'margules', 'convergence'] },
+        { slug: 'skew-t-and-stability', title: 'Skew-T diagrams: stability, CAPE and storm potential', blurb: 'Reading a sounding, lapse rates, lifting a parcel, CAPE and CIN, stability indices and tropical soundings, with a live skew-T lab.', minutes: 14, tags: ['skew t', 'sounding', 'cape', 'cin', 'lcl', 'lfc', 'stability', 'radiosonde', 'lapse rate', 'k index'] },
+        { slug: 'meteograms-and-point-forecasts', title: 'Meteograms and point forecasts', blurb: 'Reading a one-place time series of temperature, rain, wind and cloud, and what Singapore’s typical days look like on one.', minutes: 9, tags: ['meteogram', 'point forecast', 'time series', 'rain bars', 'wind barbs', 'forecast plume'] },
+        { slug: 'ensembles-and-probability-charts', title: 'Ensembles, spaghetti plots and probability charts', blurb: 'Why forecasts diverge, spaghetti plots, plumes, probability maps and cones, and how to read a percentage.', minutes: 12, tags: ['ensemble', 'spaghetti plot', 'probability', 'plume', 'spread', 'cone of uncertainty', 'lorenz', 'chaos'] },
+        { slug: 'rainfall-statistics-and-idf', title: 'Rainfall maps, return periods and IDF curves', blurb: 'Accumulation maps and their colour scales, gauges and radar, return periods, intensity–duration–frequency curves and what a "once in 100 years" rain means.', minutes: 11, tags: ['rainfall', 'idf', 'return period', 'accumulation', 'flood', 'rain gauge', 'drainage', 'extreme rain'] },
+        { slug: 'cloud-cover-and-metar', title: 'Cloud cover, METAR and TAF', blurb: 'Oktas, cloud types, and decoding an aviation weather report group by group, with a sample Changi METAR.', minutes: 10, tags: ['metar', 'taf', 'oktas', 'cloud cover', 'aviation weather', 'visibility', 'qnh', 'ceiling'] },
+        { slug: 'hovmoller-and-climate-charts', title: 'Hovmöller diagrams, anomaly maps and climate charts', blurb: 'Time–longitude diagrams for the MJO and waves, anomaly maps and colour scales, climographs and index charts for ENSO.', minutes: 11, tags: ['hovmoller', 'mjo', 'anomaly', 'climograph', 'enso', 'oni', 'colour scale', 'index'] },
+        { slug: 'singapore-weather-products', title: 'Reading Singapore’s weather products', blurb: 'The rain-area radar, 2-hour nowcast, forecasts, lightning, heat and haze products: what each shows, how often it updates and how to combine them.', minutes: 10, tags: ['singapore weather', 'nowcast', 'rain areas', 'lightning', 'psi', 'heat stress', 'nea', 'mss', 'weather.gov.sg'] },
+      ],
+    },
+    {
+      slug: 'singapore',
+      title: 'Singapore weather and climate',
+      blurb: 'An equatorial climate: monsoons, afternoon thunderstorms and Sumatra squalls, the rainfall calendar, heat and humidity, haze and flooding, and how to read Singapore’s forecasts and warnings.',
+      glyph: '🇸🇬',
+      color: 'color-mix(in srgb, var(--pink) 50%, var(--sky))',
+      tags: ['singapore', 'weather', 'monsoon', 'rain', 'haze', 'heat'],
+      children: [
+        { slug: 'singapore-climate', title: 'Singapore’s climate: the shape of the year', blurb: 'Temperature and humidity records, the rainfall calendar, the Northeast and Southwest monsoons and the inter-monsoon periods.', minutes: 12, tags: ['singapore climate', 'monsoon', 'northeast monsoon', 'southwest monsoon', 'rainfall', 'temperature', 'humidity', 'inter-monsoon'] },
+        { slug: 'rain-in-singapore', title: 'Rain in Singapore: types, patterns and records', blurb: 'Convective afternoon storms, Sumatra squalls, monsoon surges, how rain varies across the island and what extreme rainfall means.', minutes: 12, tags: ['rain', 'sumatra squall', 'thunderstorm', 'monsoon surge', 'convective rain', 'flash flood', 'rainfall intensity', 'return period'] },
+        { slug: 'large-scale-drivers', title: 'Climate drivers: ENSO, the Indian Ocean Dipole and the MJO', blurb: 'The ITCZ, El Niño and La Niña, the Indian Ocean Dipole and the Madden–Julian Oscillation, and how each shifts Singapore’s rain and heat.', minutes: 12, tags: ['enso', 'el nino', 'la nina', 'iod', 'mjo', 'itcz', 'walker circulation', 'teleconnection', 'seasonal forecast'] },
+        { slug: 'heat-humidity-and-uv', title: 'Heat, humidity and UV in Singapore', blurb: 'Why the heat index matters more than temperature, urban heat islands, the WBGT, UV index and staying safe outdoors.', minutes: 11, tags: ['heat stress', 'wbgt', 'urban heat island', 'uv index', 'humidity', 'heat index', 'singapore heat'] },
+        { slug: 'haze-and-air-quality', title: 'Haze, PSI and air quality', blurb: 'Where transboundary haze comes from, the monsoon winds that carry it, how PSI and PM2.5 are reported and how to respond.', minutes: 11, tags: ['haze', 'psi', 'pm2.5', 'air quality', 'transboundary haze', 'asean', 'forest fires', 'nea'] },
+        { slug: 'forecasts-and-warnings', title: 'Using Singapore’s forecasts, nowcasts and warnings', blurb: 'The 2-hour nowcast, 24-hour and 4-day forecasts, rain radar, lightning alerts and flood warnings, and how to plan around them.', minutes: 10, tags: ['mss', 'nea', 'nowcast', '2 hour forecast', 'lightning', 'flood', 'pub', 'weather app', 'rain radar'] },
+        { slug: 'climate-change-and-singapore', title: 'Climate change and Singapore', blurb: 'Observed warming, sea-level rise, heavier rain and heat, Singapore’s adaptation and the numbers behind them.', minutes: 11, tags: ['climate change', 'sea level rise', 'global warming', 'adaptation', 'coastal protection', 'heavier rain', 'urban heat'] },
+      ],
+    },
+  ],
+}

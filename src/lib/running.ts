@@ -1,5 +1,5 @@
 /**
- * Running mode's data. Kept in this browser for now — there is no server
+ * Running mode's data. Kept in this browser for now, there is no server
  * endpoint for runs yet. Everything goes through load/save so moving it to an
  * API later is a change in one file.
  */
@@ -68,7 +68,7 @@ export function formatDuration(sec: number): string {
 
 /** Minutes per km as m:ss. */
 export function formatPace(durationSec: number, km: number): string {
-  if (!km) return '—'
+  if (!km) return '-'
   const per = durationSec / km
   const m = Math.floor(per / 60)
   const s = Math.round(per % 60)

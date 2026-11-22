@@ -410,11 +410,11 @@ function Stats({ projection }: { projection: Projection }) {
         <StatCard label="average pace" value={`${formatPaceSec(st.avgPaceSec)} /km`} />
         <StatCard
           label="vs goal"
-          value={gap === null ? '—' : `${gap > 0 ? '+' : gap < 0 ? '−' : ''}${formatClock(Math.abs(gap))}`}
+          value={gap === null ? '-' : `${gap > 0 ? '+' : gap < 0 ? '−' : ''}${formatClock(Math.abs(gap))}`}
           tone={gap === null ? undefined : gap > 0 ? 'var(--overdue)' : 'var(--collected)'}
           sub={gap === null ? 'set a goal time' : gap > 0 ? 'behind goal' : 'on or ahead of goal'}
         />
-        <StatCard label="goal pace" value={st.targetPaceSec ? `${formatPaceSec(st.targetPaceSec)} /km` : '—'} sub="to hit goal evenly" />
+        <StatCard label="goal pace" value={st.targetPaceSec ? `${formatPaceSec(st.targetPaceSec)} /km` : '-'} sub="to hit goal evenly" />
         <StatCard
           label="halves"
           value={`${formatClock(st.firstHalfSec)} / ${formatClock(st.secondHalfSec)}`}
@@ -509,7 +509,7 @@ function PaceProfile({ projection }: { projection: Projection }) {
           ))}
         </div>
         <p className="mt-3 text-xs" style={{ color: 'var(--ink-faint)' }}>
-          Bar width is distance; height is speed — taller is faster.
+          Bar width is distance; height is speed, taller is faster.
         </p>
       </div>
     </section>

@@ -60,7 +60,7 @@ export function StudentProfilePage() {
     <>
       <PageHeader
         back={cls ? { to: `/classes/${cls.id}`, label: cls.name } : { to: '/students', label: 'All students' }}
-        eyebrow={cls ? [cls.name, cls.school, cls.subject].filter(Boolean).join(' · ') : 'unassigned — no class'}
+        eyebrow={cls ? [cls.name, cls.school, cls.subject].filter(Boolean).join(' · ') : 'unassigned, no class'}
         title={displayName(student)}
         meta={
           <>
@@ -73,7 +73,7 @@ export function StudentProfilePage() {
             <span className="inline-flex items-baseline gap-2">
               <span className="label">birthday</span>
               <span className="mono" style={{ color: 'var(--ink-soft)' }}>
-                {student.birthday ? `${formatDate(student.birthday)}${years !== null ? ` · ${years} yrs` : ''}` : '—'}
+                {student.birthday ? `${formatDate(student.birthday)}${years !== null ? ` · ${years} yrs` : ''}` : '-'}
               </span>
             </span>
           </>
@@ -139,8 +139,8 @@ export function StudentProfilePage() {
                 <span style={{ color: 'var(--ink-faint)' }}>unassigned</span>
               )}
             </Row>
-            <Row label="school">{cls?.school || '—'}</Row>
-            <Row label="subject">{cls?.subject || '—'}</Row>
+            <Row label="school">{cls?.school || '-'}</Row>
+            <Row label="subject">{cls?.subject || '-'}</Row>
             <Row label="points">
               <span className="mono font-semibold" style={{ color: pointsTone(points.total) }}>
                 {formatPoints(points.total)}
@@ -289,7 +289,7 @@ export function StudentProfilePage() {
             kind="notes"
             entries={student.notes}
             title="notes"
-            placeholder="Anything worth remembering — a strength, a struggle, a conversation with a parent."
+            placeholder="Anything worth remembering, a strength, a struggle, a conversation with a parent."
           />
 
           <EntryLog

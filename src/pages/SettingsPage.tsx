@@ -99,7 +99,7 @@ function DesignTab() {
 
         <Picker
           legend="Palette"
-          hint="Each palette ships a light and a dark face — the left half of every swatch is light, the right is dark."
+          hint="Each palette ships a light and a dark face, the left half of every swatch is light, the right is dark."
           options={THEMES}
           value={design.theme}
           onChange={(theme) => set({ theme })}
@@ -181,10 +181,10 @@ function AccountTab() {
       <dl className="panel max-w-lg divide-y" style={{ borderColor: 'var(--line-soft)' }}>
         {(
           [
-            ['name', user?.name ?? '—'],
-            ['email', user?.email ?? '—'],
-            ['username', user?.username ?? '—'],
-            ['role', user?.role ?? '—'],
+            ['name', user?.name ?? '-'],
+            ['email', user?.email ?? '-'],
+            ['username', user?.username ?? '-'],
+            ['role', user?.role ?? '-'],
             ['classes', String(data.classes.length)],
             ['students', String(data.students.length)],
             ['homework set', String(data.homework.length)],

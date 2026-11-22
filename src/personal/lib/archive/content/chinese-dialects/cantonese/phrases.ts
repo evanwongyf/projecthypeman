@@ -1,0 +1,141 @@
+import type { Guide } from '../../../guide'
+
+const guide: Guide = {
+  intro:
+    'A working Cantonese phrasebook for the situations you will meet first: greetings and courtesy, family, ordering food and yum cha, transport, shopping and bargaining, and getting out of trouble politely. All in Jyutping, all playable aloud, Cantonese is the one dialect here that most devices can really speak.',
+  nutshell: [
+    '**唔該 m4 goi1** does triple duty: thank you for a service, excuse me, and “bill please” (唔該埋單).',
+    '**Yum cha has its own vocabulary** and it is the most useful twenty words in Hong Kong.',
+    '**Transport phrases are formulaic**; learn three sentences and you can get anywhere.',
+    '**Bargaining is expected in markets**, not in shops with price tags.',
+    '**Particles carry the politeness.** A bare sentence is grammatical and can sound rude.',
+  ],
+  sections: [
+    {
+      id: 'courtesy',
+      title: 'Greetings and courtesy',
+      blocks: [
+        {
+          t: 'speak',
+          lang: 'cantonese',
+          title: 'Everyday courtesy',
+          items: [
+            { hz: '你好', rom: 'nei5 hou2', en: 'Hello' },
+            { hz: '早晨', rom: 'zou2 san4', en: 'Good morning' },
+            { hz: '午安', rom: 'ng5 on1', en: 'Good afternoon (formal)' },
+            { hz: '你好嗎', rom: 'nei5 hou2 maa3?', en: 'How are you?' },
+            { hz: '幾好', rom: 'gei2 hou2', en: 'Pretty good' },
+            { hz: '好耐冇見', rom: 'hou2 noi6 mou5 gin3', en: 'Long time no see' },
+            { hz: '唔該', rom: 'm4 goi1', en: 'Thanks / excuse me' },
+            { hz: '唔該晒', rom: 'm4 goi1 saai3', en: 'Thanks very much (for all your trouble)' },
+            { hz: '多謝', rom: 'do1 ze6', en: 'Thank you (for a gift)' },
+            { hz: '對唔住', rom: 'deoi3 m4 zyu6', en: 'I’m sorry' },
+            { hz: '冇所謂', rom: 'mou5 so2 wai6', en: 'It doesn’t matter / I don’t mind' },
+            { hz: '麻煩你', rom: 'maa4 faan4 nei5', en: 'Sorry to trouble you' },
+            { hz: '唔使客氣', rom: 'm4 sai2 haak3 hei3', en: 'You’re welcome' },
+            { hz: '拜拜', rom: 'baai1 baai3', en: 'Bye' },
+            { hz: '慢慢行', rom: 'maan6 maan6 haang4', en: 'Take care (to someone leaving)' },
+          ],
+        },
+      ],
+    },
+    {
+      id: 'family',
+      title: 'Family',
+      blocks: [
+        {
+          t: 'speak',
+          lang: 'cantonese',
+          title: 'Family terms',
+          note: 'Paternal and maternal grandparents have different words, and that distinction is not optional.',
+          items: [
+            { hz: '爸爸', rom: 'baa4 baa1', en: 'Father' },
+            { hz: '媽媽', rom: 'maa4 maa1', en: 'Mother' },
+            { hz: '爺爺', rom: 'je4 je2', en: 'Paternal grandfather' },
+            { hz: '嫲嫲', rom: 'maa4 maa4', en: 'Paternal grandmother' },
+            { hz: '公公', rom: 'gung1 gung1', en: 'Maternal grandfather' },
+            { hz: '婆婆', rom: 'po4 po2', en: 'Maternal grandmother' },
+            { hz: '哥哥', rom: 'go4 go1', en: 'Elder brother' },
+            { hz: '家姐', rom: 'gaa1 ze1', en: 'Elder sister' },
+            { hz: '細佬', rom: 'sai3 lou2', en: 'Younger brother' },
+            { hz: '細妹', rom: 'sai3 mui2', en: 'Younger sister' },
+            { hz: '仔', rom: 'zai2', en: 'Son' },
+            { hz: '女', rom: 'neoi2', en: 'Daughter' },
+            { hz: '老公', rom: 'lou5 gung1', en: 'Husband' },
+            { hz: '老婆', rom: 'lou5 po4', en: 'Wife' },
+            { hz: '朋友', rom: 'pang4 jau5', en: 'Friend' },
+          ],
+        },
+      ],
+    },
+    {
+      id: 'food',
+      title: 'Food, yum cha and the bill',
+      blocks: [
+        {
+          t: 'speak',
+          lang: 'cantonese',
+          title: 'Ordering',
+          items: [
+            { hz: '飲茶', rom: 'jam2 caa4', en: 'Yum cha, literally “drink tea”, the dim sum meal' },
+            { hz: '點心', rom: 'dim2 sam1', en: 'Dim sum' },
+            { hz: '我想要…', rom: 'ngo5 soeng2 jiu3 …', en: 'I would like …' },
+            { hz: '一碗飯', rom: 'jat1 wun2 faan6', en: 'One bowl of rice' },
+            { hz: '一杯凍檸茶', rom: 'jat1 bui1 dung3 ning4 caa4', en: 'One iced lemon tea' },
+            { hz: '熱', rom: 'jit6', en: 'Hot' },
+            { hz: '凍', rom: 'dung3', en: 'Cold / iced' },
+            { hz: '少甜', rom: 'siu2 tim4', en: 'Less sweet' },
+            { hz: '走冰', rom: 'zau2 bing1', en: 'No ice' },
+            { hz: '好好食', rom: 'hou2 hou2 sik6', en: 'Really tasty' },
+            { hz: '飽喇', rom: 'baau2 laa3', en: 'I’m full' },
+            { hz: '唔該埋單', rom: 'm4 goi1 maai4 daan1', en: 'The bill, please' },
+            { hz: '可唔可以打包', rom: 'ho2 m4 ho2 ji5 daa2 baau1?', en: 'Can I take it away?' },
+            { hz: '我食素', rom: 'ngo5 sik6 sou3', en: 'I’m vegetarian' },
+            { hz: '我對花生敏感', rom: 'ngo5 deoi3 faa1 sang1 man5 gam2', en: 'I’m allergic to peanuts' },
+          ],
+        },
+        {
+          t: 'callout',
+          tone: 'tip',
+          title: 'The tea-pouring thank you',
+          text: 'When someone fills your cup at yum cha, tap two fingers on the table beside the cup. It is a silent 多謝 and saves interrupting the conversation. Tapping with the knuckles is the same gesture.',
+        },
+      ],
+    },
+    {
+      id: 'around',
+      title: 'Transport, shopping and trouble',
+      blocks: [
+        {
+          t: 'speak',
+          lang: 'cantonese',
+          title: 'Getting around and buying things',
+          items: [
+            { hz: '請問…喺邊度', rom: 'cing2 man6 … hai2 bin1 dou6?', en: 'Excuse me, where is …?' },
+            { hz: '點去…', rom: 'dim2 heoi3 …?', en: 'How do I get to …?' },
+            { hz: '去…唔該', rom: 'heoi3 … m4 goi1', en: 'To …, please (to a taxi driver)' },
+            { hz: '前面落車', rom: 'cin4 min6 lok6 ce1', en: 'I’ll get off up ahead' },
+            { hz: '有落', rom: 'jau5 lok6', en: 'Getting off! (called out on a minibus)' },
+            { hz: '幾多錢', rom: 'gei2 do1 cin2?', en: 'How much?' },
+            { hz: '平啲得唔得', rom: 'peng4 di1 dak1 m4 dak1?', en: 'Can you make it cheaper?' },
+            { hz: '太貴喇', rom: 'taai3 gwai3 laa3', en: 'That’s too expensive' },
+            { hz: '我睇下先', rom: 'ngo5 tai2 haa5 sin1', en: 'I’ll just have a look first' },
+            { hz: '我要呢個', rom: 'ngo5 jiu3 ni1 go3', en: 'I’ll take this one' },
+            { hz: '可唔可以碌卡', rom: 'ho2 m4 ho2 ji5 luk1 kaat1?', en: 'Can I pay by card?' },
+            { hz: '救命', rom: 'gau3 meng6', en: 'Help!' },
+            { hz: '我唔舒服', rom: 'ngo5 m4 syu1 fuk6', en: 'I don’t feel well' },
+            { hz: '唔好意思，我唔識講', rom: 'm4 hou2 ji3 si1, ngo5 m4 sik1 gong2', en: 'Sorry, I can’t say it' },
+          ],
+        },
+        {
+          t: 'callout',
+          tone: 'note',
+          title: 'Where bargaining belongs',
+          text: 'Street markets, stalls and some electronics arcades: yes. Supermarkets, chain shops and restaurants: no. 平啲得唔得 asked cheerfully in a market is normal; asked in a shop with a price tag it is simply awkward.',
+        },
+      ],
+    },
+  ],
+}
+
+export default guide

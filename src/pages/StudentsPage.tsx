@@ -98,7 +98,7 @@ export function StudentsPage() {
         ) : !hasAnything ? (
           <Empty
             title="empty terminal"
-            body="Create a class to group students by school and subject, or add a student on their own — they'll sit in the unassigned pool until you place them."
+            body="Create a class to group students by school and subject, or add a student on their own, they'll sit in the unassigned pool until you place them."
             action={
               <button type="button" className="btn btn-primary" onClick={() => setAddClass(true)}>
                 <IconClass />

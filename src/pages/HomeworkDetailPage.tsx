@@ -37,7 +37,7 @@ export function HomeworkDetailPage() {
       .sort((a, b) =>
         sort === 'name'
           ? nameKey(a.student.fullName).localeCompare(nameKey(b.student.fullName))
-          : // Completion: overdue, then assigned, then collected — outstanding work first.
+          : // Completion: overdue, then assigned, then collected, outstanding work first.
             STATE_WEIGHT[a.state] - STATE_WEIGHT[b.state] ||
             nameKey(a.student.fullName).localeCompare(nameKey(b.student.fullName))
       )

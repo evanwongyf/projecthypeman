@@ -21,7 +21,7 @@ export function PointsPage() {
   const { data, loading, version, reload } = useData()
 
   const [sort, setSort] = useState<Sort>('name')
-  /** Students the picker is aimed at — empty means nothing in flight. */
+  /** Students the picker is aimed at, empty means nothing in flight. */
   const [target, setTarget] = useState<Student[] | null>(null)
   const [picked, setPicked] = useState<Behaviour | null>(null)
   const [toast, setToast] = useState<string | null>(null)
@@ -98,7 +98,7 @@ export function PointsPage() {
           style={{ borderColor: 'var(--line)', background: 'var(--panel-2)', color: 'var(--ink-soft)' }}
           role="status"
         >
-          Activated — {toast}
+          Activated, {toast}
         </div>
       )}
 

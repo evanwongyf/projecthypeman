@@ -1,6 +1,6 @@
 import type { Option } from '../../lib/design'
 
-/** A row of pressable choice cards — the one control the Design tab is built from. */
+/** A row of pressable choice cards, the one control the Design tab is built from. */
 export function Picker({
   legend,
   hint,

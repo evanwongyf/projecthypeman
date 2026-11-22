@@ -118,7 +118,7 @@ export const TYPEFACES: Option[] = [
 ]
 
 export const DENSITIES: Option[] = [
-  { id: 'dense', label: 'Dense', hint: 'Smallest — most on screen' },
+  { id: 'dense', label: 'Dense', hint: 'Smallest, most on screen' },
   { id: 'compact', label: 'Compact', hint: 'More on screen' },
   { id: 'normal', label: 'Normal' },
   { id: 'roomy', label: 'Roomy', hint: 'Easier to scan' },
@@ -161,7 +161,7 @@ export const PRESETS: { id: string; label: string; hint: string; design: Partial
   {
     id: 'terminal-dark',
     label: 'Teaching terminal',
-    hint: 'The house look — graphite, mono labels, hairlines',
+    hint: 'The house look, graphite, mono labels, hairlines',
     design: { theme: 'graphite', mode: 'dark', accent: 'theme', type: 'grotesk', density: 'normal', corners: 'square', borders: 'hairline', shadow: 'none', texture: 'grid' },
   },
   {
@@ -298,7 +298,7 @@ export function storeDesign(design: DesignSettings) {
   try {
     localStorage.setItem(DESIGN_STORAGE_KEY, JSON.stringify(design))
   } catch {
-    /* private mode, blocked storage — the server copy still holds */
+    /* private mode, blocked storage, the server copy still holds */
   }
 }
 

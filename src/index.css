@@ -51,7 +51,7 @@
 
 /* ---------- themes ---------- */
 
-/* Graphite — warm near-black with a trace of brown; the house look. */
+/* Graphite, warm near-black with a trace of brown; the house look. */
 [data-theme="graphite"][data-mode="dark"] {
   --bg: #0b0a09;
   --panel: #121110;
@@ -80,7 +80,7 @@
   --accent-ink-base: #fff6f2;
 }
 
-/* Studytubby — cream paper and arcade orange, lifted from the sibling app. */
+/* Studytubby, cream paper and arcade orange, lifted from the sibling app. */
 [data-theme="studytubby"][data-mode="light"] {
   --bg: #fffbf5;
   --panel: #ffffff;
@@ -115,7 +115,7 @@
   --collected: #35e6e0;
 }
 
-/* Bone — Swiss clinical: near-white, ink type, one cobalt rule. */
+/* Bone, Swiss clinical: near-white, ink type, one cobalt rule. */
 [data-theme="bone"][data-mode="light"] {
   --bg: #fbfaf8;
   --panel: #ffffff;
@@ -144,7 +144,7 @@
   --accent-ink-base: #06091a;
 }
 
-/* Blueprint — cool slate and drafting cyan. */
+/* Blueprint, cool slate and drafting cyan. */
 [data-theme="blueprint"][data-mode="dark"] {
   --bg: #0a1016;
   --panel: #0f1821;
@@ -173,7 +173,7 @@
   --accent-ink-base: #f2fdff;
 }
 
-/* Phosphor — terminal green. */
+/* Phosphor, terminal green. */
 [data-theme="phosphor"][data-mode="dark"] {
   --bg: #060a06;
   --panel: #0a110b;
@@ -205,7 +205,7 @@
   --accent-ink-base: #f2fff5;
 }
 
-/* Ink — editorial high contrast. */
+/* Ink, editorial high contrast. */
 [data-theme="ink"][data-mode="light"] {
   --bg: #ffffff;
   --panel: #ffffff;
@@ -234,7 +234,7 @@
   --accent-ink-base: #140405;
 }
 
-/* Dusk — muted plum. */
+/* Dusk, muted plum. */
 [data-theme="dusk"][data-mode="dark"] {
   --bg: #120f18;
   --panel: #1a1623;
@@ -263,7 +263,7 @@
   --accent-ink-base: #ffffff;
 }
 
-/* Sage — herbarium green with a clay accent. */
+/* Sage, herbarium green with a clay accent. */
 [data-theme="sage"][data-mode="light"] {
   --bg: #f6f7f2;
   --panel: #ffffff;
@@ -457,7 +457,7 @@ body {
   box-shadow: var(--shadow-card);
 }
 
-/* A bordered box that is not a surface — avatars, photo frames. */
+/* A bordered box that is not a surface, avatars, photo frames. */
 .frame {
   border: var(--border-w) solid var(--line);
   border-radius: var(--radius-sm, var(--radius));
@@ -583,7 +583,7 @@ textarea.field {
   line-height: 1.55;
 }
 
-/* Custom dropdown (components/Select.tsx) — the device menu ignores the theme. */
+/* Custom dropdown (components/Select.tsx), the device menu ignores the theme. */
 .select-trigger {
   display: flex;
   align-items: center;
@@ -794,6 +794,7 @@ textarea.field {
 
 [data-mode-medal="teaching"] { --medal: var(--accent); }
 [data-mode-medal="running"] { --medal: #d9a400; }
+[data-mode-medal="personal"] { --medal: #2f9e8f; }
 [data-mode="dark"] [data-mode-medal="running"] { --medal: #ffd93b; }
 
 .avatar-btn {
@@ -842,3 +843,187 @@ textarea.field {
   color: var(--ink);
   white-space: nowrap;
 }
+
+/* ===========================================================================
+   Personal archive (src/personal, ported from Studytubby).
+   The archive is written against its own tokens; inside .st-archive they are
+   mapped onto Hypeman's theme so it follows palette, mode, corners, borders,
+   shadows and type like the rest of the app.
+   =========================================================================== */
+
+.st-archive {
+  --paper: var(--bg);
+  --paper-2: var(--panel-2);
+  --surface: var(--panel);
+  --surface-line: var(--line);
+  --font-hero: var(--font-display);
+  --font-poster: var(--font-display);
+
+  /* Diagram and category tones: the same six hues, softened to sit with the palette. */
+  --orange: #f08a4b;
+  --mustard: #c9d957;
+  --teal: #45c4bf;
+  --pink: #e070bd;
+  --mint: #5cc58e;
+  --lavender: #8b74ee;
+  --sky: #2d2856;
+  --night: #16141f;
+  --orange-ink: #1c1410;
+  --mustard-ink: #1c1410;
+  --teal-ink: #1c1410;
+  --pink-ink: #1c1410;
+  --mint-ink: #1c1410;
+  --lavender-ink: #f6f4fb;
+  --deep: #0c0a15;
+  --deep-2: #171429;
+  --deep-line: rgba(243, 241, 250, 0.16);
+  --deep-ink: #f3f1fa;
+  --deep-ink-soft: rgba(243, 241, 250, 0.72);
+}
+
+[data-mode="dark"] .st-archive {
+  --orange: #e07a3c;
+  --mustard: #b3c44a;
+  --teal: #38aaa5;
+  --pink: #c95ea8;
+  --mint: #4aad78;
+  --lavender: #7c66dd;
+}
+
+.st-archive .card-surface {
+  position: relative;
+  background: var(--panel);
+  border: var(--border-w) solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+  transition: background 120ms ease, border-color 120ms ease, box-shadow 120ms ease;
+}
+
+.st-archive a.card-surface:hover,
+.st-archive button.card-surface:hover {
+  background: var(--panel-2);
+  border-color: var(--accent);
+  box-shadow: var(--shadow-card-hover);
+}
+
+.st-archive .eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--label-size);
+  letter-spacing: var(--label-tracking);
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.st-archive h1,
+.st-archive h2,
+.st-archive h3 {
+  letter-spacing: -0.01em;
+}
+
+.st-archive .input-field {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  background: var(--bg);
+  border: var(--border-w) solid var(--line);
+  border-radius: var(--radius-sm, var(--radius));
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: 14px;
+  outline: none;
+}
+
+.st-archive .input-field:focus {
+  border-color: var(--accent);
+}
+
+.st-archive .input-field::placeholder {
+  color: var(--ink-faint);
+}
+
+.st-archive .btn-brass {
+  background: color-mix(in srgb, var(--mustard) 30%, var(--panel-2));
+}
+
+.st-archive .btn-teal {
+  background: color-mix(in srgb, var(--teal) 30%, var(--panel-2));
+}
+
+/* Studytubby chips are pressable filter pills, not status chips. */
+.st-archive .chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.35rem 0.8rem;
+  border: var(--border-w) solid var(--line);
+  border-radius: 999px;
+  background: var(--panel);
+  color: var(--ink-soft);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: none;
+  cursor: pointer;
+}
+
+.st-archive .chip:hover {
+  color: var(--ink);
+  background: var(--panel-2);
+}
+
+.st-archive .chip[data-active='true'] {
+  background: var(--accent-dim);
+  border-color: var(--accent);
+  color: var(--ink);
+}
+
+.st-archive .deep-panel {
+  background: var(--deep);
+  color: var(--deep-ink);
+  border: var(--border-w) solid var(--line);
+}
+
+.st-archive .halftone {
+  background-image: radial-gradient(var(--line) 1.4px, transparent 1.4px);
+  background-size: 9px 9px;
+}
+
+.st-archive .highlight-mark {
+  position: relative;
+  display: inline-block;
+  padding: 0 0.15em;
+}
+
+.st-archive .highlight-mark::before {
+  content: "";
+  position: absolute;
+  inset: 0.06em -0.06em;
+  background: var(--accent-dim);
+  z-index: -1;
+}
+
+/* Flashcard flip, pixel frames and small motions used by the archive's tools. */
+.st-archive .flip-scene { perspective: 1400px; }
+.st-archive .flip-card { position: relative; transform-style: preserve-3d; transition: transform 0.55s cubic-bezier(0.22, 1, 0.3, 1); }
+.st-archive .flip-card[data-flipped='true'] { transform: rotateY(180deg); }
+.st-archive .flip-face { backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+.st-archive .flip-face-back { position: absolute; inset: 0; transform: rotateY(180deg); }
+.st-archive .pixel-frame {
+  clip-path: polygon(0 10px, 10px 10px, 10px 0, calc(100% - 10px) 0, calc(100% - 10px) 10px, 100% 10px, 100% calc(100% - 10px), calc(100% - 10px) calc(100% - 10px), calc(100% - 10px) 100%, 10px 100%, 10px calc(100% - 10px), 0 calc(100% - 10px));
+}
+
+@keyframes st-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+@keyframes st-twinkle { 0%, 100% { opacity: 0.2; transform: scale(0.7); } 50% { opacity: 1; transform: scale(1.15); } }
+@keyframes st-pulse-ring { 0%, 100% { opacity: 0.85; } 50% { opacity: 0.35; } }
+@keyframes st-rise-in { 0% { transform: translateY(6px); opacity: 0; } 100% { transform: translateY(0); opacity: 1; } }
+@keyframes st-spin-slow { to { transform: rotate(360deg); } }
+@keyframes fa-pop { 0% { opacity: 0; transform: scale(0.7); } 70% { opacity: 1; transform: scale(1.06); } 100% { opacity: 1; transform: scale(1); } }
+.st-archive .bob { animation: st-bob 2.4s ease-in-out infinite; }
+.st-archive .twinkle { animation: st-twinkle 1.6s ease-in-out infinite; }
+.st-archive .pulse-ring { animation: st-pulse-ring 2.2s ease-in-out infinite; }
+.st-archive .rise-in { animation: st-rise-in 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+.st-archive .spin-slow { animation: st-spin-slow 14s linear infinite; }
+.st-archive .fa-pop { transform-origin: center; transform-box: fill-box; animation: fa-pop 0.5s ease-out both; }
+
+/* KaTeX picks up the ink colour; give display maths room to scroll on phones. */
+.st-archive .katex-display { overflow-x: auto; overflow-y: hidden; padding: 0.25rem 0; }

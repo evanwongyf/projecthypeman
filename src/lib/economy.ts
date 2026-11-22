@@ -48,7 +48,7 @@ export function riegel(timeSec: number, fromM: number, toM: number, exponent = 1
 /**
  * New race time after an economy gain, holding the sustainable oxygen uptake
  * constant. Uses the Daniels cost curve so air resistance (the v² term) is
- * accounted for — that is why a 4% economy gain gives a bit less than 4%.
+ * accounted for, that is why a 4% economy gain gives a bit less than 4%.
  */
 export function timeAfterEconomyGain(distanceM: number, timeSec: number, gainFraction: number) {
   const v = distanceM / (timeSec / 60)
@@ -65,7 +65,7 @@ export function timeAfterEconomyGain(distanceM: number, timeSec: number, gainFra
 }
 
 /**
- * Speed (m/min) whose Daniels oxygen cost equals `fraction` × VDOT —
+ * Speed (m/min) whose Daniels oxygen cost equals `fraction` × VDOT,
  * the inverse of the cost curve, solved from the quadratic.
  */
 export function speedAtFraction(v: number, fraction: number) {

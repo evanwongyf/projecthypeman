@@ -32,7 +32,7 @@ export function signedPoints(kind: Behaviour['kind'], magnitude: number): number
   return kind === 'negative' ? -Math.abs(magnitude) : Math.abs(magnitude)
 }
 
-/** "+3" / "-2" / "0" — the sign is the point, so it is always shown. */
+/** "+3" / "-2" / "0"the sign is the point, so it is always shown. */
 export function formatPoints(value: number): string {
   return value > 0 ? `+${value}` : String(value)
 }

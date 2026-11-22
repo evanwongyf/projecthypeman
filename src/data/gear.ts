@@ -32,7 +32,7 @@ export const SHOE_TYPES: ShoeType[] = [
     name: 'Stability',
     what: 'Firmer foam, wider bases or guide rails to limit excessive inward roll.',
     goodFor: 'Runners who prefer more support or who feel unstable in neutral shoes.',
-    watchOut: 'Comfort matters more than a "pronation" label — try before you buy.',
+    watchOut: 'Comfort matters more than a "pronation" label, try before you buy.',
   },
   {
     id: 'tempo',
@@ -60,7 +60,7 @@ export const SHOE_TYPES: ShoeType[] = [
     name: 'Low or zero drop',
     what: 'Little or no height difference between heel and forefoot.',
     goodFor: 'Runners who like a more natural foot position; strengthening feet and calves.',
-    watchOut: 'Transition slowly — it shifts load to the calves and Achilles.',
+    watchOut: 'Transition slowly, it shifts load to the calves and Achilles.',
   },
 ]
 
@@ -179,7 +179,7 @@ export const APPAREL: Material[] = [
     name: 'Mesh panels',
     kind: 'Construction',
     feel: 'Ventilation',
-    notes: 'Open-knit zones under the arms and on the back dump heat — valuable in hot climates.',
+    notes: 'Open-knit zones under the arms and on the back dump heat, valuable in hot climates.',
   },
   {
     name: 'Compression',

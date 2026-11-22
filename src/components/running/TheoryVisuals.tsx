@@ -69,7 +69,7 @@ function HeartRateZones() {
       interpretation={
         <p>
           Each band is resting heart rate plus a percentage of your reserve. Because the reserve shrinks with a high resting
-          rate, two runners with the same maximum but different resting rates get different zones — that is the point of
+          rate, two runners with the same maximum but different resting rates get different zones, that is the point of
           the Karvonen method. The five-band split is a common coaching convention, not a physiological law; your real
           thresholds may sit a few beats either side.
         </p>
@@ -143,13 +143,13 @@ function MileageRamp() {
   return (
     <ChartFrame
       title="Two ways to build from the same start"
-      subtitle="Weekly distance over 16 weeks — a worked example, not a plan"
+      subtitle="Weekly distance over 16 weeks, a worked example, not a plan"
       legend={series.map((x) => x.name)}
       table={{ head: ['week', ...series.map((x) => `${x.name} (km)`)], rows: steady.map((p, i) => [p.x, p.y, stepped[i].y]) }}
       interpretation={
         <p>
           Compounding is the hidden danger of a fixed weekly percentage: starting at {s} km, +10% every week reaches{' '}
-          <b>{endA.toFixed(0)} km</b> by week 16 — {(endA / s).toFixed(1)}× the start. The stepped pattern (build three
+          <b>{endA.toFixed(0)} km</b> by week 16, {(endA / s).toFixed(1)}× the start. The stepped pattern (build three
           weeks, then drop 25%) ends at <b>{endB.toFixed(0)} km</b> and gives tendons and bones a lighter week every month to
           catch up. Most runners also plateau for a few weeks at a new level before building again.
         </p>
@@ -182,7 +182,7 @@ function TaperChart() {
         <p>
           The shape follows the meta-analysis finding: a progressive cut of roughly 40–60% over about two weeks, with
           intensity kept. In the final two weeks this example averages a {(100 - (75 + 55) / 2).toFixed(0)}% reduction,
-          then drops further in race week. Keep a short race-pace session each week — it is the volume that comes down, not
+          then drops further in race week. Keep a short race-pace session each week, it is the volume that comes down, not
           the speed.
         </p>
       }
@@ -215,11 +215,11 @@ function CarbChart() {
         <p>
           The recommendation steps up with duration because glycogen only runs short in longer efforts. The 90 g/h tier is
           only reachable with glucose–fructose mixtures, which use two gut transporters. These are upper ranges for trained
-          guts — start lower and build up in training.
+          guts, start lower and build up in training.
           {Number.isFinite(h) && h > 0 && (
             <>
               {' '}
-              For a <b>{h} h</b> effort that is up to <b>{rate} g/h</b> — about <b>{Math.round(rate * h)} g</b> in total
+              For a <b>{h} h</b> effort that is up to <b>{rate} g/h</b>, about <b>{Math.round(rate * h)} g</b> in total
               {rate ? `, or roughly ${Math.round((rate * h) / 25)} gels of 25 g` : ''}.
             </>
           )}
@@ -262,9 +262,9 @@ function SweatRate() {
           <p>
             You lost about <b>{rate.toFixed(2)} L per hour</b>, and your body mass fell <b>{pct.toFixed(1)}%</b>.{' '}
             {pct >= 2
-              ? 'That is past the ~2% level where performance tends to suffer — plan to drink more on runs this long in these conditions.'
+              ? 'That is past the ~2% level where performance tends to suffer, plan to drink more on runs this long in these conditions.'
               : pct < 0
-                ? 'You gained mass — you drank more than you sweated. Over long events that raises the risk of hyponatraemia.'
+                ? 'You gained mass, you drank more than you sweated. Over long events that raises the risk of hyponatraemia.'
                 : 'That is under the ~2% level, so your current drinking is roughly enough for this run.'}{' '}
             To keep losses under 2% over a longer run, drink roughly{' '}
             <b>{Math.max(0, rate - (b * 0.02) / 3).toFixed(2)} L/h</b> for a three-hour effort.
@@ -308,7 +308,7 @@ function CadenceChart() {
         <p>
           Lower is faster. At 170 steps per minute, lengthening the step from 1.0 to 1.2 m takes pace from{' '}
           {formatPaceSec(1000 / (170 * 1.0) * 60)} to {formatPaceSec(1000 / (170 * 1.2) * 60)} per km. Raising cadence by 5%
-          at the same step length speeds you up by about 5% too — but in practice step length shortens a little when cadence
+          at the same step length speeds you up by about 5% too, but in practice step length shortens a little when cadence
           rises, which is exactly why a cadence nudge reduces overstriding.
         </p>
       }
@@ -337,7 +337,7 @@ function EnergyAvailability() {
       interpretation={
         ok ? (
           <p>
-            Energy availability is <b>{ea.toFixed(0)} kcal per kg of fat-free mass per day</b> — <b>{band}</b>. Around 45 is
+            Energy availability is <b>{ea.toFixed(0)} kcal per kg of fat-free mass per day</b>, <b>{band}</b>. Around 45 is
             generally adequate for active adults; laboratory studies found hormonal disruption below about 30. This is a
             screening estimate: food and exercise energy are hard to measure precisely, so use it as a prompt, not a
             diagnosis.

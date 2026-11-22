@@ -45,7 +45,7 @@ export function Login() {
         <div className="mb-8 flex flex-col gap-3">
           <Logo />
           <p className="text-sm" style={{ color: 'var(--ink-soft)' }}>
-            Teaching terminal — classes, rosters and homework in one panel.
+            Teaching terminal, classes, rosters and homework in one panel.
           </p>
         </div>
 
@@ -104,7 +104,7 @@ export function Login() {
           <div className="panel mt-4 p-4">
             <p className="label">no account yet</p>
             <p className="mt-1.5 text-sm" style={{ color: 'var(--ink-soft)' }}>
-              This terminal has no account. Claim it now — sign-up closes once one exists.
+              This terminal has no account. Claim it now, sign-up closes once one exists.
             </p>
             <Link to="/signup" className="btn mt-3 w-full">
               Create the account

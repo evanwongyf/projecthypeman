@@ -145,7 +145,7 @@ export function SeatingPage() {
         {!plan ? (
           <Empty
             title="no seating plan yet"
-            body={`Make a plan for ${cls.name} — a grid of seats you fill by tapping a cell. You can keep several and switch between them.`}
+            body={`Make a plan for ${cls.name}, a grid of seats you fill by tapping a cell. You can keep several and switch between them.`}
             action={
               <button type="button" className="btn btn-primary" onClick={() => setCreating(true)}>
                 <IconPlus />
@@ -262,7 +262,7 @@ export function SeatingPage() {
             {free.length > 0 && (
               <section className="mt-6">
                 <p className="label mb-2">
-                  not seated — {free.length} of {roster.length}
+                  not seated, {free.length} of {roster.length}
                 </p>
                 <ul className="flex flex-wrap gap-1.5">
                   {free.map((s) => (

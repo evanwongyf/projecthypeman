@@ -259,7 +259,7 @@ function RelationshipForm({ student, onClose }: { student: Student; onClose: () 
               if (v) setOtherName("")
             }}
             options={[
-              { value: "", label: "— someone not in the terminal —" },
+              { value: "", label: "someone not in the terminal" },
               ...candidates.map((s) => ({ value: s.id, label: s.fullName })),
             ]}
           />

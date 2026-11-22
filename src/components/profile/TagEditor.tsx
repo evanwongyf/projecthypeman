@@ -5,7 +5,7 @@ import { IconClose, IconPlus } from '../Icons'
 
 type Field = 'ccas' | 'interests' | 'characteristics'
 
-/** Chips a teacher adds one at a time — CCAs, interests, characteristics. */
+/** Chips a teacher adds one at a time, CCAs, interests, characteristics. */
 export function TagEditor({
   studentId,
   field,

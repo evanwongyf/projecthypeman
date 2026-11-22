@@ -35,7 +35,7 @@ export function EffectsEditor() {
     {
       kind: 'positive',
       title: 'Rewards',
-      blurb: 'Said out loud and collected — give these names worth earning.',
+      blurb: 'Said out loud and collected, give these names worth earning.',
       list: positives,
       tone: 'var(--collected)',
     },
@@ -116,7 +116,7 @@ export function EffectsEditor() {
       </div>
 
       <p className="mt-6 max-w-xl text-xs" style={{ color: 'var(--ink-faint)' }}>
-        Retiring an effect leaves awarded points alone — each entry keeps the name and value it
+        Retiring an effect leaves awarded points alone, each entry keeps the name and value it
         was given, so totals and history never shift under you.
       </p>
 
@@ -207,7 +207,7 @@ function EffectForm({
           />
         </Field>
         <p className="text-xs" style={{ color: 'var(--ink-faint)' }}>
-          This is only the starting value — you can dial it up or down each time you activate it.
+          This is only the starting value, you can dial it up or down each time you activate it.
         </p>
         {error && (
           <p className="font-mono text-xs" style={{ color: 'var(--overdue)' }}>

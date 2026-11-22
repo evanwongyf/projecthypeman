@@ -22,6 +22,8 @@ import { RaceLabPage } from './pages/RaceLabPage'
 
 // The Archive carries large data sets (shoes, theory, charts), so it loads on demand.
 const ArchivePage = lazy(() => import('./pages/ArchivePage').then((m) => ({ default: m.ArchivePage })))
+// The personal archive is ~1,400 guides plus 3D, maths and audio engines; every guide loads on its own.
+const PersonalArchivePage = lazy(() => import('./pages/PersonalArchivePage').then((m) => ({ default: m.PersonalArchivePage })))
 
 export default function App() {
   return (
@@ -50,6 +52,14 @@ export default function App() {
               element={
                 <Suspense fallback={<p className="label p-8">loading archive…</p>}>
                   <ArchivePage />
+                </Suspense>
+              }
+            />
+            <Route
+              path="/personal/archive/*"
+              element={
+                <Suspense fallback={<p className="label p-8">loading archive…</p>}>
+                  <PersonalArchivePage />
                 </Suspense>
               }
             />

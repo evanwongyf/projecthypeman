@@ -181,7 +181,7 @@ function RunForm({ onAdd }: { onAdd: (run: Run) => void }) {
 
       <div>
         <p className="label">pace</p>
-        <p className="mono mt-1 text-lg font-semibold">{pace ? `${pace} /km` : '—'}</p>
+        <p className="mono mt-1 text-lg font-semibold">{pace ? `${pace} /km` : '-'}</p>
       </div>
 
       {error && (

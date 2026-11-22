@@ -1,5 +1,5 @@
 /**
- * A miniature of the real UI — a header, two status chips and a button — so a
+ * A miniature of the real UI, a header, two status chips and a button, so a
  * change is judged on the thing it affects rather than on a swatch.
  */
 export function DesignPreview() {

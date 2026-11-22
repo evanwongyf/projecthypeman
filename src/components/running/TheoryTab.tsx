@@ -1,31 +1,16 @@
 import { useState } from 'react'
+import { Modal } from '../Modal'
 import { Select } from '../Select'
 import { THEORY, type TheoryArticle } from '../../data/theory'
 import { TheoryVisual } from './TheoryVisuals'
 
-/** Article list → full article view (not a modal: articles carry charts and calculators). */
+/** Article list; each article opens in a large modal with its charts and calculators. */
 export function TheoryTab() {
   const [topic, setTopic] = useState('')
   const [openId, setOpenId] = useState<string | null>(null)
   const topics = [...new Set(THEORY.map((a) => a.topic))]
   const list = THEORY.filter((a) => !topic || a.topic === topic)
   const open = THEORY.find((a) => a.id === openId)
-
-  if (open) {
-    const i = THEORY.indexOf(open)
-    return (
-      <Article
-        article={open}
-        onBack={() => setOpenId(null)}
-        prev={THEORY[i - 1]}
-        next={THEORY[i + 1]}
-        onGo={(id) => {
-          setOpenId(id)
-          window.scrollTo({ top: 0 })
-        }}
-      />
-    )
-  }
 
   return (
     <>
@@ -63,31 +48,39 @@ export function TheoryTab() {
         Plain-language summaries of mainstream coaching and sports-science consensus, with the studies they lean on. A
         starting point, not medical advice.
       </p>
+
+      {open && (
+        <Modal eyebrow={open.topic} title={open.title} onClose={() => setOpenId(null)} xl>
+          <Article
+            key={open.id}
+            article={open}
+            prev={THEORY[THEORY.indexOf(open) - 1]}
+            next={THEORY[THEORY.indexOf(open) + 1]}
+            onGo={(id) => {
+              setOpenId(id)
+              document.querySelector('[role="dialog"]')?.scrollIntoView({ block: 'start' })
+            }}
+          />
+        </Modal>
+      )}
     </>
   )
 }
 
 function Article({
   article: a,
-  onBack,
   prev,
   next,
   onGo,
 }: {
   article: TheoryArticle
-  onBack: () => void
   prev?: TheoryArticle
   next?: TheoryArticle
   onGo: (id: string) => void
 }) {
   return (
-    <article className="max-w-3xl">
-      <button type="button" className="label mb-4 hover:text-[var(--ink)]" onClick={onBack}>
-        ← all articles
-      </button>
-      <p className="label">{a.topic}</p>
-      <h2 className="mt-1.5 text-2xl font-semibold tracking-tight">{a.title}</h2>
-      <p className="mt-2 text-base" style={{ color: 'var(--ink-soft)' }}>
+    <article>
+      <p className="text-base" style={{ color: 'var(--ink-soft)' }}>
         {a.summary}
       </p>
 
@@ -153,7 +146,7 @@ function Article({
           <ul className="mt-2 space-y-1.5 text-sm">
             {a.keyPoints.map((k) => (
               <li key={k} className="flex gap-2">
-                <span style={{ color: 'var(--accent)' }}>—</span>
+                <span style={{ color: 'var(--accent)' }}>-</span>
                 {k}
               </li>
             ))}

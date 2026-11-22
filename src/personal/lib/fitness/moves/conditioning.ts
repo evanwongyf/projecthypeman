@@ -1,0 +1,131 @@
+import { gait } from '../pose'
+import type { Exercise } from './kit'
+import { flat, hold, k, km } from './kit'
+
+// Whole-body conditioning moves for circuits and HIIT.
+
+const PLANK = { pitch: 72, neck: [-12], both: { hip: [0, 4, 0], knee: 0, ankle: -12, shoulder: [72, 10, 0], elbow: 0, grip: 0 } }
+const CROUCH = { pitch: 55, spine: [10], neck: [-40], both: { hip: [125, 14, 14], knee: 125, ankle: flat(55, 125, 125), shoulder: [65, 10, 0], elbow: 0, grip: 0 } }
+
+export const CONDITIONING: Record<string, Exercise> = {
+  'jumping-jack': {
+    name: 'Jumping jack',
+    ms: 900,
+    view: 'front',
+    keys: [
+      k(0, { both: { hip: [0, 3, 6], ankle: -6, shoulder: [2, 6, 0], elbow: 8 } }),
+      k(0.25, { lift: 0.07, both: { hip: [0, 13, 6], ankle: -25, shoulder: [4, 90, 0], elbow: 6 } }),
+      k(0.5, { both: { hip: [0, 22, 10], knee: 10, ankle: -6, shoulder: [6, 166, 0], elbow: 6 } }),
+      k(0.75, { lift: 0.07, both: { hip: [0, 12, 6], ankle: -25, shoulder: [4, 90, 0], elbow: 6 } }),
+    ],
+    muscles: ['legs', 'calves', 'shoulders'],
+    steps: ['Stand with feet together, arms by your sides.', 'Jump the feet out wide while swinging the arms overhead.', 'Jump back to the start. Keep a steady rhythm.'],
+    cues: ['Light on the balls of the feet', 'Full arm swing'],
+    mistakes: ['Landing flat-footed and heavy'],
+    dose: '30–60 seconds as a warm-up or circuit station.',
+    easier: 'Step one foot out at a time instead of jumping.',
+  },
+  burpee: {
+    name: 'Burpee',
+    ms: 3000,
+    view: 'tall',
+    keys: [
+      k(0, {}),
+      k(0.14, CROUCH),
+      ...hold(0.28, 0.4, PLANK),
+      k(0.54, CROUCH),
+      k(0.68, { lift: 0.32, both: { hip: [6, 6, 4], knee: 10, ankle: -30, shoulder: [168, 14, 0], elbow: 6 } }),
+      k(0.8, { pitch: 10, both: { hip: [35, 6, 6], knee: 45, ankle: flat(10, 35, 45), shoulder: [30, 10, 0], elbow: 10 } }),
+    ],
+    muscles: ['legs', 'chest', 'core', 'shoulders'],
+    steps: ['From standing, squat down and put your hands on the floor.', 'Jump or step your feet back into a plank.', 'Jump or step the feet back in towards your hands.', 'Jump up, reaching the arms overhead, and land softly.'],
+    cues: ['Flat back in the plank', 'Soft landing', 'Steady pace you can keep'],
+    mistakes: ['Hips sagging in the plank', 'Landing stiff-legged'],
+    dose: '3–5 × 30 seconds, or 5–10 reps per round.',
+    easier: 'Step back and forward instead of jumping, and skip the jump at the top.',
+    harder: 'Add a push-up at the bottom.',
+  },
+  'mountain-climber': {
+    name: 'Mountain climber',
+    ms: 600,
+    view: 'side',
+    keys: gait([
+      k(0, { ...PLANK, R: { hip: [96, 4, 0], knee: 108, ankle: 0, shoulder: [72, 10, 0], elbow: 0, grip: 0 } }),
+      k(0.5, { ...PLANK, R: { hip: [0, 4, 0], knee: 0, ankle: -12, shoulder: [72, 10, 0], elbow: 0, grip: 0 } }),
+    ]),
+    muscles: ['core', 'legs', 'shoulders'],
+    steps: ['Start in a high plank, hands under the shoulders.', 'Drive one knee in towards your chest.', 'Switch legs quickly, like running in place.'],
+    cues: ['Shoulders over the hands', 'Hips level, not bouncing'],
+    mistakes: ['Hips piking up high', 'Shoulders drifting behind the hands'],
+    dose: '20–40 seconds.',
+  },
+  'squat-jump': {
+    name: 'Squat jump',
+    ms: 1600,
+    view: 'three',
+    keys: [
+      k(0, {}),
+      k(0.3, { pitch: 30, spine: [8], neck: [-20], both: { hip: [100, 12, 14], knee: 105, ankle: flat(30, 100, 105), shoulder: [-40, 10, 0], elbow: 10 } }),
+      k(0.5, { lift: 0.3, both: { hip: [4, 8, 6], knee: 6, ankle: -32, shoulder: [150, 12, 0], elbow: 8 } }),
+      k(0.7, { pitch: 20, neck: [-10], both: { hip: [70, 12, 12], knee: 80, ankle: flat(20, 70, 80), shoulder: [40, 10, 0], elbow: 10 } }),
+    ],
+    muscles: ['legs', 'glutes', 'calves'],
+    steps: ['Squat down, swinging the arms back.', 'Explode up, swinging the arms up, and jump as high as you can.', 'Land softly through the balls of the feet into the next squat.'],
+    cues: ['Land quietly', 'Knees out on landing'],
+    mistakes: ['Landing with knees caving in', 'Stiff, loud landings'],
+    dose: '3 × 8–12, or 20–30 seconds.',
+  },
+  'jump-rope': {
+    name: 'Skipping rope',
+    ms: 460,
+    view: 'three',
+    props: ['rope'],
+    keys: [
+      k(0, { both: { hip: [4, 4, 4], knee: 12, ankle: -8, shoulder: [12, 24, 0], elbow: 70, grip: 1 } }),
+      k(0.25, { lift: 0.03, both: { hip: [6, 4, 4], knee: 18, ankle: -26, shoulder: [10, 26, 0], elbow: 68, grip: 1 } }),
+      k(0.5, { lift: 0.07, both: { hip: [8, 4, 4], knee: 22, ankle: -30, shoulder: [10, 24, 0], elbow: 70, grip: 1 } }),
+      k(0.75, { lift: 0.03, both: { hip: [6, 4, 4], knee: 16, ankle: -24, shoulder: [12, 22, 0], elbow: 72, grip: 1 } }),
+    ],
+    muscles: ['calves', 'legs', 'shoulders'],
+    steps: ['Hold the handles at hip height, elbows close to your sides.', 'Turn the rope with your wrists, not your arms.', 'Jump just high enough to clear it, landing on the balls of your feet.'],
+    cues: ['Small jumps', 'Wrists turn the rope', 'Soft knees'],
+    mistakes: ['Jumping too high', 'Big arm circles'],
+    dose: 'Rounds of 1–3 minutes. A boxing classic.',
+  },
+  'box-jump': {
+    name: 'Box jump',
+    ms: 3000,
+    view: 'side',
+    props: ['box'],
+    keys: [
+      k(0, {}),
+      k(0.18, { pitch: 30, spine: [8], neck: [-20], both: { hip: [85, 10, 10], knee: 90, ankle: flat(30, 85, 90), shoulder: [-45, 10, 0], elbow: 10 } }),
+      k(0.34, { lift: 0.62, z: 0.28, pitch: 10, both: { hip: [95, 10, 10], knee: 120, ankle: 0, shoulder: [120, 12, 0], elbow: 20 } }),
+      k(0.46, { lift: 0.45, z: 0.52, pitch: 25, neck: [-15], both: { hip: [80, 10, 10], knee: 85, ankle: flat(25, 80, 85), shoulder: [60, 10, 0], elbow: 20 } }),
+      k(0.62, { lift: 0.45, z: 0.52 }),
+      k(0.78, { lift: 0.22, z: 0.26, R: { hip: [30, 4, 4], knee: 30, ankle: 0 }, L: { hip: [-6, 4, 4], knee: 20, ankle: -10 } }),
+      k(0.92, {}),
+    ],
+    muscles: ['legs', 'glutes', 'calves'],
+    steps: ['Stand an arm’s length from a sturdy box.', 'Swing the arms back as you dip into a quarter squat.', 'Jump up and land softly on the box in a half squat, whole foot on the box.', 'Stand up tall, then step (do not jump) back down.'],
+    cues: ['Land soft and quiet', 'Step down, every time'],
+    mistakes: ['A box too high, landing in a deep squat', 'Jumping back down, which strains the Achilles'],
+    dose: '3–5 × 3–5, fresh, with full rest.',
+  },
+  skater: {
+    name: 'Skater hops',
+    ms: 1500,
+    view: 'front',
+    keys: [
+      k(0, { x: -0.38, pitch: 28, spine: [6, 0, -10], R: { hip: [55, 4, 6], knee: 55, ankle: flat(28, 55, 55), shoulder: [-30, 10, 0], elbow: 20 }, L: { hip: [-8, -22, 0], knee: 45, ankle: -30, shoulder: [50, -10, 0], elbow: 30 } }),
+      k(0.25, { x: 0, lift: 0.18, pitch: 15, both: { hip: [25, 10, 4], knee: 25, ankle: -20, shoulder: [10, 15, 0], elbow: 20 } }),
+      km(0.5, { x: -0.38, pitch: 28, spine: [6, 0, -10], R: { hip: [55, 4, 6], knee: 55, ankle: flat(28, 55, 55), shoulder: [-30, 10, 0], elbow: 20 }, L: { hip: [-8, -22, 0], knee: 45, ankle: -30, shoulder: [50, -10, 0], elbow: 30 } }),
+      km(0.75, { x: 0, lift: 0.18, pitch: 15, both: { hip: [25, 10, 4], knee: 25, ankle: -20, shoulder: [10, 15, 0], elbow: 20 } }),
+    ],
+    muscles: ['legs', 'glutes', 'core'],
+    steps: ['Stand on one leg, slightly bent.', 'Bound sideways onto the other leg, like a speed skater.', 'Land softly and let the free leg sweep behind you, then bound back.'],
+    cues: ['Stick each landing for a moment', 'Sideways, not forwards'],
+    mistakes: ['Knee caving inwards on landing'],
+    dose: '30 seconds, or 10–20 bounds.',
+  },
+}

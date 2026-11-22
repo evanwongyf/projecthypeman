@@ -1,0 +1,103 @@
+import type { Guide } from '../../../guide'
+import { PLUCK, ab, effect, pair, play } from '../../../../strudel/demo'
+
+const guide: Guide = {
+  intro:
+    'A delay records the sound and plays it back a moment later, usually feeding part of that echo back in so it repeats and fades. It is the oldest studio effect after volume: tape echo on 1950s rockabilly vocals, dub reggae’s endless repeats, the rhythmic dotted-eighth echoes of U2’s guitar. In Strudel, delay is shared by everything on the same orbit.',
+  nutshell: [
+    '**delay** is the echo level, **delaytime** the gap in seconds, **delaysync** the gap in cycles, **delayfeedback** how much of each echo is repeated.',
+    'Write them together as **delay("level:time:feedback")**.',
+    '**delayspeed** bends the pitch of the echoes like a sped-up tape. **lock** makes delaytime relative to the tempo.',
+    'The delay is per **orbit**: parts that need different delay settings must be on different orbits.',
+  ],
+  sections: [
+    {
+      id: 'theory',
+      title: 'How a feedback delay works',
+      blocks: [
+        { t: 'p', text: 'The signal goes straight to the output and also into a delay line. After the delay time the stored copy comes out (that is the first echo, scaled by the delay level) and a fraction of it (the feedback) is sent back into the line, so it comes out again one delay time later, a little quieter, and so on. Each echo is the previous one multiplied by the feedback.' },
+        { t: 'math', tex: 'y(t) = x(t) + w \\sum_{k=1}^{\\infty} g^{\\,k-1}\\, x(t - kT)', caption: 'Output of a feedback delay', where: [{ sym: 'T', def: 'delay time' }, { sym: 'w', def: 'echo level (delay)' }, { sym: 'g', def: 'feedback, below 1 so the echoes fade' }], plain: 'With feedback 0.5, the echoes are at 1, 0.5, 0.25, 0.125… of the first one, about 6 dB quieter each time. At 1 they never fade.' },
+        { t: 'math', tex: 'T_{\\text{fade}} \\approx T \\cdot \\frac{-60}{20\\log_{10} g}', caption: 'Roughly how long the echoes take to fall by 60 dB', plain: 'With a 0.25 s delay and feedback 0.7 (−3.1 dB per repeat), the echoes take about 0.25 × 19 ≈ 4.8 seconds to die away.' },
+      ],
+    },
+    effect({
+      id: 'delay',
+      title: 'delay, echo level',
+      sig: '.delay(level)',
+      lead: 'Turn the echo on and set how loud it is.',
+      simple: 'Adds echoes after each sound, like shouting in a canyon. The number is how loud the echoes are.',
+      technical: 'Send level (0–1) into the orbit’s feedback delay. The dry signal is unchanged; echoes are added on top. Accepts "level:time:feedback" to set all three at once.',
+      higher: 'Louder echoes that compete with the original.',
+      lower: 'Quieter echoes; 0 turns the delay off.',
+      typical: '0.2–0.4 for subtle depth, 0.5–0.8 for obvious rhythmic echoes.',
+      listen: 'In the waveform, smaller copies appear after each note; the spectrum hardly changes because echoes are copies of the same sound.',
+      demo: ab('Echoes on a pluck', PLUCK, '.delay(.5)'),
+      more: [play('s("cp ~ ~ ~").bank("RolandTR909").delay("0.65:0.25:0.9")', 'All three settings at once: level 0.65, time 0.25 s, feedback 0.9')],
+    }),
+    effect({
+      id: 'delaytime',
+      title: 'delaytime, the gap',
+      sig: '.delaytime(seconds)',
+      aliases: '.delayt(), .dt()',
+      lead: 'How long until each echo.',
+      simple: 'How far apart the echoes are. Short gaps make a sound thicker; long gaps make clear repeats.',
+      technical: 'Delay line length in seconds. Under about 30 ms the echoes fuse with the sound into a thickening or comb-filter colour; 50–120 ms gives “slapback”; 200 ms and up gives distinct, rhythmic repeats.',
+      higher: 'Longer gaps: spacious, distinct echoes.',
+      lower: 'Shorter gaps: slapback, thickening, metallic combing.',
+      typical: '0.08–0.12 slapback; 0.125, 0.25, 0.375 s for rhythmic echoes at 120 bpm.',
+      demo: ab('Short delay time', `${PLUCK}.delay(.5)`, '.delaytime(.125)'),
+      more: [play(`${PLUCK}.delay(.6).delaytime("<.03 .1 .25 .5>").delayfeedback(.5)`, 'Comb, slapback, eighth notes, half-second: one per cycle')],
+    }),
+    effect({
+      id: 'delaysync',
+      title: 'delaysync, the gap in cycles',
+      sig: '.delaysync(cycles)',
+      lead: 'Echo timing locked to the tempo.',
+      simple: 'Sets the gap between echoes as a fraction of a bar, so the echoes always land on the beat whatever the speed.',
+      technical: 'Delay time expressed in cycles. With one cycle per 4/4 bar: 1/4 is a quarter note, 1/8 an eighth, **3/16 a dotted eighth** (the classic rhythmic echo that fills the gaps between notes), 1/6 an eighth-note triplet. The **lock** control does the same for delaytime.',
+      higher: 'Longer musical gaps.',
+      lower: 'Shorter musical gaps.',
+      typical: '1/8, 3/16, 1/4, 3/8.',
+      demo: ab('Dotted-eighth echoes', `${PLUCK}.delay(.6).delayfeedback(.6)`, '.delaysync(3/16)'),
+    }),
+    effect({
+      id: 'delayfeedback',
+      title: 'delayfeedback, how many repeats',
+      sig: '.delayfeedback(0–1)',
+      aliases: '.delayfb(), .dfb()',
+      lead: 'Each echo’s volume relative to the last.',
+      simple: 'How many times the echo repeats before it fades. Low means one or two echoes; high means a long trail.',
+      technical: 'The feedback gain g from the theory section: each repeat is g times the previous. At 1 or above the echoes never decay and build up, a deliberate effect in dub, dangerous at high levels.',
+      higher: 'Longer trails; near 1, the echoes pile up into a wash.',
+      lower: 'Fewer echoes.',
+      typical: '0.2–0.4 for a couple of repeats, 0.6–0.8 for long dub trails.',
+      demo: ab('More repeats', `${PLUCK}.delay(.5).delaytime(.25)`, '.delayfeedback(.8)'),
+    }),
+    effect({
+      id: 'delayspeed',
+      title: 'delayspeed, tape-style echoes',
+      sig: '.delayspeed(rate)',
+      lead: 'Echoes that bend in pitch.',
+      simple: 'Makes the echoes speed up or slow down like an old tape machine, so they rise, fall or even play backwards.',
+      technical: 'Changes the playback rate of the delay line, so each echo is resampled: 2 is an octave up per repeat, 0.5 an octave down, negative values reverse it. Tape and analogue delays bend the pitch when their time is changed; this exaggerates that.',
+      higher: 'Echoes climb in pitch.',
+      lower: 'Echoes drop in pitch; negative reverses.',
+      typical: '0.5, 2, −1 for effects; 1 is normal.',
+      demo: ab('Bending echoes', 'note("d3 d3 a#2 a2".fast(2)).s("sawtooth").lpf(1500).delay(.8).delaytime(.5)', '.delayspeed("<2 .5 -1 -2>")'),
+    }),
+    {
+      id: 'techniques',
+      title: 'Delay techniques',
+      blocks: [
+        pair('Ping-pong: echoes alternating sides', 'n("0 ~ ~ 4 ~ ~ 7 ~").scale("C4:minor").s("triangle").decay(.2).sustain(0)', 'n("0 ~ ~ 4 ~ ~ 7 ~").scale("C4:minor").s("triangle").decay(.2).sustain(0)\n  .delay(.6).delaysync(3/16).delayfeedback(.5).jux(x => x.late(3/16))', 'jux puts a copy on the right shifted by the delay time, so echoes bounce between the speakers (headphones help).'),
+        pair('Delay effect vs echo() pattern', 's("cp ~ ~ ~").bank("RolandTR909").delay(.6).delaytime(.125).delayfeedback(.6)', 's("cp ~ ~ ~").bank("RolandTR909").echo(4, 1/8, .6)', 'The delay effect copies audio; echo() adds real events. echo’s repeats can be changed per copy (pitch, filter) and do not share the orbit’s delay.'),
+        pair('Dub throw: delay on a single hit', 's("~ sd ~ sd").bank("RolandTR909")', 's("~ sd ~ sd").bank("RolandTR909").delay("<0 0 0 .8>").delayfeedback(.75).delaysync(1/4)', 'Sending only the last snare of every four cycles into a long delay, the dub “throw”.'),
+        { t: 'callout', tone: 'warn', title: 'One delay per orbit', text: 'All parts on an orbit share one delay: the most recent settings win. Put parts that need different delays on different orbits with .orbit(2), .orbit(3)…' },
+      ],
+    },
+  ],
+  sources: ['Strudel source, superdough feedbackdelay.mjs (AGPL-3.0).', 'Zölzer, U. (ed.) (2011). DAFX: Digital Audio Effects, 2nd ed. Wiley, chapter on delays.'],
+  related: ['music/strudel/fx-reverb', 'music/strudel/fx-stereo'],
+}
+
+export default guide

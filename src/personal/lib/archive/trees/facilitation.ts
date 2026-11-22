@@ -1,0 +1,112 @@
+import type { ArchiveNode } from '../topics'
+
+// Facilitation: helping a group think, decide, learn and grow together. Foundations (the role,
+// stances, how groups develop, psychological safety), frameworks for running sessions,
+// debriefing, the character growth of participants, building group unity, project management
+// for facilitators, and a toolkit of techniques with case studies.
+
+export const FACILITATION: ArchiveNode = {
+  slug: 'facilitation',
+  title: 'Facilitation',
+  blurb: 'Running sessions that groups actually own: facilitation frameworks, debriefing models, character growth, group unity, project management for programmes, and a big toolkit of techniques with case studies.',
+  glyph: '◍',
+  color: 'color-mix(in srgb, var(--mint) 65%, var(--teal))',
+  tags: ['facilitation', 'facilitator', 'debrief', 'debriefing', 'group work', 'team building', 'workshop', 'outdoor education', 'experiential learning', 'project management', 'icebreaker'],
+  children: [
+    { slug: 'start-here', title: 'Start here: what a facilitator does', glyph: '★', blurb: 'The facilitator’s job in one page, the shelf’s map, and routes for teachers, youth workers, trainers and team leads.', minutes: 8, tags: ['overview', 'roadmap'] },
+    {
+      slug: 'foundations',
+      title: 'Foundations',
+      glyph: '◇',
+      group: 'Foundations',
+      blurb: 'What facilitation is, the stances a facilitator can take, how groups develop, and the psychological safety everything else rests on.',
+      children: [
+        { slug: 'what-facilitation-is', title: 'What facilitation is', blurb: 'Content versus process, the neutral helper, facilitator versus teacher, trainer and chair, and the core competencies.', minutes: 11, tags: ['content and process', 'neutrality', 'iaf competencies', 'role'] },
+        { slug: 'stances-and-styles', title: 'Facilitator stances: Heron’s modes and six categories', blurb: 'Hierarchical, co-operative and autonomous modes, Heron’s six intervention categories, and when to lead, share or step back.', minutes: 12, tags: ['heron', 'six category intervention', 'modes', 'directive', 'facilitative'] },
+        { slug: 'group-development', title: 'How groups develop', blurb: 'Tuckman’s stages, Kaner’s diamond of participation and the groan zone, and what the facilitator does at each stage.', minutes: 12, tags: ['tuckman', 'forming storming norming performing', 'groan zone', 'diamond of participation', 'kaner'] },
+        { slug: 'psychological-safety', title: 'Psychological safety', blurb: 'Edmondson’s research, Google’s Project Aristotle, how safety is built and broken, and safety versus comfort.', minutes: 11, tags: ['edmondson', 'project aristotle', 'safety', 'trust', 'speaking up'] },
+      ],
+    },
+    {
+      slug: 'frameworks',
+      title: 'Frameworks for sessions',
+      glyph: '▦',
+      group: 'Running sessions',
+      blurb: 'Structures for designing and running sessions: the experiential cycle, ORID, Liberating Structures, large-group methods, appreciative inquiry and group decisions.',
+      children: [
+        { slug: 'session-design', title: 'Designing a session', blurb: 'Purpose, outcomes, the agenda arc (open, explore, converge, close), timing maths and a worked session plan.', minutes: 13, tags: ['agenda', 'session plan', 'outcomes', 'timing', 'design'] },
+        { slug: 'experiential-cycle', title: 'The experiential learning cycle', blurb: 'Kolb, Pfeiffer and Jones, and the adventure-education sequence: brief, activity, debrief, transfer.', minutes: 11, tags: ['kolb', 'experiential', 'adventure education', 'pfeiffer and jones', 'transfer'] },
+        { slug: 'orid', title: 'ORID: the focused conversation', blurb: 'Objective, reflective, interpretive, decisional questions, with question banks and full scripts.', minutes: 10, tags: ['orid', 'focused conversation', 'technology of participation', 'questions'] },
+        { slug: 'liberating-structures', title: 'Liberating Structures', blurb: '1-2-4-All, TRIZ, 15% Solutions, Troika Consulting, What, So What, Now What and more, with timings and when to use each.', minutes: 13, tags: ['liberating structures', '1-2-4-all', 'troika', 'triz', '15% solutions', 'impromptu networking'] },
+        { slug: 'large-group-methods', title: 'Large-group methods', blurb: 'World Café, Open Space Technology, fishbowls and gallery walks for 20 to 500 people.', minutes: 11, tags: ['world cafe', 'open space', 'fishbowl', 'gallery walk', 'unconference'] },
+        { slug: 'appreciative-inquiry', title: 'Appreciative inquiry and design thinking', blurb: 'The 4-D cycle, strengths-based questions, the double diamond and when to use problem-based or strengths-based framing.', minutes: 11, tags: ['appreciative inquiry', '4d cycle', 'design thinking', 'double diamond', 'strengths based'] },
+        { slug: 'decision-making', title: 'Helping groups decide', blurb: 'Decision rules, gradients of agreement, fist-to-five, consent, dot voting and the maths of voting and multi-voting.', minutes: 13, tags: ['consensus', 'consent', 'fist to five', 'dot voting', 'gradients of agreement', 'decision rules'] },
+      ],
+    },
+    {
+      slug: 'debriefing',
+      title: 'Debriefing',
+      glyph: '↺',
+      group: 'Running sessions',
+      blurb: 'Turning experience into learning: debrief models, questioning and creative techniques, and handling hard debriefs.',
+      children: [
+        { slug: 'why-debrief', title: 'Why debriefing matters', blurb: 'The evidence on debriefs (Tannenbaum and Cerasoli’s meta-analysis), what a debrief is for, and the shape of a good one.', minutes: 10, tags: ['debrief', 'evidence', 'after action review', 'meta-analysis', 'effect size'] },
+        { slug: 'debrief-models', title: 'Debrief models compared', blurb: 'What? So what? Now what?, Gibbs, the 4Fs, Lederman, plus/delta, after-action review, PEARLS and advocacy-inquiry.', minutes: 14, tags: ['what so what now what', 'gibbs', '4f', 'pearls', 'aar', 'plus delta', 'advocacy inquiry'] },
+        { slug: 'debrief-techniques', title: 'Debrief techniques', blurb: 'Questioning funnels, rounds, metaphor cards, spectrums, body sculpts, journals and active reviewing methods.', minutes: 12, tags: ['active reviewing', 'greenaway', 'metaphor', 'spectrum', 'rounds', 'journal'] },
+        { slug: 'hard-debriefs', title: 'Hard debriefs', blurb: 'Silence, blame, tears, a failed task, a dominant voice or a safety incident, with scripts for each.', minutes: 11, tags: ['difficult debrief', 'blame', 'emotion', 'failure', 'incident', 'scripts'] },
+      ],
+    },
+    {
+      slug: 'growth',
+      title: 'Character growth of participants',
+      glyph: '↗',
+      group: 'People and groups',
+      blurb: 'How programmes grow confidence, resilience and character, and how to tell whether they did.',
+      children: [
+        { slug: 'challenge-and-growth', title: 'Challenge, comfort zones and growth', blurb: 'Comfort, stretch and panic zones, challenge by choice, Yerkes–Dodson, self-efficacy and the adventure wave.', minutes: 12, tags: ['comfort zone', 'stretch zone', 'challenge by choice', 'self-efficacy', 'outward bound', 'resilience'] },
+        { slug: 'character-education', title: 'Character and values', blurb: 'Character strengths (VIA), virtues in action, Singapore’s CCE values, and designing for growth rather than preaching it.', minutes: 11, tags: ['character', 'via strengths', 'values', 'cce', 'virtue', 'leadership'] },
+        { slug: 'transfer', title: 'Making growth transfer home', blurb: 'Why lessons stay on the ropes course, and the techniques that carry them into school, work and family.', minutes: 10, tags: ['transfer of learning', 'metaphor', 'action plan', 'follow up'] },
+        { slug: 'measuring-growth', title: 'Measuring growth', blurb: 'Pre/post surveys, the retrospective pre-test, effect sizes and normalised gain, with worked examples and honest caveats.', minutes: 13, tags: ['evaluation', 'pre post', 'effect size', 'cohens d', 'normalised gain', 'survey'] },
+      ],
+    },
+    {
+      slug: 'unity',
+      title: 'Fostering group unity',
+      glyph: '◎',
+      group: 'People and groups',
+      blurb: 'Building cohesion and trust, team roles, activities that bond, and working with conflict.',
+      children: [
+        { slug: 'cohesion', title: 'What makes a group cohere', blurb: 'Task and social cohesion, superordinate goals (Robbers Cave), shared identity, rituals and the maths of group size.', minutes: 12, tags: ['cohesion', 'robbers cave', 'superordinate goals', 'identity', 'group size', 'ringelmann'] },
+        { slug: 'team-roles', title: 'Team roles and how people contribute', blurb: 'Belbin’s roles, Benne and Sheats, task and maintenance functions, and rotating roles in youth groups.', minutes: 10, tags: ['belbin', 'benne and sheats', 'roles', 'maintenance roles'] },
+        { slug: 'activities', title: 'Icebreakers, energisers and initiatives', blurb: 'A sequenced bank of activities from low risk to high trust, with purpose, timing and debrief questions for each.', minutes: 14, tags: ['icebreakers', 'energisers', 'initiatives', 'trust activities', 'team building', 'games'] },
+        { slug: 'conflict', title: 'Working with conflict', blurb: 'Thomas–Kilmann modes, interests behind positions, the ladder of inference, and repairing a group after a rupture.', minutes: 12, tags: ['conflict', 'thomas kilmann', 'interests', 'ladder of inference', 'repair', 'mediation'] },
+      ],
+    },
+    {
+      slug: 'project-management',
+      title: 'Project management for facilitators',
+      glyph: '▤',
+      group: 'Programmes',
+      blurb: 'Planning camps, workshops and programmes: scope, schedules, critical path and PERT, risk, budgets and agile retrospectives, with worked maths.',
+      children: [
+        { slug: 'scoping-and-planning', title: 'Scoping and planning a programme', blurb: 'Charters, SMART objectives, work breakdown, RACI, stakeholders and a worked plan for a three-day camp.', minutes: 13, tags: ['project charter', 'smart', 'wbs', 'raci', 'stakeholders', 'camp planning'] },
+        { slug: 'scheduling', title: 'Schedules, critical path and PERT', blurb: 'Gantt charts, dependencies, the critical path, float, and three-point estimates, each with step-by-step worked examples.', minutes: 15, tags: ['gantt', 'critical path', 'pert', 'float', 'three point estimate', 'schedule'] },
+        { slug: 'risk-and-budget', title: 'Risk, safety and budgets', blurb: 'Risk matrices, RAMS for outdoor activities, contingency, expected cost, earned value and per-head budgets.', minutes: 13, tags: ['risk assessment', 'risk matrix', 'budget', 'contingency', 'earned value', 'safety'] },
+        { slug: 'agile-and-retros', title: 'Agile ways of working and retrospectives', blurb: 'Scrum and kanban for small teams, velocity and flow maths, and retrospective formats a facilitator can run.', minutes: 12, tags: ['agile', 'scrum', 'kanban', 'retrospective', 'velocity', 'littles law'] },
+      ],
+    },
+    {
+      slug: 'toolkit',
+      title: 'Toolkit and case studies',
+      glyph: '✦',
+      group: 'Programmes',
+      blurb: 'Everyday facilitation techniques, online and hybrid sessions, difficult dynamics and case studies.',
+      children: [
+        { slug: 'techniques', title: 'Everyday facilitation techniques', blurb: 'Parking lots, rounds, timeboxing, stacking, paraphrasing, nominal group technique, silent brainstorming and forty more.', minutes: 15, tags: ['parking lot', 'stacking', 'paraphrasing', 'nominal group technique', 'brainwriting', 'timebox'] },
+        { slug: 'online-and-hybrid', title: 'Online and hybrid facilitation', blurb: 'Attention online, breakouts, whiteboards, chat, cameras, and the fairness problems of hybrid rooms.', minutes: 11, tags: ['online', 'zoom', 'hybrid', 'breakout rooms', 'miro', 'virtual'] },
+        { slug: 'difficult-dynamics', title: 'Difficult dynamics', blurb: 'Dominators, silent members, cynics, side conversations, power imbalances and groupthink, with responses that keep dignity.', minutes: 12, tags: ['difficult participants', 'groupthink', 'dominant', 'quiet', 'power'] },
+        { slug: 'case-studies', title: 'Case studies', blurb: 'Eight sessions that went well or badly: a youth camp, a staff retreat, a failed raft build, a merger workshop and more.', minutes: 16, tags: ['case studies', 'examples', 'reflection'] },
+      ],
+    },
+  ],
+}

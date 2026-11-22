@@ -24,7 +24,7 @@ export async function loadExercises(): Promise<Exercise[]> {
   return mod.default as Exercise[]
 }
 
-/** A search on YouTube for a form demo — the dataset itself has no videos. */
+/** A search on YouTube for a form demo, the dataset itself has no videos. */
 export function videoSearchUrl(name: string) {
   return `https://www.youtube.com/results?search_query=${encodeURIComponent(`${name} exercise how to`)}`
 }
@@ -32,7 +32,7 @@ export function videoSearchUrl(name: string) {
 /** A short starter set, with why each one matters for running. */
 export const ESSENTIALS: { id: string; why: string }[] = [
   { id: 'Split_Squat_with_Dumbbells', why: 'Single-leg strength for every stride; loads quads and glutes.' },
-  { id: 'Kettlebell_One-Legged_Deadlift', why: 'Hamstrings, glutes and balance on one leg — mirrors stance phase.' },
+  { id: 'Kettlebell_One-Legged_Deadlift', why: 'Hamstrings, glutes and balance on one leg, mirrors stance phase.' },
   { id: 'Romanian_Deadlift', why: 'Heavy posterior-chain strength for power and hamstring resilience.' },
   { id: 'Dumbbell_Step_Ups', why: 'Hill strength and knee-over-toe control.' },
   { id: 'Calf_Raise_On_A_Dumbbell', why: 'Calves take several times body weight each step; strong calves protect the Achilles.' },

@@ -79,8 +79,8 @@ export function DesignProvider({ children }: { children: ReactNode }) {
 
   /**
    * Adopt what another device saved. Merged over the current settings rather
-   * than replacing them, so a blob written by an older build — one that
-   * predates an axis — leaves that axis alone instead of resetting it.
+   * than replacing them, so a blob written by an older build, one that
+   * predates an axis, leaves that axis alone instead of resetting it.
    */
   const adopt = useCallback((raw: unknown) => {
     if (!raw || typeof raw !== 'object') return
