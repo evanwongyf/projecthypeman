@@ -4,6 +4,7 @@ import { EXAMS, HABITS, MEMORY, NOTE_TAKING, RESEARCH, THINKING, WRITING } from 
 import { AI } from './trees/ai'
 import { ACCOUNTING } from './trees/accounting'
 import { BANKING } from './trees/banking'
+import { ECONOMICS } from './trees/economics'
 import { CLOUD } from './trees/cloud'
 import { CYBER } from './trees/cyber'
 import { FINANCE } from './trees/finance'
@@ -62,7 +63,7 @@ export type ArchiveNode = {
 // The archive is a shelf of guides on studying, teaching, sign language, fitness and finance, nested as deep as a topic
 // needs. A guide opens when it has content; a collection opens when anything inside it
 // does. Everything else is shown as coming soon so the shelf still makes sense.
-export const ARCHIVE_TOPICS: ArchiveNode[] = [TEACHING, FACILITATION, E_PEDAGOGY, GAMIFICATION, RESEARCH, NOTE_TAKING, MEMORY, ATTENTION, WRITING, GRAMMAR, EXAMS, THINKING, HABITS, SIGN_LANGUAGE, CHINESE_DIALECTS, FITNESS, FIRST_AID, SPORTS, GAMES, MUSIC, GAME_THEORY, TAROT, MEDICINE, FOOD_THERAPY, PARENTING, PERSONALITY, MILITARY, SURVIVAL, ANTHROPOLOGY, CRIMINOLOGY, FORENSICS, MATHEMATICS, QUANTUM, ASTROPHYSICS, FINANCE, AI, AGENTIC_AI, CYBER, CLOUD, NETWORKING, BANKING, ACCOUNTING, WEATHER]
+export const ARCHIVE_TOPICS: ArchiveNode[] = [TEACHING, FACILITATION, E_PEDAGOGY, GAMIFICATION, RESEARCH, NOTE_TAKING, MEMORY, ATTENTION, WRITING, GRAMMAR, EXAMS, THINKING, HABITS, SIGN_LANGUAGE, CHINESE_DIALECTS, FITNESS, FIRST_AID, SPORTS, GAMES, MUSIC, GAME_THEORY, TAROT, MEDICINE, FOOD_THERAPY, PARENTING, PERSONALITY, MILITARY, SURVIVAL, ANTHROPOLOGY, CRIMINOLOGY, FORENSICS, MATHEMATICS, QUANTUM, ASTROPHYSICS, ECONOMICS, FINANCE, AI, AGENTIC_AI, CYBER, CLOUD, NETWORKING, BANKING, ACCOUNTING, WEATHER]
 
 // A guide's text lives in content/<its archive path>.ts, one file per guide, so each is
 // downloaded only when opened. A planned guide goes live as soon as its file exists.

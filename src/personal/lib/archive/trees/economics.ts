@@ -1,0 +1,148 @@
+import type { ArchiveNode } from '../topics'
+
+// Economics: the theory behind the finance and banking shelves. Microeconomics (firms,
+// welfare, market failure, information, labour), macroeconomics (aggregate models, fiscal
+// policy and debt), the world economy (trade, growth, inequality) and behavioural economics,
+// each with the maths derived, worked examples, diagrams and labs, and Singapore cases.
+
+export const ECONOMICS: ArchiveNode = {
+  slug: 'economics',
+  title: 'Economics',
+  blurb: 'How markets, firms, governments and whole economies work: costs and competition, taxes and welfare, externalities, information, labour, aggregate demand and supply, public debt, trade, growth, inequality and behavioural economics, with the maths derived step by step and Singapore cases throughout.',
+  glyph: '⚖',
+  color: 'color-mix(in srgb, var(--orange) 45%, var(--mustard))',
+  tags: ['economics', 'microeconomics', 'macroeconomics', 'policy', 'singapore economy', 'markets', 'welfare', 'trade', 'growth'],
+  children: [
+    { slug: 'start-here', title: 'Start here', blurb: 'What economics studies, the toolkit of models and diagrams, and a route through the ten shelves.', minutes: 8, glyph: '★', tags: ['beginner', 'overview', 'roadmap', 'scarcity', 'opportunity cost', 'models'] },
+    {
+      slug: 'firms',
+      title: 'Costs and market structure',
+      group: 'Microeconomics',
+      blurb: 'What it costs to produce, how a firm chooses output, and how competition, monopoly and oligopoly set prices.',
+      glyph: '▲',
+      tags: ['firms', 'costs', 'market structure', 'competition', 'monopoly', 'oligopoly'],
+      children: [
+        { slug: 'costs-and-production', title: 'Costs, production and the supply decision', blurb: 'Fixed, variable, average and marginal cost, diminishing returns, the shutdown rule and economies of scale.', minutes: 16, tags: ['marginal cost', 'average cost', 'fixed cost', 'variable cost', 'diminishing returns', 'shutdown', 'economies of scale', 'sunk cost'] },
+        { slug: 'competition-and-monopoly', title: 'Perfect competition and monopoly', blurb: 'Price takers and price makers, MR = MC, the monopoly markup, deadweight loss, natural monopoly and regulation.', minutes: 16, tags: ['perfect competition', 'monopoly', 'marginal revenue', 'mr = mc', 'markup', 'lerner index', 'deadweight loss', 'natural monopoly', 'long run'] },
+        { slug: 'oligopoly-and-pricing', title: 'Oligopoly, price discrimination and competition policy', blurb: 'Cournot and Bertrand, collusion and cartels, the three degrees of price discrimination, HHI and merger control.', minutes: 17, tags: ['oligopoly', 'cournot', 'bertrand', 'cartel', 'collusion', 'price discrimination', 'hhi', 'merger', 'competition law', 'cccs'] },
+      ],
+    },
+    {
+      slug: 'welfare',
+      title: 'Welfare, taxes and price controls',
+      group: 'Microeconomics',
+      blurb: 'Consumer and producer surplus, why markets can be efficient, who really pays a tax, and what price ceilings and floors do.',
+      glyph: '◭',
+      tags: ['welfare economics', 'surplus', 'efficiency', 'tax incidence', 'deadweight loss', 'price controls'],
+      children: [
+        { slug: 'surplus-and-efficiency', title: 'Surplus, efficiency and the gains from trade', blurb: 'Willingness to pay, consumer and producer surplus, why the competitive equilibrium maximises total surplus, and its limits.', minutes: 14, tags: ['consumer surplus', 'producer surplus', 'willingness to pay', 'efficiency', 'pareto', 'first welfare theorem', 'invisible hand'] },
+        { slug: 'taxes-and-incidence', title: 'Taxes: incidence and deadweight loss', blurb: 'The tax wedge, why the less elastic side pays, the Harberger triangle, why loss grows with the square of the rate, and GST.', minutes: 17, tags: ['tax incidence', 'deadweight loss', 'harberger triangle', 'tax wedge', 'elasticity', 'gst', 'laffer curve', 'excess burden', 'subsidy'] },
+        { slug: 'price-controls', title: 'Price ceilings and floors', blurb: 'Rent control, price caps, minimum prices, shortages and surpluses, queues and black markets, and the evidence.', minutes: 14, tags: ['price ceiling', 'price floor', 'rent control', 'shortage', 'surplus', 'black market', 'rationing', 'price cap'] },
+      ],
+    },
+    {
+      slug: 'market-failure',
+      title: 'Externalities and public goods',
+      group: 'Microeconomics',
+      blurb: 'When prices miss costs or benefits: pollution and Pigouvian taxes, Coase bargaining, public goods, free riders and the commons, with Singapore’s COE, ERP and carbon tax.',
+      glyph: '☁',
+      tags: ['market failure', 'externality', 'public goods', 'pigouvian tax', 'coase', 'tragedy of the commons'],
+      children: [
+        { slug: 'externalities', title: 'Externalities, Pigouvian taxes and Coase', blurb: 'Social versus private cost, overproduction, the corrective tax, positive externalities and subsidies, and when bargaining fixes it.', minutes: 16, tags: ['externality', 'pigouvian tax', 'social cost', 'coase theorem', 'transaction costs', 'subsidy', 'vaccination', 'pollution'] },
+        { slug: 'public-goods-and-commons', title: 'Public goods, free riders and the commons', blurb: 'Rivalry and excludability, the Samuelson condition, free riding, the tragedy of the commons and Ostrom’s design principles.', minutes: 15, tags: ['public goods', 'free rider', 'samuelson condition', 'tragedy of the commons', 'ostrom', 'club goods', 'common pool resources', 'fisheries'] },
+        { slug: 'singapore-cars-roads-carbon', title: 'Singapore cases: COE, ERP and the carbon tax', blurb: 'The vehicle quota auction, congestion pricing on roads, and pricing carbon: textbook economics as national policy.', minutes: 15, tags: ['coe', 'certificate of entitlement', 'vehicle quota', 'erp', 'electronic road pricing', 'congestion pricing', 'carbon tax', 'singapore', 'cap and trade'] },
+      ],
+    },
+    {
+      slug: 'information',
+      title: 'Information and incentives',
+      group: 'Microeconomics',
+      blurb: 'Markets where one side knows more: lemons, signalling and screening, moral hazard, principal and agent, and auctions.',
+      glyph: '?',
+      tags: ['information economics', 'asymmetric information', 'adverse selection', 'moral hazard', 'auctions', 'mechanism design'],
+      children: [
+        { slug: 'lemons-and-signalling', title: 'Adverse selection: lemons, signals and screening', blurb: 'Akerlof’s used-car market, the insurance death spiral, Spence’s education signal, and screening with menus of contracts.', minutes: 17, tags: ['adverse selection', 'market for lemons', 'akerlof', 'signalling', 'spence', 'screening', 'insurance', 'death spiral', 'warranty'] },
+        { slug: 'moral-hazard-and-agency', title: 'Moral hazard and the principal–agent problem', blurb: 'Hidden actions, deductibles and co-payments, incentive pay and its trade-off with risk, efficiency wages, and banking.', minutes: 16, tags: ['moral hazard', 'principal agent', 'incentives', 'deductible', 'co-payment', 'efficiency wage', 'bonus', 'too big to fail', 'stock options'] },
+        { slug: 'auctions', title: 'Auctions and mechanism design', blurb: 'English, Dutch, first- and second-price auctions, bidding strategy, revenue equivalence, the winner’s curse and real designs.', minutes: 16, tags: ['auction', 'vickrey', 'second price', 'first price', 'english auction', 'dutch auction', 'revenue equivalence', 'winners curse', 'spectrum auction', 'mechanism design'] },
+      ],
+    },
+    {
+      slug: 'labour',
+      title: 'Labour markets',
+      group: 'Microeconomics',
+      blurb: 'How wages are set, why they differ, what minimum wages do under competition and monopsony, and the kinds of unemployment.',
+      glyph: '⚒',
+      tags: ['labour economics', 'wages', 'employment', 'unemployment', 'minimum wage', 'human capital'],
+      children: [
+        { slug: 'wages-and-human-capital', title: 'Labour demand, supply and why wages differ', blurb: 'Marginal revenue product, the labour-leisure choice, human capital and the return to education, and compensating differentials.', minutes: 16, tags: ['labour demand', 'marginal revenue product', 'labour supply', 'income effect', 'substitution effect', 'human capital', 'returns to education', 'compensating differentials', 'cpf'] },
+        { slug: 'minimum-wages', title: 'Minimum wages, monopsony and the evidence', blurb: 'The competitive prediction, the monopsony case, Card and Krueger, the modern evidence, and Singapore’s Progressive Wage Model.', minutes: 16, tags: ['minimum wage', 'monopsony', 'card krueger', 'progressive wage model', 'pwm', 'local qualifying salary', 'employment effects', 'bunching'] },
+        { slug: 'unemployment', title: 'Unemployment: kinds, measures and the Beveridge curve', blurb: 'Frictional, structural and cyclical unemployment, the natural rate, flows in and out of work, Okun’s law and the Beveridge curve.', minutes: 15, tags: ['unemployment', 'frictional', 'structural', 'cyclical', 'natural rate', 'beveridge curve', 'okuns law', 'job finding rate', 'vacancies', 'labour force'] },
+      ],
+    },
+    {
+      slug: 'macro',
+      title: 'Macroeconomic models',
+      group: 'Macroeconomics',
+      blurb: 'Aggregate demand and supply, the spending multiplier and its leaks, and the Phillips curve from discovery to breakdown.',
+      glyph: '∿',
+      tags: ['macroeconomics', 'ad as', 'multiplier', 'phillips curve', 'keynes', 'stagflation'],
+      children: [
+        { slug: 'ad-as', title: 'Aggregate demand and aggregate supply', blurb: 'Why AD slopes down, short- and long-run supply, demand and supply shocks, stagflation and how the economy self-corrects.', minutes: 16, tags: ['aggregate demand', 'aggregate supply', 'ad as', 'potential output', 'output gap', 'supply shock', 'demand shock', 'stagflation', 'sticky wages'] },
+        { slug: 'multiplier', title: 'The multiplier: Keynesian cross and leakages', blurb: 'The consumption function, the Keynesian cross, the geometric series, taxes and imports, the paradox of thrift and real-world estimates.', minutes: 16, tags: ['multiplier', 'keynesian cross', 'consumption function', 'mpc', 'leakages', 'paradox of thrift', 'fiscal multiplier', 'balanced budget multiplier', 'crowding out'] },
+        { slug: 'phillips-curve', title: 'The Phillips curve and expectations', blurb: 'Phillips’ 1958 curve, Friedman and Phelps, the natural rate, 1970s stagflation, anchored expectations and the flattening.', minutes: 15, tags: ['phillips curve', 'expectations', 'nairu', 'natural rate', 'friedman', 'phelps', 'stagflation', 'volcker', 'anchored expectations', 'inflation'] },
+      ],
+    },
+    {
+      slug: 'fiscal',
+      title: 'Fiscal policy and public debt',
+      group: 'Macroeconomics',
+      blurb: 'Budgets, deficits and automatic stabilisers, the r − g arithmetic of public debt, and Singapore’s reserves-based fiscal model.',
+      glyph: '⛬',
+      tags: ['fiscal policy', 'public debt', 'deficit', 'budget', 'government spending', 'taxation'],
+      children: [
+        { slug: 'budgets-and-stabilisers', title: 'Budgets, deficits and automatic stabilisers', blurb: 'What governments spend and raise, primary and overall balances, cyclical adjustment, automatic stabilisers, and Ricardian equivalence.', minutes: 15, tags: ['budget', 'deficit', 'primary balance', 'structural balance', 'automatic stabilisers', 'ricardian equivalence', 'fiscal rules', 'countercyclical'] },
+        { slug: 'debt-dynamics', title: 'Public debt dynamics: the r − g rule', blurb: 'The debt accumulation equation derived, the stabilising primary balance, snowballs, inflation and default, and sustainability.', minutes: 17, tags: ['public debt', 'debt to gdp', 'r minus g', 'snowball effect', 'debt sustainability', 'primary surplus', 'sovereign default', 'inflation'] },
+        { slug: 'singapore-fiscal-model', title: 'Singapore’s fiscal model: reserves, NIRC and CPF', blurb: 'Balanced budgets over a term, the reserves framework, the Net Investment Returns Contribution, why Singapore borrows and CPF.', minutes: 15, tags: ['singapore budget', 'reserves', 'nirc', 'net investment returns contribution', 'gic', 'temasek', 'cpf', 'sgs bonds', 'singa', 'balanced budget'] },
+      ],
+    },
+    {
+      slug: 'trade',
+      title: 'Trade and the open economy',
+      group: 'The world economy',
+      blurb: 'Comparative advantage, the welfare arithmetic of tariffs and trade wars, the balance of payments, and the impossible trinity.',
+      glyph: '⇄',
+      tags: ['international trade', 'comparative advantage', 'tariffs', 'balance of payments', 'exchange rates', 'open economy'],
+      children: [
+        { slug: 'comparative-advantage', title: 'Comparative advantage and the gains from trade', blurb: 'Ricardo’s two countries and two goods, opportunity cost, production possibility frontiers, terms of trade and who loses.', minutes: 16, tags: ['comparative advantage', 'absolute advantage', 'ricardo', 'opportunity cost', 'ppf', 'terms of trade', 'specialisation', 'heckscher ohlin', 'gains from trade'] },
+        { slug: 'tariffs-and-trade-policy', title: 'Tariffs, quotas and trade wars', blurb: 'The small-country tariff diagram, quotas, the large-country case, retaliation as a prisoner’s dilemma, and the 2018–19 evidence.', minutes: 16, tags: ['tariff', 'quota', 'trade war', 'protectionism', 'deadweight loss', 'smoot hawley', 'wto', 'retaliation', 'terms of trade', 'infant industry'] },
+        { slug: 'balance-of-payments-and-trilemma', title: 'The balance of payments and the impossible trinity', blurb: 'Current and financial accounts, saving minus investment, why Singapore runs large surpluses, and the trilemma.', minutes: 16, tags: ['balance of payments', 'current account', 'financial account', 'saving investment', 'trade surplus', 'impossible trinity', 'trilemma', 'mundell fleming', 'singapore'] },
+      ],
+    },
+    {
+      slug: 'growth',
+      title: 'Growth, development and inequality',
+      group: 'The world economy',
+      blurb: 'Why some countries are rich: the Solow model, convergence, institutions, and how inequality is measured and changed.',
+      glyph: '↗',
+      tags: ['economic growth', 'development', 'solow', 'institutions', 'inequality', 'gini'],
+      children: [
+        { slug: 'solow-model', title: 'The Solow growth model and convergence', blurb: 'The production function, steady state derived, the golden rule, growth accounting, convergence and the rule of 70.', minutes: 18, tags: ['solow model', 'steady state', 'capital accumulation', 'golden rule', 'convergence', 'growth accounting', 'tfp', 'rule of 70', 'cobb douglas'] },
+        { slug: 'institutions-and-development', title: 'Institutions, ideas and development', blurb: 'Proximate and fundamental causes of growth, inclusive institutions, ideas and endogenous growth, and the East Asian miracle.', minutes: 15, tags: ['institutions', 'acemoglu', 'robinson', 'endogenous growth', 'romer', 'east asian miracle', 'singapore growth', 'middle income trap', 'development'] },
+        { slug: 'inequality', title: 'Inequality: Lorenz curves, Gini and redistribution', blurb: 'Measuring inequality, the Lorenz curve and Gini derived, Singapore before and after transfers, Kuznets, Piketty and mobility.', minutes: 16, tags: ['inequality', 'gini coefficient', 'lorenz curve', 'redistribution', 'kuznets curve', 'piketty', 'social mobility', 'great gatsby curve', 'singapore gini'] },
+      ],
+    },
+    {
+      slug: 'behavioural',
+      title: 'Behavioural economics',
+      group: 'Behaviour',
+      blurb: 'How real people choose: prospect theory and loss aversion, present bias and self-control, fairness, and nudges.',
+      glyph: '☺',
+      tags: ['behavioural economics', 'prospect theory', 'loss aversion', 'present bias', 'nudge', 'kahneman', 'thaler'],
+      children: [
+        { slug: 'prospect-theory', title: 'Prospect theory and loss aversion', blurb: 'Expected utility and its paradoxes, reference points, the value function, probability weighting, framing and the endowment effect.', minutes: 17, tags: ['prospect theory', 'loss aversion', 'expected utility', 'allais paradox', 'framing', 'endowment effect', 'reference point', 'probability weighting', 'kahneman tversky'] },
+        { slug: 'present-bias', title: 'Time, present bias and self-control', blurb: 'Exponential discounting, the β–δ model, preference reversals, commitment devices, and saving for retirement.', minutes: 15, tags: ['present bias', 'hyperbolic discounting', 'quasi hyperbolic', 'beta delta', 'commitment device', 'procrastination', 'self control', 'save more tomorrow', 'time inconsistency'] },
+        { slug: 'fairness-and-nudges', title: 'Fairness, social preferences and nudges', blurb: 'The ultimatum and dictator games, reciprocity, mental accounting, anchoring, defaults and choice architecture.', minutes: 15, tags: ['ultimatum game', 'dictator game', 'fairness', 'reciprocity', 'mental accounting', 'anchoring', 'nudge', 'defaults', 'choice architecture', 'auto enrolment'] },
+      ],
+    },
+  ],
+}

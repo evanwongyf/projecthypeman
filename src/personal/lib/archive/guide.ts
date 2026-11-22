@@ -100,6 +100,12 @@ export type Block =
       vlines?: { x: number; label?: string }[]
       hlines?: { y: number; label?: string }[]
       shade?: { from: number; to: number; label?: string; color?: string }[]
+      // Filled regions given as polygons in data coordinates (surplus triangles, a tax wedge),
+      // labelled at their centre or at `at`.
+      areas?: { pts: [number, number][]; label?: string; color?: string; at?: [number, number] }[]
+      // Straight segments in data coordinates: dashed drop lines to the axes, or arrows that
+      // show a curve shifting.
+      segments?: { from: [number, number]; to: [number, number]; label?: string; color?: string; dashed?: boolean; arrow?: boolean }[]
       caption?: string
     }
   | {
@@ -273,6 +279,14 @@ export type Block =
   | { t: 'wx-chart'; viz: 'radar' | 'zr-relation' | 'satellite' | 'wind-barb' | 'wind-rose' | 'isobar-map' | 'front-symbols' | 'skew-t' | 'meteogram' | 'ensemble' | 'idf' | 'oktas' | 'hovmoller' }
   // Banking: labs for interest, loans, money creation, capital, runs and credit risk.
   | { t: 'bank-viz'; viz: 'compound' | 'flat-rate' | 'amortisation' | 'money-multiplier' | 'leverage' | 'bank-run' | 'credit-risk' | 'card-interest' }
+  // Economics labs: markets and welfare, firms and competition, market failure, labour,
+  // macroeconomics, public debt, trade, growth, inequality and behavioural economics.
+  | {
+      t: 'econ-viz'
+      viz:
+        | 'tax-wedge' | 'price-control' | 'cost-curves' | 'cournot' | 'externality' | 'lemons' | 'monopsony' | 'multiplier'
+        | 'ad-as' | 'debt-path' | 'comparative-advantage' | 'tariff' | 'solow' | 'lorenz' | 'prospect' | 'discounting'
+    }
   // Accounting and taxation: ledgers, depreciation, inventory, cost-volume-profit and tax.
   | { t: 'acct-viz'; viz: 'ledger' | 'depreciation' | 'inventory' | 'cvp' | 'income-tax' | 'gst' | 'corp-tax' }
   // Training and nutrition labs: macros, volume, periodisation, fitness-fatigue and fuelling.

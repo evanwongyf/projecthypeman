@@ -92,7 +92,26 @@ export type Homework = {
   createdAt: string
   submissions: Record<string, SubmissionState>
   collectedAt: Record<string, string>
+  /**
+   * Item analysis. Set once the teacher initialises the paper: one entry per
+   * question with its full marks and, optionally, the concept it tests.
+   */
+  questions?: HomeworkQuestion[]
+  itemsInitialisedAt?: string
+  /** studentId -> one score per question, null where not yet marked. */
+  scores?: Record<string, (number | null)[]>
 }
+
+export type HomeworkQuestion = {
+  /** Full marks for the question; decimals allowed (2 places). */
+  marks: number
+  concept?: string
+}
+
+/** Limits shared by the browser and the API. */
+export const ITEM_MAX_QUESTIONS = 100
+export const ITEM_MAX_MARKS = 1000
+export const ITEM_CONCEPT_MAX = 80
 
 export type Settings = {
   design?: Record<string, string>
