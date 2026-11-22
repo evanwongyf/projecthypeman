@@ -1,3 +1,4 @@
+import type { DocProject, DocSummary, DocValues } from './documents/types'
 import type {
   Award,
   Behaviour,
@@ -137,6 +138,26 @@ export const api = {
   activate: (body: { studentIds: string[]; behaviourId: string; points: number }) =>
     send<{ awards: Award[] }>('/api/awards', json('POST', body)),
   undoAward: (id: string) => send<{ ok: true }>(`/api/awards/${id}`, { method: 'DELETE' }),
+
+  // ---- document lab ----
+  //
+  // Projects live in their own R2 objects rather than the terminal blob, so
+  // they are fetched on demand instead of arriving with every page load.
+  documents: () => send<{ projects: DocSummary[] }>('/api/documents'),
+  document: (id: string) => send<DocProject>(`/api/documents/${id}`),
+  createDocument: (body: { templateId: string; name?: string; classId?: string | null; studentIds?: string[]; values?: DocValues }) =>
+    send<DocProject>('/api/documents', json('POST', body)),
+  updateDocument: (
+    id: string,
+    body: Partial<{ name: string; classId: string | null; studentIds: string[]; values: DocValues }>
+  ) => send<DocProject>(`/api/documents/${id}`, json('PATCH', body)),
+  deleteDocument: (id: string) => send<{ ok: true }>(`/api/documents/${id}`, { method: 'DELETE' }),
+  /** Snapshot the draft as a numbered version. */
+  saveDocumentVersion: (id: string, label?: string) =>
+    send<DocProject>(`/api/documents/${id}/versions`, json('POST', { label })),
+  /** Bring an old version back as a new one; the history is never rewritten. */
+  restoreDocumentVersion: (id: string, n: number) =>
+    send<DocProject>(`/api/documents/${id}/versions/${n}/restore`, { method: 'POST' }),
 
   /** Whether this terminal still has no account, so sign-up would work. */
   signupOpen: () => send<{ open: boolean }>('/api/auth/signup'),

@@ -94,3 +94,37 @@ export function newId(): string {
 export function nowIso(): string {
   return new Date().toISOString()
 }
+
+// ---- generic JSON objects ----
+//
+// The Document Lab keeps each project in its own object rather than in the one
+// big blob: a project carries its whole version history, and /api/data is read
+// on every page load, so folding them in would make every request pay for
+// documents nobody asked for. The blob stays the terminal's records; these are
+// the documents written from them.
+
+export async function readJsonAt<T>(parts: string[], fallback: () => T): Promise<T> {
+  try {
+    const res = await r2.send(new GetObjectCommand({ Bucket: R2_BUCKET, Key: r2Key(...parts) }))
+    return JSON.parse(await res.Body!.transformToString()) as T
+  } catch (err: unknown) {
+    const status = (err as { $metadata?: { httpStatusCode?: number } })?.$metadata?.httpStatusCode
+    if ((err instanceof Error && err.name === 'NoSuchKey') || status === 404) return fallback()
+    throw err
+  }
+}
+
+export async function writeJsonAt(parts: string[], value: unknown): Promise<void> {
+  await r2.send(
+    new PutObjectCommand({
+      Bucket: R2_BUCKET,
+      Key: r2Key(...parts),
+      Body: JSON.stringify(value),
+      ContentType: 'application/json',
+    })
+  )
+}
+
+export async function deleteKey(parts: string[]): Promise<void> {
+  await r2.send(new DeleteObjectCommand({ Bucket: R2_BUCKET, Key: r2Key(...parts) }))
+}
