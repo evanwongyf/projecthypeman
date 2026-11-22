@@ -26,7 +26,7 @@ export const DEFAULT_DESIGN: DesignSettings = {
   theme: 'graphite',
   accent: 'theme',
   type: 'grotesk',
-  density: 'normal',
+  density: 'dense',
   corners: 'square',
   borders: 'hairline',
   shadow: 'none',
@@ -118,6 +118,7 @@ export const TYPEFACES: Option[] = [
 ]
 
 export const DENSITIES: Option[] = [
+  { id: 'dense', label: 'Dense', hint: 'Smallest — most on screen' },
   { id: 'compact', label: 'Compact', hint: 'More on screen' },
   { id: 'normal', label: 'Normal' },
   { id: 'roomy', label: 'Roomy', hint: 'Easier to scan' },

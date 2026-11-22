@@ -160,9 +160,9 @@ function DesignTab() {
                 ['typeface', TYPEFACES.find((t) => t.id === design.type)?.label],
               ] as const
             ).map(([k, v]) => (
-              <div key={k} className="flex items-baseline justify-between gap-3 px-4 py-2.5">
+              <div key={k} className="px-4 py-2.5">
                 <dt className="label">{k}</dt>
-                <dd className="truncate text-sm">{v}</dd>
+                <dd className="mt-1 truncate text-sm">{v}</dd>
               </div>
             ))}
           </dl>
@@ -190,9 +190,9 @@ function AccountTab() {
             ['homework set', String(data.homework.length)],
           ] as const
         ).map(([k, v]) => (
-          <div key={k} className="flex items-baseline justify-between gap-4 px-5 py-3">
+          <div key={k} className="px-5 py-3">
             <dt className="label">{k}</dt>
-            <dd className="truncate text-sm">{v}</dd>
+            <dd className="mt-1 truncate text-sm">{v}</dd>
           </div>
         ))}
       </dl>

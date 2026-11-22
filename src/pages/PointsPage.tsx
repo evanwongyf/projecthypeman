@@ -11,6 +11,7 @@ import { IconStar, IconUndoArrow } from '../components/Icons'
 import { MetaItem, PageHeader } from '../components/PageHeader'
 import { ActivateModal } from '../components/points/ActivateModal'
 import { EffectPicker } from '../components/points/EffectPicker'
+import { Select } from '../components/Select'
 
 type Sort = 'name' | 'points'
 
@@ -119,11 +120,17 @@ export function PointsPage() {
                   rather than as a heading for the ledger column next to it. */}
               <div className="mb-4 flex flex-wrap items-end gap-x-5 gap-y-3">
                 <div>
-                  <span className="label">sort by</span>
-                  <select className="field mt-1.5" value={sort} onChange={(e) => setSort(e.target.value as Sort)}>
-                    <option value="name">Name</option>
-                    <option value="points">Points</option>
-                  </select>
+                  <span className="label block">sort by</span>
+                  <Select
+                    className="mt-1.5"
+                    ariaLabel="Sort by"
+                    value={sort}
+                    onChange={(v) => setSort(v as Sort)}
+                    options={[
+                      { value: 'name', label: 'Name' },
+                      { value: 'points', label: 'Points' },
+                    ]}
+                  />
                 </div>
                 <p className="label pb-2.5">tap a student to award</p>
               </div>

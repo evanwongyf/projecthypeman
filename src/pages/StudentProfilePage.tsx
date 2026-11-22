@@ -15,6 +15,7 @@ import { TagEditor } from '../components/profile/TagEditor'
 import { Guardians } from '../components/profile/Guardians'
 import { Relationships } from '../components/profile/Relationships'
 import { StudentFormModal } from '../components/StudentFormModal'
+import { Select } from '../components/Select'
 
 type Sort = 'due' | 'completion'
 
@@ -176,10 +177,16 @@ export function StudentProfilePage() {
                 </span>
               </div>
               {submissions.length > 1 && (
-                <select className="field !w-auto" value={sort} onChange={(e) => setSort(e.target.value as Sort)}>
-                  <option value="completion">Sort: completion</option>
-                  <option value="due">Sort: due date</option>
-                </select>
+                <Select
+                  fit
+                  ariaLabel="Sort by"
+                  value={sort}
+                  onChange={(v) => setSort(v as Sort)}
+                  options={[
+                    { value: "completion", label: "Sort: completion" },
+                    { value: "due", label: "Sort: due date" },
+                  ]}
+                />
               )}
             </header>
 
@@ -316,9 +323,9 @@ export function StudentProfilePage() {
 
 function Row({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <div className="flex items-baseline justify-between gap-4 px-5 py-3">
-      <span className="label">{label}</span>
-      <span className="min-w-0 truncate text-right text-sm">{children}</span>
+    <div className="px-5 py-3">
+      <span className="label block">{label}</span>
+      <span className="mt-1 block min-w-0 truncate text-sm">{children}</span>
     </div>
   )
 }

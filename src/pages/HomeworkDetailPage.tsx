@@ -11,6 +11,7 @@ import { ConfirmModal } from '../components/ConfirmModal'
 import { HomeworkFormModal } from '../components/HomeworkFormModal'
 import { IconCheck, IconEdit, IconTrash, IconUndo } from '../components/Icons'
 import { MetaItem, PageHeader } from '../components/PageHeader'
+import { Select } from '../components/Select'
 
 type Sort = 'name' | 'completion'
 
@@ -143,11 +144,17 @@ export function HomeworkDetailPage() {
         <div className="mb-3 flex flex-col items-start gap-3 sm:flex-row sm:items-end sm:justify-between">
           <h2 className="label">students</h2>
           <div>
-            <span className="label">sort by</span>
-            <select className="field mt-1.5" value={sort} onChange={(e) => setSort(e.target.value as Sort)}>
-              <option value="completion">Completion</option>
-              <option value="name">Name</option>
-            </select>
+            <span className="label block">sort by</span>
+            <Select
+              className="mt-1.5"
+              ariaLabel="Sort by"
+              value={sort}
+              onChange={(v) => setSort(v as Sort)}
+              options={[
+                { value: 'completion', label: 'Completion' },
+                { value: 'name', label: 'Name' },
+              ]}
+            />
           </div>
         </div>
 
