@@ -342,6 +342,11 @@ export type Block =
       viz: 'fire-movement' | 'imt-sequence' | 'contact-drill' | 'overrun-response' | 'sitrep-builder' | 'casualty-triage'
     }
 
+  // Grammar systems: a constituency tree explorer and a dependency parse of the same
+  // sentences, a systemic-functional clause analyser across the three metafunctions, a
+  // morpheme splitter and word builder, the verb group machine (tense, aspect, modality,
+  // voice) and a typology explorer.
+  | { t: 'grammar-lab'; viz: 'tree' | 'dependency' | 'functional' | 'morphology' | 'tam' | 'typology' }
   // Strudel live-coded music (see lib/strudel): a playable snippet, or with `with`, a
   // play-without / play-with pair so the difference one effect makes can be heard.
   | { t: 'strudel'; code: string; with?: string; title?: string; caption?: string }

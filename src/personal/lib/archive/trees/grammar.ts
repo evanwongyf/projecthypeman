@@ -96,6 +96,21 @@ export const GRAMMAR: ArchiveNode = {
       ],
     },
     {
+      slug: 'systems',
+      title: 'Grammar systems',
+      blurb: 'How grammar is analysed rather than merely obeyed: constituency and dependency, Halliday\u2019s functional grammar, morphology, the tense-aspect-modality system, and how other languages do it.',
+      glyph: '\u2234',
+      tags: ['syntax', 'linguistics', 'constituency', 'dependency', 'functional grammar', 'halliday', 'morphology', 'typology', 'descriptive grammar'],
+      children: [
+        { slug: 'syntax-trees', title: 'Syntax trees and constituency', blurb: 'Which words group together, how to prove it with substitution, movement, coordination and ellipsis, and why one sentence can have two trees.', minutes: 18, tags: ['syntax tree', 'constituency', 'phrase structure', 'parse', 'ambiguity', 'np vp', 'constituency tests', 'bracketing'] },
+        { slug: 'dependency', title: 'Dependency grammar', blurb: 'The other main framework: no phrases, just heads and dependents, with the Universal Dependencies labels that treebanks and parsers actually use.', minutes: 16, tags: ['dependency grammar', 'universal dependencies', 'head', 'dependent', 'nsubj', 'treebank', 'parsing', 'tesniere'] },
+        { slug: 'functional', title: 'Systemic functional grammar', blurb: 'Halliday\u2019s system: transitivity, mood and theme, the three jobs every clause does at once, and what it gives you that parsing does not.', minutes: 19, tags: ['halliday', 'systemic functional', 'sfg', 'transitivity', 'metafunction', 'theme rheme', 'mood', 'process types', 'nominalisation'] },
+        { slug: 'morphology', title: 'Morphology: inside the word', blurb: 'Morphemes, inflection versus derivation, allomorphy, and the ways English builds new words. The level below the word, which school grammar skips.', minutes: 17, tags: ['morphology', 'morpheme', 'inflection', 'derivation', 'affix', 'allomorph', 'word formation', 'compounding', 'bound root'] },
+        { slug: 'tense-aspect-mood', title: 'Tense, aspect and modality as one system', blurb: 'English has two tenses, not twelve. What the twelve-tense table is actually a picture of, and the fixed order the verb group assembles in.', minutes: 18, tags: ['tense', 'aspect', 'modality', 'mood', 'verb group', 'twelve tenses', 'perfect', 'progressive', 'finite', 'auxiliary order'] },
+        { slug: 'typology', title: 'How other languages build grammar', blurb: 'Word order, case, ergativity, classifiers and evidentiality: every English rule shown as one option among several, and why English made the choices it did.', minutes: 18, tags: ['typology', 'word order', 'sov', 'svo', 'case', 'ergative', 'classifier', 'evidentiality', 'wals', 'language universals'] },
+      ],
+    },
+    {
       slug: 'practice',
       title: 'Practice and editing',
       blurb: 'Exercises with full answers: diagnose, drill each area, and edit real paragraphs.',
