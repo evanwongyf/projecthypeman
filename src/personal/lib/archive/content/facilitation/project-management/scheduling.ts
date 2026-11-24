@@ -186,6 +186,24 @@ const guide: Guide = {
         ] },
       ],
     },
+    {
+      id: 'cpm-lab',
+      title: 'The critical path lab',
+      lead: 'Two real planning networks, with the forward and backward pass computed for you.',
+      blocks: [
+        { t: 'p', text: 'Change one task’s duration and watch whether the critical path moves. When it does, the thing you were worrying about last week has stopped being the thing that matters — and that is the single most useful fact a schedule can give you, because it is invisible on a wall planner.' },
+        { t: 'facil-lab', viz: 'critical-path' },
+        {
+          t: 'checklist',
+          items: [
+            'In the camp network, note which tasks have float. Catering and risk assessment are not critical, which is exactly why they get left to the last week.',
+            'Add ten days to leader recruitment and watch the path change.',
+            'Read the float column as a permission slip: a task with eight days of float can slip eight days before it becomes your problem.',
+            'Use the PERT panel to find the date you are 80% confident of, then promise that one rather than the expected one.',
+          ],
+        },
+      ],
+    },
   ],
   sources: [
     'Kelley, J. E., & Walker, M. R. (1959). Critical-path planning and scheduling. Proceedings of the Eastern Joint Computer Conference.',

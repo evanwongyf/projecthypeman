@@ -136,6 +136,25 @@ const guide: Guide = {
         ] },
       ],
     },
+    {
+      id: 'designer',
+      title: 'The agenda designer',
+      lead: 'Session design is mostly division, and division is easy to get wrong in your head.',
+      blocks: [
+        { t: 'p', text: 'Pick a template, change the length, and read what the arithmetic says you have actually cut. The phase bar shows the proportions; the warnings check the three things facilitators most often lose when a session is squeezed — the closing phase, the break, and enough seconds per person in a round.' },
+        { t: 'facil-lab', viz: 'agenda' },
+        {
+          t: 'checklist',
+          items: [
+            'Shrink the 90-minute workshop to 60 and watch which phase the warnings flag first.',
+            'Raise the group to 30 and read the per-person figure for the check-in round. Under about 20 seconds a round is a formality.',
+            'Note the longest unbroken stretch. Past 90 minutes you are paying for seats, not attention.',
+            'Set a real start time and read the clock column: an agenda in minutes hides the fact that it ends at 17:40.',
+          ],
+        },
+        { t: 'p', text: 'The arithmetic behind the group-size warnings — airtime per person, breakout sizing and the report-back tax — is in [group size, airtime and process losses](@facilitation/methods/group-size).' },
+      ],
+    },
   ],
   sources: [
     'Kaner, S. et al. (2014). Facilitator’s Guide to Participatory Decision-Making. Jossey-Bass.',

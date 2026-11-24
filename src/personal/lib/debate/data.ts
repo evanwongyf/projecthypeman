@@ -545,3 +545,123 @@ export const WEIGH_AXES: { key: 'magnitude' | 'probability' | 'scope' | 'time' |
   { key: 'time', name: 'Timeframe', ask: 'How soon, and how long does it last?' },
   { key: 'reversible', name: 'Reversibility', ask: 'If we are wrong, can it be undone? High means easily undone.' },
 ]
+
+// ── argument maps ──────────────────────────────────────────────────────────
+
+/**
+ * An argument map as a graph, for the propagation lab. A node is a claim; its
+ * `needs` are the nodes it depends on, and `mode` says how.
+ *
+ * - 'linked': every input is required, so killing any one kills this node.
+ *   (Toulmin's grounds plus warrant: neither works alone.)
+ * - 'convergent': each input independently supports it, so it survives while
+ *   at least one input stands, but weakens as inputs fall.
+ *
+ * This distinction is the single most useful thing argument mapping gives a
+ * debater, because it tells you where one answer is worth four.
+ */
+export type MapNode = {
+  id: string
+  text: string
+  kind: 'premise' | 'inference' | 'conclusion'
+  mode?: 'linked' | 'convergent'
+  needs?: string[]
+  // What a speaker actually says to attack this node.
+  attack?: string
+  col: number
+  row: number
+}
+
+export type ArgMap = { id: string; name: string; motion: string; side: string; note: string; nodes: MapNode[] }
+
+export const ARG_MAPS: ArgMap[] = [
+  {
+    id: 'cars',
+    name: 'Road space is zero-sum',
+    motion: 'This House would ban private cars from city centres.',
+    side: 'Proposition',
+    note: 'A linked spine with convergent support at the bottom. Notice what happens when you kill the substitution premise: three pieces of evidence survive and the conclusion still dies, because the spine is linked. That is the difference between answering the evidence and answering the argument.',
+    nodes: [
+      { id: 'p1', text: 'A city street has fixed capacity', kind: 'premise', col: 0, row: 0, attack: 'Capacity is not fixed: signal timing, bus lanes and kerb rules change effective capacity without removing cars.' },
+      { id: 'p2', text: 'Cars carry under two people on average', kind: 'premise', col: 0, row: 1, attack: 'Occupancy is higher for the journeys that remain after the discretionary ones are priced out.' },
+      { id: 'p3', text: 'Buses, vans and ambulances share that capacity', kind: 'premise', col: 0, row: 2 },
+      { id: 'i1', text: 'Cars are the lowest-value user of the scarce good', kind: 'inference', mode: 'linked', needs: ['p1', 'p2', 'p3'], col: 1, row: 1, attack: 'Value per vehicle is not value per journey: a tradesperson’s van and a commuter’s car are not comparable.' },
+      { id: 'p4', text: 'Displaced drivers have substitutes: bus, rail, park and ride', kind: 'premise', col: 0, row: 3, attack: 'Not in low-density suburbs, where the alternative is a 90-minute journey or none.' },
+      { id: 'i2', text: 'Removing them raises throughput for everyone else', kind: 'inference', mode: 'linked', needs: ['i1', 'p4'], col: 2, row: 2, attack: 'Displacement, not removal: the traffic reappears on the ring road and the bus is late at the edges.' },
+      { id: 'e1', text: 'London’s charge cut zone traffic by about a fifth', kind: 'premise', col: 0, row: 5, attack: 'A charge is not a ban, and the comparison city had a usable tube network.' },
+      { id: 'e2', text: 'Bus reliability rose in step', kind: 'premise', col: 0, row: 6 },
+      { id: 'e3', text: 'Ambulance response times improved in pedestrianised centres', kind: 'premise', col: 0, row: 7 },
+      { id: 'i3', text: 'The mechanism has run in the real world', kind: 'inference', mode: 'convergent', needs: ['e1', 'e2', 'e3'], col: 1, row: 6 },
+      { id: 'c1', text: 'The gain falls on a larger and poorer group than the loss', kind: 'conclusion', mode: 'linked', needs: ['i2', 'i3'], col: 3, row: 4, attack: 'Even granting the throughput gain, the loss falls on people whose jobs depend on the car; scope is not the only axis.' },
+    ],
+  },
+  {
+    id: 'ai',
+    name: 'Pausing frontier deployment',
+    motion: 'This House would pause the deployment of frontier AI systems.',
+    side: 'Proposition',
+    note: 'A long convergent chain with one linked joint. Long chains are where probability multiplies away: kill the single linked node — that a pause is enforceable — and everything above it is unreachable regardless of how good the rest is.',
+    nodes: [
+      { id: 'p1', text: 'Capability is rising faster than evaluation methods', kind: 'premise', col: 0, row: 0, attack: 'Evaluation has scaled with capability: red-teaming, evals and third-party audits all postdate the systems they test.' },
+      { id: 'p2', text: 'Some failure modes appear only at deployment scale', kind: 'premise', col: 0, row: 1 },
+      { id: 'i1', text: 'There is a window where harm is discovered too late', kind: 'inference', mode: 'convergent', needs: ['p1', 'p2'], col: 1, row: 0 },
+      { id: 'p3', text: 'A pause is enforceable across the handful of frontier labs', kind: 'premise', col: 0, row: 3, attack: 'Enforcement is the whole argument: compute moves, jurisdictions differ, and an unenforced pause only slows the labs that comply.' },
+      { id: 'i2', text: 'A pause buys evaluation time without being evaded', kind: 'inference', mode: 'linked', needs: ['i1', 'p3'], col: 2, row: 2, attack: 'Even if enforceable, the time is only useful if the evaluation work is ready to use it.' },
+      { id: 'p4', text: 'Delay costs are reversible; an uncontained failure may not be', kind: 'premise', col: 0, row: 5, attack: 'Delayed medical and productivity gains are themselves irreversible for the people who die waiting.' },
+      { id: 'c1', text: 'Under irreversibility, the burden sits on deployment', kind: 'conclusion', mode: 'linked', needs: ['i2', 'p4'], col: 3, row: 4 },
+    ],
+  },
+]
+
+// ── probability and evidence ───────────────────────────────────────────────
+
+/** Claims a debate round actually argues about, with the numbers to argue them. */
+export type BayesCase = {
+  id: string
+  name: string
+  claim: string
+  prior: number
+  // Each piece of evidence, with how much more likely it is if the claim is true.
+  evidence: { label: string; lrTrue: number; lrFalse: number; note: string }[]
+  note: string
+}
+
+export const BAYES_CASES: BayesCase[] = [
+  {
+    id: 'screening',
+    name: 'Screening and false positives',
+    claim: 'This person has the condition the programme screens for.',
+    prior: 0.002,
+    evidence: [
+      { label: 'Positive screening test (99% sensitive, 2% false positive)', lrTrue: 0.99, lrFalse: 0.02, note: 'The number quoted in every speech about screening. On its own it moves a 1-in-500 prior to about 1 in 11.' },
+      { label: 'Second, independent positive test', lrTrue: 0.95, lrFalse: 0.05, note: 'Independence is the assumption doing the work here, and real tests correlate: they often share the mechanism that produced the first false positive.' },
+      { label: 'Clinical risk factor present', lrTrue: 0.4, lrFalse: 0.1, note: 'A weak-sounding factor that is actually worth a lot, because it is four times more common among cases.' },
+    ],
+    note: 'The case for and against mass screening lives entirely in this arithmetic. Opposition’s best line is not that the test is bad; it is that at a low base rate most positives are false, so the programme’s main output is anxiety and follow-up procedures.',
+  },
+  {
+    id: 'deterrence',
+    name: 'Did the policy cause the fall?',
+    claim: 'The new enforcement policy caused the fall in offences.',
+    prior: 0.3,
+    evidence: [
+      { label: 'Offences fell after the policy', lrTrue: 0.9, lrFalse: 0.6, note: 'Weak evidence: offences also fall after policies that do nothing, because they were already falling.' },
+      { label: 'The fall was concentrated in the targeted offence', lrTrue: 0.8, lrFalse: 0.2, note: 'Much stronger. A general trend would not pick out one offence type.' },
+      { label: 'Neighbouring areas without the policy did not fall', lrTrue: 0.75, lrFalse: 0.15, note: 'This is the comparison group doing the work, and it is what turns a story into evidence.' },
+      { label: 'The fall began two months before implementation', lrTrue: 0.1, lrFalse: 0.5, note: 'Evidence against: anticipation effects exist but are usually smaller than this.' },
+    ],
+    note: 'Use this in a round to show why one correlation is worth little and three specific ones are worth a lot. The move is not "correlation is not causation" — it is naming which observation would distinguish the two stories.',
+  },
+  {
+    id: 'prediction',
+    name: 'Will the technology displace the jobs?',
+    claim: 'This technology will reduce total employment in the sector within a decade.',
+    prior: 0.35,
+    evidence: [
+      { label: 'The tasks automated are the sector’s core tasks', lrTrue: 0.7, lrFalse: 0.3, note: 'Task-level exposure studies are the best available evidence and are still only exposure, not outcome.' },
+      { label: 'Historical analogues saw employment rise, not fall', lrTrue: 0.25, lrFalse: 0.7, note: 'The strongest single piece of evidence against, and the one proposition must answer rather than ignore.' },
+      { label: 'Firms report hiring fewer entry-level staff already', lrTrue: 0.6, lrFalse: 0.35, note: 'Survey evidence about intentions, which runs ahead of behaviour and overstates it.' },
+    ],
+    note: 'Prediction motions are won on base rates and mechanism, not on vividness. Setting the prior out loud — "most automation waves have raised employment, so we start sceptical" — is itself a framing move.',
+  },
+]

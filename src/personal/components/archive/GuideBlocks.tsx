@@ -24,6 +24,7 @@ const LearnBlock = lazy(() => import('../lab/LearnBlock'))
 const SecBlock = lazy(() => import('../lab/SecBlock'))
 const GrammarBlock = lazy(() => import('../lab/GrammarBlock'))
 const DebateBlock = lazy(() => import('../lab/DebateBlock'))
+const FacilBlock = lazy(() => import('../lab/FacilBlock'))
 const WxBlock = lazy(() => import('../lab/WxBlock'))
 const FootballBlock = lazy(() => import('../lab/FootballBlock'))
 const WxChartBlock = lazy(() => import('../lab/WxChartBlock'))
@@ -396,8 +397,9 @@ export function GuideBlock({ block, color }: { block: Block; color: string }) {
     case 'fin-lab':
     case 'grammar-lab':
     case 'debate-lab':
+    case 'facil-lab':
     case 'ftbl-viz': {
-      const labs = { 'grammar-lab': GrammarBlock, 'debate-lab': DebateBlock, 'teach-viz': TeachBlock, 'learn-lab': LearnBlock, 'sec-viz': SecBlock, 'cloud-viz': CloudBlock, 'quant-viz': QuantBlock, 'wx-viz': WxBlock, 'bank-viz': BankBlock, 'acct-viz': AcctBlock, 'econ-viz': EconBlock, 'fit-lab': FitLab, pitch: FootballBlock, 'wx-chart': WxChartBlock, 'fin-lab': FinLab, 'ftbl-viz': FootballBlock }
+      const labs = { 'grammar-lab': GrammarBlock, 'debate-lab': DebateBlock, 'facil-lab': FacilBlock, 'teach-viz': TeachBlock, 'learn-lab': LearnBlock, 'sec-viz': SecBlock, 'cloud-viz': CloudBlock, 'quant-viz': QuantBlock, 'wx-viz': WxBlock, 'bank-viz': BankBlock, 'acct-viz': AcctBlock, 'econ-viz': EconBlock, 'fit-lab': FitLab, pitch: FootballBlock, 'wx-chart': WxChartBlock, 'fin-lab': FinLab, 'ftbl-viz': FootballBlock }
       const Lab = labs[block.t] as ComponentType<{ block: never; color: string }>
       return (
         <Suspense fallback={<div className="h-72 animate-pulse rounded-[var(--radius)]" style={{ background: 'var(--paper-2)' }} aria-busy />}>

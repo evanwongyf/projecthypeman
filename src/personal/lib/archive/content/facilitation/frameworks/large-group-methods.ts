@@ -48,6 +48,24 @@ const guide: Guide = {
         ] },
       ],
     },
+    {
+      id: 'planner',
+      title: 'The rotation planner',
+      lead: 'Cafés, carousels and gallery walks are all the same arithmetic.',
+      blocks: [
+        { t: 'p', text: 'Rounds times round length, plus the movement nobody budgets for. The two numbers that decide whether the design works are coverage — what fraction of the stations each person actually sees — and how many distinct people they end up talking to.' },
+        { t: 'facil-lab', viz: 'rotation' },
+        {
+          t: 'checklist',
+          items: [
+            'Run the 24-person café preset: three rounds of six tables means nobody sees half the questions, which is the design and not a flaw — provided you harvest centrally afterwards.',
+            'Try full coverage instead (rounds = stations) and read the total time. Ten stations is 100 minutes before a word of debrief.',
+            'Watch the movement cost as you add rounds: two minutes of transition at ten rounds is 18 wasted minutes.',
+            'Raise the group to 60 with six stations and read people per station. Above six per station the table stops being a conversation.',
+          ],
+        },
+      ],
+    },
   ],
   sources: [
     'Brown, J., & Isaacs, D. (2005). The World Café. Berrett-Koehler.',

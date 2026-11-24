@@ -157,6 +157,22 @@ const guide: Guide = {
         },
       ],
     },
+    {
+      id: 'deeper',
+      title: 'When you want the technical layer',
+      lead: 'Two sections of this shelf are for debaters who already compete.',
+      blocks: [
+        {
+          t: 'cards',
+          cols: 2,
+          items: [
+            { title: 'Advanced argumentation', tag: 'Technique', body: 'An argument drawn as a graph, so you can see which single answer kills the most; probability and evidence done properly; expected value against irreversibility; how to read and break a study; and the arithmetic of coverage. Start at [argument mapping](@debate/advanced/argument-mapping).' },
+            { title: 'Casebook', tag: 'Worked rounds', body: 'A full round in transcript with the judge\u2019s margin notes, three annotated cross-examinations, and the same closing speech written weak, competent and winning. Start at [an annotated round](@debate/casebook/annotated-round).' },
+          ],
+        },
+        { t: 'p', text: 'If you are new, skip both for now: structure first, then weighing, then come back. If you have been losing close rounds for a season, the casebook and [the arithmetic of coverage](@debate/advanced/coverage-and-collapse) are the two pages most likely to change a result.' },
+      ],
+    },
   ],
   sources: [
     'Quinn, S. (2005) Debating. A widely used introduction written for the Australasian and World Schools circuits.',

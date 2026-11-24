@@ -118,6 +118,16 @@ const guide: Guide = {
         ] },
       ],
     },
+    {
+      id: 'airtime-lab',
+      title: 'The airtime lab',
+      lead: 'The first number every facilitator should compute, and almost nobody does.',
+      blocks: [
+        { t: 'p', text: 'Cohesion is built by people speaking to each other, and group size decides how much of that is arithmetically possible. A 60-minute meeting of 16 gives each person under three minutes even if the facilitator says nothing at all.' },
+        { t: 'facil-lab', viz: 'airtime' },
+        { t: 'p', text: 'Note the multiplier when you break into threes, and then note the report-back tax underneath it: five groups reporting for three minutes each is fifteen minutes of plenary that nobody is listening to. The process-loss research behind this — Ringelmann, Steiner and production blocking — is in [group size, airtime and process losses](@facilitation/methods/group-size).' },
+      ],
+    },
   ],
   sources: [
     'Sherif, M. et al. (1961). Intergroup Conflict and Cooperation: The Robbers Cave Experiment. University of Oklahoma.',

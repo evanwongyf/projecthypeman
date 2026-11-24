@@ -112,6 +112,25 @@ const guide: Guide = {
         ] },
       ],
     },
+    {
+      id: 'gain-lab',
+      title: 'The pre/post lab',
+      lead: 'Effect sizes, intervals and the three caveats, computed live.',
+      blocks: [
+        { t: 'p', text: 'Put your own numbers in. The arithmetic is the easy part; the three things it cannot tell you — response shift, ceiling effects and the absence of a comparison group — are printed underneath it for the same reason they belong in your report.' },
+        { t: 'facil-lab', viz: 'gain' },
+        {
+          t: 'checklist',
+          items: [
+            'Drop the sample to 10 and watch the confidence interval swallow the result. Small cohorts cannot detect small effects, and reporting a point estimate alone hides that.',
+            'Raise the pre mean to 4.5 on a 5-point scale: the ceiling leaves almost no room to move, so a flat result means the instrument ran out of road.',
+            'Change the pre–post correlation and watch the paired effect size move while the raw change does not — which is why a paired design needs a paired statistic.',
+            'Compare normalised gain with Cohen’s d when groups start in different places; the gain figure is the fairer one.',
+          ],
+        },
+        { t: 'p', text: 'The same arithmetic from the other side — how to attack a study that quotes it at you — is on the debate shelf: [reading and attacking a study](@debate/advanced/reading-studies).' },
+      ],
+    },
   ],
   sources: [
     'Kirkpatrick, D. L., & Kirkpatrick, J. D. (2006). Evaluating Training Programs (3rd ed.). Berrett-Koehler.',

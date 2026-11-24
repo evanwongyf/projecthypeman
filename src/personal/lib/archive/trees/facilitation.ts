@@ -96,6 +96,22 @@ export const FACILITATION: ArchiveNode = {
       ],
     },
     {
+      slug: 'methods',
+      title: 'Structured methods',
+      glyph: '\u2317',
+      group: 'Programmes',
+      blurb: 'The technical methods: question design, dialogue mapping, nominal group and Delphi, voting systems, the arithmetic of group size, and contracting.',
+      children: [
+        { slug: 'question-design', title: 'Designing questions', blurb: 'Question taxonomies, funnels, the six words that change an answer, and 120 questions you can take into a room, with the repair for each bad one.', minutes: 18, tags: ['questions', 'questioning', 'funnel', 'orid', 'socratic', 'open questions', 'probes', 'scripts'] },
+        { slug: 'dialogue-mapping', title: 'Dialogue mapping and wicked problems', blurb: 'IBIS notation, mapping a live argument on a shared display, and what to do when the problem has no stopping rule.', minutes: 17, tags: ['dialogue mapping', 'ibis', 'conklin', 'wicked problems', 'shared display', 'issue mapping', 'rittel'] },
+        { slug: 'structured-methods', title: 'Nominal group, Delphi and brainwriting', blurb: 'The methods that beat open brainstorming, with the evidence on why, plus timings, scripts and the arithmetic of each.', minutes: 18, tags: ['nominal group technique', 'delphi', 'brainwriting', '6-3-5', 'affinity diagram', 'production blocking', 'osborn', 'evidence'] },
+        { slug: 'voting-systems', title: 'Voting systems and their paradoxes', blurb: 'Plurality, runoff, Borda, Condorcet, approval, dot voting and quadratic voting on one set of preferences, with worked ballots and Arrow\u2019s theorem in plain words.', minutes: 19, tags: ['voting', 'borda', 'condorcet', 'approval voting', 'dot voting', 'arrow', 'paradox', 'multi-voting', 'quadratic voting'] },
+        { slug: 'group-size', title: 'Group size, airtime and process losses', blurb: 'Airtime per person, Ringelmann and Steiner, production blocking, breakout sizing and the report-back tax, all computed.', minutes: 17, tags: ['group size', 'airtime', 'ringelmann', 'steiner', 'process loss', 'social loafing', 'breakouts', 'report back'] },
+        { slug: 'contracting', title: 'Contracting with a group', blurb: 'The conversation before the session: mandate, scope, decision rule, confidentiality, consequences, and the scripts for each.', minutes: 16, tags: ['contracting', 'ground rules', 'psychological contract', 'mandate', 'scope', 'confidentiality', 'sponsor', 'scripts'] },
+        { slug: 'facilitator-scripts', title: 'Scripts for twenty hard moments', blurb: 'Word-for-word openings, interventions and closings for the moments facilitators freeze: the dominator, the tears, the sponsor who overrules the room.', minutes: 18, tags: ['scripts', 'interventions', 'what to say', 'dominator', 'silence', 'conflict', 'sponsor', 'phrases'] },
+      ],
+    },
+    {
       slug: 'toolkit',
       title: 'Toolkit and case studies',
       glyph: '✦',

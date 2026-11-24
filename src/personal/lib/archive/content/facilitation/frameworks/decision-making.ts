@@ -124,6 +124,16 @@ const guide: Guide = {
         ] },
       ],
     },
+    {
+      id: 'rules-lab',
+      title: 'The same preferences, five counting rules',
+      lead: 'Why “let us just vote” is a decision you did not notice making.',
+      blocks: [
+        { t: 'p', text: 'Each profile below is a realistic room. Switch between them and watch the “different winners” counter: the same opinions, counted five ways, frequently produce three answers.' },
+        { t: 'facil-lab', viz: 'voting' },
+        { t: 'p', text: 'The split field is the one to sit with: plurality hands the result to the option two thirds of the room ranks last. That is the spoiler effect, it happens in church halls as readily as in elections, and it is the reason a facilitator should choose and announce the rule before anyone marks anything. Full treatment, with Arrow’s theorem in plain words and what to do about a Condorcet cycle, in [voting systems and their paradoxes](@facilitation/methods/voting-systems).' },
+      ],
+    },
   ],
   sources: [
     'Kaner, S. et al. (2014). Facilitator’s Guide to Participatory Decision-Making. Jossey-Bass.',

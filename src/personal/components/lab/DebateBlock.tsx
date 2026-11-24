@@ -11,7 +11,9 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import type { Block } from '../../lib/archive/guide'
 import { Btn, Card, Pills, Select, Slider, Stat, soft } from './kit'
 import {
+  ARG_MAPS,
   ARGUMENTS,
+  BAYES_CASES,
   FALLACIES,
   FALLACY_FAMILIES,
   FLOW,
@@ -21,7 +23,7 @@ import {
   WEIGH_AXES,
   WEIGH_PRESETS,
 } from '../../lib/debate/data'
-import type { Fallacy } from '../../lib/debate/data'
+import type { ArgMap, Fallacy, MapNode } from '../../lib/debate/data'
 
 type DebateBlockType = Extract<Block, { t: 'debate-lab' }>
 
@@ -45,6 +47,12 @@ export default function DebateBlock({ block, color }: { block: DebateBlockType; 
       return <FallacyLab color={color} />
     case 'motion':
       return <MotionLab color={color} />
+    case 'bayes':
+      return <BayesLab color={color} />
+    case 'coverage':
+      return <CoverageLab color={color} />
+    case 'map':
+      return <MapLab color={color} />
   }
 }
 
@@ -830,6 +838,411 @@ function MotionLab({ color }: { color: string }) {
           </p>
         </>
       )}
+    </Card>
+  )
+}
+
+// ── probability ────────────────────────────────────────────────────────────
+
+const pct = (x: number) => (x >= 0.1 ? `${(x * 100).toFixed(1)}%` : x >= 0.001 ? `${(x * 100).toFixed(2)}%` : `${(x * 100).toExponential(1)}%`)
+
+function BayesLab({ color }: { color: string }) {
+  const [id, setId] = useState(BAYES_CASES[0].id)
+  const c = BAYES_CASES.find((x) => x.id === id)!
+  const [prior, setPrior] = useState(c.prior)
+  const [on, setOn] = useState<boolean[]>(c.evidence.map((_, i) => i === 0))
+
+  // Switching case resets the sliders through a remount from the parent key below.
+  const steps = useMemo(() => {
+    let odds = prior / (1 - prior)
+    const out: { label: string; lr: number; odds: number; p: number; used: boolean; note: string }[] = []
+    c.evidence.forEach((e, i) => {
+      const lr = e.lrTrue / e.lrFalse
+      if (on[i]) odds *= lr
+      out.push({ label: e.label, lr, odds, p: odds / (1 + odds), used: on[i], note: e.note })
+    })
+    return out
+  }, [c, prior, on])
+
+  const post = steps.length ? steps[steps.length - 1].p : prior
+  const factor = (post / (1 - post)) / (prior / (1 - prior))
+
+  return (
+    <Card
+      title="Updating on evidence"
+      color={color}
+      note="Judges are not Bayesians and you should never say the word in a round. The arithmetic still matters, because it tells you which of your three pieces of evidence is worth speaking about: a likelihood ratio near 1 moves nothing, however impressive the source. Everything here is odds multiplied by a ratio."
+    >
+      <div className="flex flex-wrap gap-3">
+        <Select
+          label="Claim"
+          value={id}
+          onChange={(v) => {
+            const nx = BAYES_CASES.find((x) => x.id === v)!
+            setId(v)
+            setPrior(nx.prior)
+            setOn(nx.evidence.map((_, i) => i === 0))
+          }}
+          options={BAYES_CASES.map((x) => [x.id, x.name])}
+        />
+        <Slider label="Prior" min={0.001} max={0.9} step={0.001} value={prior} show={pct(prior)} onChange={setPrior} />
+      </div>
+      <p className="text-sm font-bold">{c.claim}</p>
+
+      <div className="grid gap-2">
+        {steps.map((s, i) => (
+          <button
+            key={s.label}
+            type="button"
+            onClick={() => setOn((old) => old.map((v, j) => (j === i ? !v : v)))}
+            className="rounded-[var(--radius)] border p-3 text-left"
+            style={{ borderColor: s.used ? color : LINE, background: s.used ? `color-mix(in srgb, ${color} 8%, transparent)` : 'transparent' }}
+          >
+            <span className="flex flex-wrap items-baseline justify-between gap-2">
+              <span className="text-sm font-bold">{s.label}</span>
+              <span className="font-mono text-xs" style={{ color: s.lr > 1.5 ? PROP : s.lr < 0.7 ? OPP : 'var(--ink-soft)' }}>
+                LR {s.lr.toFixed(2)} {s.lr > 1 ? '→ supports' : '→ undercuts'}
+              </span>
+            </span>
+            <span className="mt-1 block text-xs leading-relaxed" style={soft}>
+              {s.note}
+            </span>
+            <span className="mt-1 block font-mono text-[11px]" style={soft}>
+              {s.used ? `after this: ${pct(s.p)}` : 'not counted — tap to include'}
+            </span>
+          </button>
+        ))}
+      </div>
+
+      <div className="flex flex-wrap gap-2">
+        <Stat label="Prior" value={pct(prior)} />
+        <Stat label="Posterior" value={pct(post)} tone={post > prior ? PROP : OPP} />
+        <Stat label="Odds moved by" value={`×${factor.toFixed(1)}`} />
+      </div>
+
+      <svg viewBox="0 0 640 86" className="block h-auto w-full rounded-[var(--radius)] border" style={{ borderColor: LINE, background: 'var(--surface)' }} role="img" aria-label="Prior and posterior probability">
+        {([
+          ['Prior', prior, '#3b6fd8', 16],
+          ['Posterior', post, PROP, 50],
+        ] as const).map(([label, v, tone, y]) => (
+          <g key={label}>
+            <text x={10} y={y + 14} fontSize={11} fontWeight={700} fill="var(--ink-soft)">
+              {label}
+            </text>
+            <rect x={78} y={y} width={530} height={20} rx={4} fill="var(--paper-2)" />
+            <rect x={78} y={y} width={Math.max(v * 530, 2)} height={20} rx={4} fill={tone} opacity={0.9} />
+            <text x={Math.max(v * 530, 2) + 84} y={y + 15} fontSize={11.5} fontWeight={700} fill="var(--ink)">
+              {pct(v)}
+            </text>
+          </g>
+        ))}
+      </svg>
+
+      <p className="text-xs leading-relaxed" style={soft}>
+        The sentence this becomes in a round: &ldquo;their strongest number is the one that would look the same whether or not their claim is true, and ours is the one that would not.&rdquo; That is a likelihood ratio argument delivered in English.
+      </p>
+      <p className="rounded-[var(--radius)] border p-3 text-xs leading-relaxed" style={{ borderColor: LINE, background: 'var(--paper-2)' }}>
+        {c.note}
+      </p>
+    </Card>
+  )
+}
+
+// ── coverage arithmetic ────────────────────────────────────────────────────
+
+const COVERAGE_PRESETS: { id: string; name: string; minutes: number; args: number; note: string }[] = [
+  { id: '1ar', name: 'Policy 1AR: 5 minutes against 13', minutes: 5, args: 22, note: 'The hardest speech in debate. At 22 arguments on the flow, answering each one separately gives you under 14 seconds apiece, which is not an answer, it is an acknowledgement.' },
+  { id: 'whip', name: 'BP whip: 7 minutes on 49 minutes of material', minutes: 7, args: 16, note: 'A whip who tries to cover all sixteen has given a transcript. Grouping into three clashes is what makes the speech possible at all.' },
+  { id: 'ff', name: 'PF final focus: 2 minutes', minutes: 2, args: 8, note: 'Two minutes forces collapse. The arithmetic says you can win two issues properly or lose eight slowly.' },
+  { id: 'second', name: 'WSDC second speaker: 8 minutes', minutes: 8, args: 10, note: 'Comfortable until you remember that only about 40% of the speech is rebuttal; the rest is rebuilding and your own material.' },
+]
+
+function CoverageLab({ color }: { color: string }) {
+  const [id, setId] = useState(COVERAGE_PRESETS[0].id)
+  const preset = COVERAGE_PRESETS.find((p) => p.id === id)!
+  const [minutes, setMinutes] = useState(preset.minutes)
+  const [args, setArgs] = useState(preset.args)
+  const [wpm, setWpm] = useState(170)
+  const [group, setGroup] = useState(3)
+  const [depth, setDepth] = useState(35)
+  const [rebuttalShare, setRebuttalShare] = useState(70)
+
+  const rebuttalSeconds = minutes * 60 * (rebuttalShare / 100)
+  const words = Math.round((rebuttalSeconds / 60) * wpm)
+  // Each answer takes `depth` seconds and disposes of `group` arguments at once.
+  const answers = Math.floor(rebuttalSeconds / depth)
+  const covered = Math.min(answers * group, args)
+  const coverage = covered / args
+  const dropped = args - covered
+  const wordsPerAnswer = Math.round((depth / 60) * wpm)
+
+  // The trade-off curve: coverage as a function of how long you spend per answer.
+  const curve = useMemo(() => {
+    const pts: [number, number][] = []
+    for (let sec = 10; sec <= 120; sec += 2) {
+      const a = Math.floor(rebuttalSeconds / sec)
+      pts.push([sec, Math.min((a * group) / args, 1)])
+    }
+    return pts
+  }, [rebuttalSeconds, group, args])
+
+  const W = 640
+  const H = 160
+  const x = (sec: number) => 40 + ((sec - 10) / 110) * (W - 60)
+  const y = (c: number) => H - 28 - c * (H - 50)
+
+  return (
+    <Card
+      title="Coverage arithmetic"
+      color={color}
+      note="Every rebuttal speech is a division problem: seconds available, divided by seconds per answer, multiplied by how many arguments each answer disposes of. Grouping is the only term you control freely, which is why it is worth more than speaking faster."
+    >
+      <div className="flex flex-wrap gap-3">
+        <Select
+          label="Speech"
+          value={id}
+          onChange={(v) => {
+            const nx = COVERAGE_PRESETS.find((p) => p.id === v)!
+            setId(v)
+            setMinutes(nx.minutes)
+            setArgs(nx.args)
+          }}
+          options={COVERAGE_PRESETS.map((p) => [p.id, p.name])}
+        />
+        <Slider label="Speech length" min={1} max={10} step={0.5} value={minutes} show={`${minutes} min`} onChange={setMinutes} />
+        <Slider label="Arguments on the flow" min={3} max={40} step={1} value={args} show={String(args)} onChange={setArgs} />
+        <Slider label="Share spent on rebuttal" min={20} max={100} step={5} value={rebuttalShare} show={`${rebuttalShare}%`} onChange={setRebuttalShare} />
+        <Slider label="Words per minute" min={110} max={320} step={10} value={wpm} show={String(wpm)} onChange={setWpm} />
+        <Slider label="Seconds per answer" min={10} max={120} step={5} value={depth} show={`${depth} s`} onChange={setDepth} />
+        <Slider label="Arguments per answer (grouping)" min={1} max={6} step={1} value={group} show={`×${group}`} onChange={setGroup} />
+      </div>
+
+      <div className="flex flex-wrap gap-2">
+        <Stat label="Rebuttal time" value={`${Math.round(rebuttalSeconds)} s`} />
+        <Stat label="Words available" value={words} />
+        <Stat label="Answers you can give" value={answers} />
+        <Stat label="Arguments covered" value={`${covered} / ${args}`} tone={coverage >= 0.9 ? PROP : coverage < 0.6 ? OPP : undefined} />
+        <Stat label="Coverage" value={`${Math.round(coverage * 100)}%`} tone={coverage >= 0.9 ? PROP : coverage < 0.6 ? OPP : undefined} />
+        <Stat label="Dropped" value={dropped} tone={dropped > 0 ? OPP : PROP} />
+        <Stat label="Words per answer" value={wordsPerAnswer} tone={wordsPerAnswer < 60 ? OPP : undefined} />
+      </div>
+
+      <svg viewBox={`0 0 ${W} ${H}`} className="block h-auto w-full rounded-[var(--radius)] border" style={{ borderColor: LINE, background: 'var(--surface)' }} role="img" aria-label="Coverage against seconds per answer">
+        <line x1={40} y1={H - 28} x2={W - 20} y2={H - 28} stroke="var(--ink)" />
+        <line x1={40} y1={16} x2={40} y2={H - 28} stroke="var(--ink)" />
+        {[0, 0.25, 0.5, 0.75, 1].map((c) => (
+          <g key={c}>
+            <line x1={40} y1={y(c)} x2={W - 20} y2={y(c)} stroke={LINE} strokeDasharray="3 4" />
+            <text x={36} y={y(c) + 4} fontSize={10} textAnchor="end" fill="var(--ink-soft)">
+              {Math.round(c * 100)}%
+            </text>
+          </g>
+        ))}
+        <path d={curve.map((p, i) => `${i ? 'L' : 'M'}${x(p[0])},${y(p[1])}`).join(' ')} fill="none" stroke={color} strokeWidth={2.2} />
+        <circle cx={x(Math.min(Math.max(depth, 10), 120))} cy={y(coverage)} r={5} fill={OPP} />
+        <text x={x(Math.min(Math.max(depth, 10), 120)) + 8} y={y(coverage) - 6} fontSize={11} fontWeight={700} fill={OPP}>
+          you
+        </text>
+        {[20, 40, 60, 80, 100, 120].map((s) => (
+          <text key={s} x={x(s)} y={H - 12} fontSize={10} textAnchor="middle" fill="var(--ink-soft)">
+            {s}s
+          </text>
+        ))}
+        <text x={W - 20} y={H - 1} fontSize={10} textAnchor="end" fill="var(--ink-soft)">
+          seconds spent per answer
+        </text>
+      </svg>
+
+      <p className="text-xs leading-relaxed" style={soft}>
+        Read the curve as the trade you are actually making. Moving right buys depth and spends coverage; the only way to move the whole curve up is to raise grouping, which costs nothing but preparation. Note what raising words per minute does: it adds words per answer but not answers, so speed buys depth, not coverage — which is the opposite of what most debaters think they are buying.
+      </p>
+      <p className="rounded-[var(--radius)] border p-3 text-xs leading-relaxed" style={{ borderColor: LINE, background: 'var(--paper-2)' }}>
+        {preset.note}
+      </p>
+    </Card>
+  )
+}
+
+// ── argument maps ──────────────────────────────────────────────────────────
+
+/** Resolve which nodes survive once `killed` premises are struck. */
+function propagate(map: ArgMap, killed: Set<string>) {
+  const byId = new Map(map.nodes.map((n) => [n.id, n]))
+  const alive = new Map<string, boolean>()
+  const strength = new Map<string, number>()
+  const resolve = (n: MapNode): boolean => {
+    const cached = alive.get(n.id)
+    if (cached !== undefined) return cached
+    if (killed.has(n.id)) {
+      alive.set(n.id, false)
+      strength.set(n.id, 0)
+      return false
+    }
+    if (!n.needs || n.needs.length === 0) {
+      alive.set(n.id, true)
+      strength.set(n.id, 1)
+      return true
+    }
+    const kids = n.needs.map((id) => byId.get(id)!).filter(Boolean)
+    const states = kids.map((k) => resolve(k))
+    const live = states.filter(Boolean).length
+    const ok = n.mode === 'convergent' ? live > 0 : live === kids.length
+    alive.set(n.id, ok)
+    strength.set(n.id, ok ? live / kids.length : 0)
+    return ok
+  }
+  for (const n of map.nodes) resolve(n)
+  return { alive, strength }
+}
+
+function MapLab({ color }: { color: string }) {
+  const [id, setId] = useState(ARG_MAPS[0].id)
+  const map = ARG_MAPS.find((m) => m.id === id)!
+  const [killed, setKilled] = useState<Set<string>>(new Set())
+  const [selected, setSelected] = useState<string | null>(null)
+
+  const { alive, strength } = useMemo(() => propagate(map, killed), [map, killed])
+  const conclusion = map.nodes.find((n) => n.kind === 'conclusion')!
+  const holds = alive.get(conclusion.id) ?? true
+  const sel = selected ? map.nodes.find((n) => n.id === selected) : null
+
+  const COLS = Math.max(...map.nodes.map((n) => n.col)) + 1
+  const ROWS = Math.max(...map.nodes.map((n) => n.row)) + 1
+  const CW = 168
+  const CH = 62
+  const W = COLS * CW + 20
+  const H = ROWS * CH + 20
+  const nx = (n: MapNode) => n.col * CW + 10
+  const ny = (n: MapNode) => n.row * CH + 10
+
+  return (
+    <Card
+      title="Argument map: what one answer kills"
+      color={color}
+      note="Tap a box to answer it and watch the consequences propagate. A linked joint (every input required) dies if any input dies, which is why one answer at a linked node is worth four at the leaves. A convergent joint survives on one surviving input, which is why killing one of three examples achieves almost nothing."
+    >
+      <div className="flex flex-wrap gap-3">
+        <Select
+          label="Argument"
+          value={id}
+          onChange={(v) => {
+            setId(v)
+            setKilled(new Set())
+            setSelected(null)
+          }}
+          options={ARG_MAPS.map((m) => [m.id, `${m.side}: ${m.name}`])}
+        />
+        <Btn onClick={() => setKilled(new Set())} disabled={killed.size === 0}>
+          Reset
+        </Btn>
+      </div>
+      <p className="text-xs" style={soft}>
+        <strong>Motion:</strong> {map.motion}
+      </p>
+
+      <div className="overflow-x-auto">
+        <svg viewBox={`0 0 ${W} ${H}`} width={W} height={H} style={{ maxWidth: '100%', height: 'auto' }} role="img" aria-label="Argument map">
+          {map.nodes.flatMap((n) =>
+            (n.needs ?? []).map((pid) => {
+              const p = map.nodes.find((x) => x.id === pid)
+              if (!p) return null
+              const live = (alive.get(p.id) ?? true) && (alive.get(n.id) ?? true)
+              return (
+                <line
+                  key={`${pid}-${n.id}`}
+                  x1={nx(p) + 150}
+                  y1={ny(p) + 22}
+                  x2={nx(n)}
+                  y2={ny(n) + 22}
+                  stroke={live ? color : LINE}
+                  strokeWidth={live ? 1.8 : 1}
+                  strokeDasharray={n.mode === 'convergent' ? '5 4' : undefined}
+                  opacity={live ? 0.9 : 0.4}
+                />
+              )
+            })
+          )}
+          {map.nodes.map((n) => {
+            const live = alive.get(n.id) ?? true
+            const struck = killed.has(n.id)
+            return (
+              <g
+                key={n.id}
+                onClick={() => {
+                  setSelected(n.id)
+                  setKilled((old) => {
+                    const next = new Set(old)
+                    if (next.has(n.id)) next.delete(n.id)
+                    else next.add(n.id)
+                    return next
+                  })
+                }}
+                style={{ cursor: 'pointer' }}
+              >
+                <rect
+                  x={nx(n)}
+                  y={ny(n)}
+                  width={150}
+                  height={44}
+                  rx={n.kind === 'conclusion' ? 22 : 6}
+                  fill={live ? (n.kind === 'conclusion' ? `color-mix(in srgb, ${color} 22%, var(--surface))` : 'var(--surface)') : 'var(--paper-2)'}
+                  stroke={struck ? OPP : live ? color : LINE}
+                  strokeWidth={struck ? 2 : 1.2}
+                  opacity={live ? 1 : 0.55}
+                />
+                <foreignObject x={nx(n) + 5} y={ny(n) + 3} width={140} height={40}>
+                  <div
+                    style={{
+                      font: '600 10.5px/1.25 system-ui, sans-serif',
+                      color: live ? 'var(--ink)' : 'var(--ink-soft)',
+                      textDecoration: struck ? 'line-through' : 'none',
+                    }}
+                  >
+                    {n.text}
+                  </div>
+                </foreignObject>
+                {n.mode && (
+                  <text x={nx(n) + 150} y={ny(n) - 2} fontSize={8.5} textAnchor="end" fill="var(--ink-soft)">
+                    {n.mode}
+                  </text>
+                )}
+              </g>
+            )
+          })}
+        </svg>
+      </div>
+
+      <div className="flex flex-wrap gap-2">
+        <Stat label="Answered" value={killed.size} />
+        <Stat label="Conclusion" value={holds ? 'still stands' : 'falls'} tone={holds ? PROP : OPP} />
+        <Stat label="Support remaining" value={`${Math.round((strength.get(conclusion.id) ?? 1) * 100)}%`} />
+        <Stat label="Nodes down" value={map.nodes.filter((n) => !(alive.get(n.id) ?? true)).length} />
+      </div>
+
+      {sel && (
+        <div className="rounded-[var(--radius)] border p-3" style={{ borderColor: LINE }}>
+          <p className="text-sm font-bold">{sel.text}</p>
+          <p className="mt-0.5 text-[11px] font-bold uppercase tracking-wide" style={soft}>
+            {sel.kind}
+            {sel.mode ? ` · ${sel.mode} joint` : ''}
+            {killed.has(sel.id) ? ' · answered' : ''}
+          </p>
+          <p className="mt-1 text-xs leading-relaxed">
+            {sel.attack ? (
+              <>
+                <strong style={{ color: OPP }}>What you say: </strong>
+                {sel.attack}
+              </>
+            ) : (
+              <span style={soft}>No standard attack listed for this node — which usually means it is the uncontroversial part, and spending time on it is how rebuttal time disappears.</span>
+            )}
+          </p>
+        </div>
+      )}
+
+      <p className="rounded-[var(--radius)] border p-3 text-xs leading-relaxed" style={{ borderColor: LINE, background: 'var(--paper-2)' }}>
+        {map.note}
+      </p>
     </Card>
   )
 }

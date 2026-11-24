@@ -109,6 +109,32 @@ export const DEBATE: ArchiveNode = {
       ],
     },
     {
+      slug: 'advanced',
+      title: 'Advanced argumentation',
+      blurb: 'The technical layer: mapping an argument as a graph, probability and evidence done properly, expected value under uncertainty, and the arithmetic of coverage.',
+      glyph: '\u2211',
+      tags: ['advanced', 'technical', 'argument mapping', 'probability', 'statistics', 'expected value', 'coverage'],
+      children: [
+        { slug: 'argument-mapping', title: 'Argument mapping', blurb: 'Drawing an argument as a graph: linked and convergent joints, serial chains, and why one answer at the right node is worth four at the wrong one.', minutes: 18, tags: ['argument mapping', 'linked', 'convergent', 'serial', 'ibis', 'rationale', 'graph', 'premise', 'inference'] },
+        { slug: 'probability-and-evidence', title: 'Probability, base rates and evidence', blurb: 'Likelihood ratios, base rates, chained probabilities and calibration: how to argue about numbers without pretending to be a statistician.', minutes: 20, tags: ['probability', 'bayes', 'base rate', 'likelihood ratio', 'calibration', 'evidence', 'statistics', 'uncertainty'] },
+        { slug: 'expected-value-and-risk', title: 'Expected value, risk and irreversibility', blurb: 'Expected value, risk aversion, discounting, tail risks and the precautionary principle, and when each of them is the right standard to argue for.', minutes: 19, tags: ['expected value', 'risk aversion', 'discounting', 'tail risk', 'precautionary principle', 'irreversibility', 'pascal', 'utility'] },
+        { slug: 'reading-studies', title: 'Reading and attacking a study', blurb: 'Design, sample, effect size, confidence intervals, p-values and publication bias: how to use a study in a round, and the six ways to break one.', minutes: 20, tags: ['study design', 'rct', 'effect size', 'confidence interval', 'p value', 'publication bias', 'meta-analysis', 'external validity'] },
+        { slug: 'coverage-and-collapse', title: 'The arithmetic of coverage', blurb: 'Seconds per answer, grouping multipliers, words per minute and the exact trade between depth and coverage, worked through four real speeches.', minutes: 16, tags: ['coverage', 'collapse', 'grouping', 'words per minute', 'triage', '1ar', 'time allocation', 'flow'] },
+      ],
+    },
+    {
+      slug: 'casebook',
+      title: 'Casebook',
+      blurb: 'Annotated rounds: full speeches, questioning and final speeches with a judge\u2019s margin notes, plus the same speech done three ways.',
+      glyph: '\u2338',
+      tags: ['casebook', 'annotated', 'transcript', 'examples', 'worked round', 'model speeches'],
+      children: [
+        { slug: 'annotated-round', title: 'An annotated round, speech by speech', blurb: 'A full policy debate from first speech to reply, in transcript, with what the judge wrote in the margin at every turn.', minutes: 24, tags: ['annotated round', 'transcript', 'worked example', 'judge notes', 'clash', 'flow'] },
+        { slug: 'annotated-cross-examination', title: 'Three cross-examinations, annotated', blurb: 'One good, one wasted and one that backfired, line by line, with the rebuilt version of each.', minutes: 16, tags: ['cross examination', 'poi', 'transcript', 'questioning', 'annotated', 'crossfire'] },
+        { slug: 'three-final-speeches', title: 'The same final speech, three ways', blurb: 'A weak, a competent and a winning closing speech on one motion, marked against what judges actually reward.', minutes: 15, tags: ['final focus', 'reply', 'whip', 'crystallisation', 'summary', 'annotated', 'weighing'] },
+      ],
+    },
+    {
       slug: 'practice',
       title: 'Practice',
       blurb: 'Drills, motions and feedback: the part that turns the rest of the shelf into a skill.',

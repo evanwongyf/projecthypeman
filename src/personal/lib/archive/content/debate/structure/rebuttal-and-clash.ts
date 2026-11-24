@@ -140,6 +140,16 @@ const guide: Guide = {
         },
       ],
     },
+    {
+      id: 'arithmetic',
+      title: 'How much rebuttal fits',
+      lead: 'Before technique, division.',
+      blocks: [
+        { t: 'p', text: 'Grouping is not only clearer, it is the only term in the equation you control freely. Seconds available divided by seconds per answer gives you the number of answers; how many of their arguments each answer disposes of gives you the coverage. Speaking faster buys words per answer, not more answers.' },
+        { t: 'debate-lab', viz: 'coverage' },
+        { t: 'p', text: 'Run the whip preset: sixteen arguments answered one at a time is 63% coverage, and the same speech with grouping of three covers everything with two minutes left for weighing. The full treatment, with four speeches worked, is in [the arithmetic of coverage](@debate/advanced/coverage-and-collapse); finding the shared assumption that makes grouping legitimate is [argument mapping](@debate/advanced/argument-mapping).' },
+      ],
+    },
   ],
   sources: [
     'Walton, D. (2006) Fundamentals of Critical Argumentation. Cambridge University Press.',

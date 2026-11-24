@@ -350,7 +350,12 @@ export type Block =
   // Debate: the argument builder (claim, mechanism, evidence, impact, weighing), the weighing
   // machine, a format comparator with speech timelines, a flow sheet stepped speech by speech,
   // a speech timer with the protected minutes marked, a fallacy spotter and a motion analyser.
-  | { t: 'debate-lab'; viz: 'argument' | 'weighing' | 'formats' | 'flow' | 'timer' | 'fallacy' | 'motion' }
+  | { t: 'debate-lab'; viz: 'argument' | 'weighing' | 'formats' | 'flow' | 'timer' | 'fallacy' | 'motion' | 'bayes' | 'coverage' | 'map' }
+  // Facilitation: the arithmetic of running sessions — an agenda designer that rescales a
+  // template and checks the phase shares, the same preferences counted under five voting
+  // rules, airtime per person against group size, a station-rotation planner, pre/post
+  // measurement with effect sizes and their caveats, and critical path with PERT.
+  | { t: 'facil-lab'; viz: 'agenda' | 'voting' | 'airtime' | 'rotation' | 'gain' | 'critical-path' }
   // Strudel live-coded music (see lib/strudel): a playable snippet, or with `with`, a
   // play-without / play-with pair so the difference one effect makes can be heard.
   | { t: 'strudel'; code: string; with?: string; title?: string; caption?: string }
