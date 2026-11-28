@@ -4,6 +4,7 @@ import { DotCard, NumCard, SpriteRow, TenFrame, type Scene } from './kit'
 import { Story, Teach, Title } from './scenes'
 import { CountTap, FlashDots, Gallery, MatchUp, MemoryPairs, MoneyMake, NumberTape, NumberTrain, TenFrameBuild } from './counting'
 import { CHAPTER_2, CHAPTER_2_DECKS } from './decks-c2'
+import { CHAPTER_3, CHAPTER_3_DECKS } from './decks-c3'
 import { CardCompare, Conservation, MatchPairs, Quiz, SortBins, SpillCompare, WhichSet } from './comparing'
 
 export type SlideDef = {
@@ -699,9 +700,9 @@ const tools: Deck[] = [
   tool('tool-memory', 'Memory pairs', 'Team game: match dot cards to numerals.', 'space', ['trophy'], () => <MemoryPairs />, ['C1.3']),
 ]
 
-export const CHAPTERS: Chapter[] = [CHAPTER, CHAPTER_2]
+export const CHAPTERS: Chapter[] = [CHAPTER, CHAPTER_2, CHAPTER_3]
 
-export const DECKS: Deck[] = [countDeck, orderDeck, compareDeck, storyDeck, countQuest, compareQuest, ...tools, ...CHAPTER_2_DECKS]
+export const DECKS: Deck[] = [countDeck, orderDeck, compareDeck, storyDeck, countQuest, compareQuest, ...tools, ...CHAPTER_2_DECKS, ...CHAPTER_3_DECKS]
 
 export function findDeck(id: string | undefined) {
   return DECKS.find((d) => d.id === id)

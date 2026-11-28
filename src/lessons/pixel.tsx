@@ -209,6 +209,8 @@ export const SPRITES = {
   beanbag: { rows: ['.BBBB.', 'BBWBBB', 'BBBBBB', 'BbBBbB', '.bbbb.'] },
   bun: { rows: ['..TTTT..', '.TyyyyT.', 'TyWyyyyT', 'TyyyyyyT', 'TTTTTTTT'], pal: { T: '#a8622a', y: '#e8a85a' } },
   cap: { rows: ['..RRRR..', '.RRRRRR.', 'RRWRRRRR', 'RRRRRRRR', 'rrrrrrrrrr'] },
+  balloon: { rows: ['.RRRR.', 'RRWRRR', 'RWRRRR', 'RRRRRR', 'RRRRRR', '.RRRR.', '..rr..', '...K..', '..K...', '...K..', '..K...'] },
+  mango: { rows: ['....g.', '..YYF.', '.YYYFF', 'YYWYFF', 'YYYFFF', 'YYFFFF', '.YFFF.', '..FF..'] },
   counterYellow: { rows: ['.YYYY.', 'YYWYYY', 'YYYYYY', 'YYYYYY', 'yYYYYy', '.yyyy.'] },
 } satisfies Record<string, SpriteDef>
 
@@ -232,6 +234,8 @@ export const THINGS: { sprite: SpriteName; one: string; many: string }[] = [
   { sprite: 'cube', one: 'cube', many: 'cubes' },
   { sprite: 'cherry', one: 'strawberry', many: 'strawberries' },
   { sprite: 'coin', one: 'coin', many: 'coins' },
+  { sprite: 'balloon', one: 'balloon', many: 'balloons' },
+  { sprite: 'mango', one: 'mango', many: 'mangoes' },
 ]
 
 export function thing(sprite: SpriteName) {

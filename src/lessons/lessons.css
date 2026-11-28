@@ -9,7 +9,18 @@
   font-weight: 400 700;
   font-display: block;
   src: url('./lx-digits.woff2') format('woff2');
-  unicode-range: U+0030-0039;
+  unicode-range: U+0030-0039, U+2212;
+}
+
+/* Press Start 2P has no minus sign (U+2212), so "−" fell back to a tiny
+   system glyph. This face supplies its hyphen bar as the minus. */
+@font-face {
+  font-family: 'Lx Minus';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: block;
+  src: url('./lx-minus.woff2') format('woff2');
+  unicode-range: U+2212;
 }
 
 /* ===========================================================================
@@ -29,7 +40,7 @@
   --lx-blue: #3d7be0;
   --lx-red: #e8423f;
   --lx-purple: #a565f0;
-  --lx-display: 'Press Start 2P', 'Pixelify Sans', ui-monospace, monospace;
+  --lx-display: 'Lx Minus', 'Press Start 2P', 'Pixelify Sans', ui-monospace, monospace;
   --lx-body: 'Lx Digits', 'Pixelify Sans', 'VT323', ui-rounded, system-ui, sans-serif;
   display: flex;
   flex-direction: column;

@@ -1,0 +1,286 @@
+/* ===========================================================================
+   Chapter 3: subtraction activities.
+   =========================================================================== */
+
+/* toss 10 */
+.lx-toss {
+  display: flex;
+  align-items: center;
+  gap: 2em;
+  width: 100%;
+  justify-content: center;
+}
+
+.lx-toss-desk {
+  position: relative;
+  width: 36em;
+  height: 20em;
+  background: repeating-linear-gradient(90deg, #c98d55 0 3em, #bf8248 3em 6em);
+  border: 0.25em solid var(--lx-ink);
+  box-shadow: 0 0.35em 0 var(--lx-ink);
+}
+
+.lx-toss-chip {
+  position: absolute;
+  animation: lx-toss 0.5s cubic-bezier(0.3, 1.4, 0.4, 1) backwards;
+}
+
+@keyframes lx-toss {
+  from { transform: translate(-6em, -6em) rotate(-180deg) scale(0.4); opacity: 0; }
+}
+
+/* take away */
+.lx-take {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.4em;
+}
+
+.lx-take-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.8em;
+  max-width: 50em;
+  padding: 1.2em 1.6em;
+  background: #fff;
+  border: 0.22em solid var(--lx-ink);
+  box-shadow: 0 0.3em 0 var(--lx-ink);
+}
+
+.lx-badge-back { background: var(--lx-blue); z-index: 2; opacity: 1; }
+.lx-gone .lx-badge { opacity: 1; }
+
+/* one less: butterflies */
+.lx-garden {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.lx-bfly {
+  position: absolute;
+  animation: lx-flutter 0.9s ease-in-out infinite alternate;
+  transition: transform 0.9s ease-in, opacity 0.9s ease-in;
+}
+
+@keyframes lx-flutter {
+  to { translate: 0 -0.6em; }
+}
+
+.lx-bfly.is-flying {
+  transform: translate(30em, -25em) rotate(25deg) scale(0.6);
+  opacity: 0;
+}
+
+.lx-garden-count {
+  position: absolute;
+  right: 4%;
+  bottom: 6%;
+}
+
+/* cup count back */
+.lx-cupback {
+  display: flex;
+  align-items: flex-end;
+  gap: 2.4em;
+}
+
+.lx-cupback-table {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5em;
+  align-items: center;
+  max-width: 30em;
+  min-height: 5em;
+  padding: 1em 1.2em;
+  background: #fff;
+  border: 0.22em solid var(--lx-ink);
+  box-shadow: 0 0.3em 0 var(--lx-ink);
+}
+
+.lx-cupback-said {
+  width: 2.4em;
+  height: 2.4em;
+  display: grid;
+  place-items: center;
+  background: var(--lx-blue);
+  color: #fff;
+  border: 0.15em solid var(--lx-ink);
+  font-family: var(--lx-display);
+  font-size: 1.1em;
+  animation: lx-pop-in 0.3s;
+}
+
+/* family of facts */
+.lx-family {
+  display: flex;
+  align-items: center;
+  gap: 2.4em;
+}
+
+.lx-family-pic {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.2em;
+}
+
+.lx-house {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.lx-house-roof {
+  width: 22em;
+  height: 6em;
+  display: grid;
+  place-items: end center;
+  padding-bottom: 0.6em;
+  background: var(--lx-red);
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+}
+
+.lx-house-roof span {
+  font-family: var(--lx-display);
+  font-size: 2em;
+  color: #fff;
+}
+
+.lx-house-body {
+  display: grid;
+  gap: 0.6em;
+  width: 19em;
+  padding: 1em;
+  background: #fff;
+  border: 0.25em solid var(--lx-ink);
+  box-shadow: 0 0.35em 0 var(--lx-ink);
+}
+
+.lx-house-fact {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6em;
+  font-family: var(--lx-display);
+  font-size: 1.1em;
+}
+
+.lx-house-ans {
+  min-width: 2.6em;
+  height: 2.2em;
+  border: 0.16em dashed var(--lx-ink);
+  background: #fff7c2;
+  font-family: var(--lx-display);
+  font-size: 1em;
+  cursor: pointer;
+  color: var(--lx-ink);
+}
+
+.lx-house-ans.is-open { background: var(--lx-green); border-style: solid; animation: lx-pop-in 0.3s; }
+
+.lx-house-picks { display: flex; gap: 0.3em; }
+.lx-house-picks .lx-option { min-width: 2.2em; font-size: 0.8em; padding: 0.25em 0.4em; }
+
+/* fact flash cards */
+.lx-flashfact {
+  display: flex;
+  align-items: center;
+  gap: 3em;
+}
+
+.lx-flipcard.lx-factcard {
+  width: 22em;
+  height: 13em;
+}
+
+.lx-factcard .lx-factcard-q,
+.lx-factcard .lx-factcard-a {
+  display: grid;
+  place-items: center;
+  font-family: var(--lx-display);
+  font-size: 2.4em;
+}
+
+.lx-factcard .lx-factcard-q {
+  background: repeating-linear-gradient(45deg, var(--lx-purple) 0 0.25em, #8a4fd8 0.25em 0.5em);
+}
+
+.lx-factcard .lx-factcard-a {
+  background: var(--lx-yellow);
+  border: 0.1em solid var(--lx-ink);
+  box-shadow: 0 0.12em 0 var(--lx-ink);
+  color: var(--lx-ink);
+  font-size: 2em;
+}
+
+/* make 10 tray */
+.lx-tray-wrap {
+  display: flex;
+  align-items: center;
+  gap: 2.4em;
+}
+
+.lx-tray {
+  display: grid;
+  grid-template-columns: repeat(5, 5em);
+  grid-auto-rows: 5em;
+  gap: 0.4em;
+  padding: 0.8em;
+  background: #e9d3ad;
+  border: 0.3em solid #8a5a32;
+  box-shadow: 0 0.35em 0 #5a3a20;
+}
+
+.lx-tray-cell {
+  display: grid;
+  place-items: center;
+  background: #fff8e6;
+  border: 0.15em dashed #b08355;
+  cursor: pointer;
+}
+
+.lx-tray-cell.is-added { background: #d8fbd4; border-style: solid; }
+
+/* mangoes thinking aloud */
+.lx-mangoes {
+  display: flex;
+  gap: 3em;
+  align-items: flex-end;
+}
+
+.lx-mango-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5em;
+  padding: 1em;
+  border: 0.2em solid transparent;
+  transition: background 0.3s;
+}
+
+.lx-mango-col.is-same { background: #d8fbd4; border-color: var(--lx-ink); }
+
+.lx-mango-col small { font-size: 1em; }
+
+.lx-mango-name {
+  padding: 0.2em 0.6em;
+  border: 0.15em solid var(--lx-ink);
+  font-family: var(--lx-display);
+  font-size: 0.75em;
+}
+
+.lx-mango-basket {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.2em;
+  width: 11em;
+  min-height: 5em;
+  padding: 0.5em;
+  background: #fff3c8;
+  border: 0.18em solid var(--lx-ink);
+  border-radius: 0 0 2em 2em;
+}

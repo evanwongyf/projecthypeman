@@ -634,27 +634,41 @@ export function AddMachine({ k: k0 = 3 }: { k?: number }) {
 }
 
 // ---------------------------------------------------------------------------
-// Equation builder: picture → "_ and _ make _" → "_ + _ = _".
+// Equation builder: picture → number story → "_ + _ = _" or "_ − _ = _".
+// For subtraction, `a` is the whole and `b` the part taken away (or the
+// part we know, in a part-whole story).
 // ---------------------------------------------------------------------------
 
-function newEq() {
+type Op = '+' | '-'
+type SubKind = 'away' | 'part'
+
+const EQ_THINGS: SpriteName[] = ['apple', 'duck', 'fish', 'star', 'flower', 'cupcake', 'tomato', 'shell', 'balloon', 'butterfly']
+
+function newEq(op: Op) {
+  const sprite = EQ_THINGS[rand(0, EQ_THINGS.length - 1)]
+  if (op === '-') {
+    const a = rand(2, 10)
+    return { a, b: rand(1, a - 1), sprite }
+  }
   const a = rand(0, 7)
-  const b = rand(a === 0 ? 1 : 0, Math.min(5, 10 - a))
-  const sprite = (['apple', 'duck', 'fish', 'star', 'flower', 'cupcake', 'tomato', 'shell'] as SpriteName[])[rand(0, 7)]
-  return { a, b, sprite }
+  return { a, b: rand(a === 0 ? 1 : 0, Math.min(5, 10 - a)), sprite }
 }
 
-export function EquationBuilder({ a: a0, b: b0, sprite: s0 }: { a?: number; b?: number; sprite?: SpriteName }) {
-  const [q, setQ] = useState(() => (a0 !== undefined && b0 !== undefined && s0 ? { a: a0, b: b0, sprite: s0 } : newEq()))
+export function EquationBuilder({ a: a0, b: b0, sprite: s0, op = '+', kind: kind0 = 'away' }: { a?: number; b?: number; sprite?: SpriteName; op?: Op; kind?: SubKind }) {
+  const [q, setQ] = useState(() => (a0 !== undefined && b0 !== undefined && s0 ? { a: a0, b: b0, sprite: s0 } : newEq(op)))
+  const [kind, setKind] = useState<SubKind>(kind0)
   const [slots, setSlots] = useState<(number | null)[]>([null, null, null])
   const [flash, setFlash] = useFlash()
   const chk = useCheck()
-  const c = q.a + q.b
+  const sub = op === '-'
+  const c = sub ? q.a - q.b : q.a + q.b
   const t = thing(q.sprite)
+  const nm = (n: number) => (n === 1 ? t.one : t.many)
   const tiles = useMemo(() => {
-    const extra = [c + 1 <= 10 ? c + 1 : c - 2, Math.max(0, c - 1)].filter((v) => v !== q.a && v !== q.b && v !== c)
-    return shuffle([q.a, q.b, c, ...extra]).map((v, i) => ({ id: `t${i}`, v }))
-  }, [q, c])
+    const need = [q.a, q.b, c]
+    const extra = [Math.min(10, Math.max(...need) + 1), Math.max(0, Math.min(...need) - 1), sub ? q.a + q.b : Math.abs(q.a - q.b)].filter((v) => v <= 10 && !need.includes(v))
+    return shuffle([...need, ...extra.slice(0, 2)]).map((v, i) => ({ id: `t${i}`, v }))
+  }, [q, c, sub])
 
   function onDrop(id: string, zone: string | null) {
     if (!zone?.startsWith('e')) return
@@ -666,31 +680,47 @@ export function EquationBuilder({ a: a0, b: b0, sprite: s0 }: { a?: number; b?: 
 
   function check() {
     const [x, y, z] = slots
-    const ok = z === c && ((x === q.a && y === q.b) || (x === q.b && y === q.a))
+    const ok = sub ? x === q.a && ((y === q.b && z === c) || (y === c && z === q.b)) : z === c && ((x === q.a && y === q.b) || (x === q.b && y === q.a))
     chk.check(ok)
     if (!ok) setFlash('eq')
   }
 
+  const story = sub
+    ? kind === 'away'
+      ? `There ${q.a === 1 ? 'is' : 'are'} ${q.a} ${nm(q.a)}. ${q.b} ${q.b === 1 ? 'goes' : 'go'} away. How many are left?`
+      : `There are ${q.a} ${nm(q.a)}. ${q.b} ${q.b === 1 ? 'is' : 'are'} green. How many are not green?`
+    : `There ${q.a === 1 ? 'is' : 'are'} ${q.a} ${nm(q.a)} here and ${q.b} there. How many altogether?`
+
   return (
     <Act
-      tag="+ and ="
+      tag={sub ? '− and =' : '+ and ='}
       scene="paper"
       prompt={
         <>
-          Tell the number story. Then write the <b>addition equation</b>.
+          Tell the number story. Then write the <b>{sub ? 'subtraction' : 'addition'} equation</b>.
         </>
       }
       status={
         chk.v === 'right' ? (
           <span className="lx-say">
-            “{WORD[slots[0] ?? 0]} <b>plus</b> {WORD[slots[1] ?? 0]} <b>equals</b> {WORD[c]}.” Another fact: {slots[1]} + {slots[0]} = {c}
+            “{WORD[slots[0] ?? 0]} <b>{sub ? 'minus' : 'plus'}</b> {WORD[slots[1] ?? 0]} <b>equals</b> {WORD[slots[2] ?? 0]}.” Another fact: {sub ? `${slots[0]} − ${slots[2]} = ${slots[1]}` : `${slots[1]} + ${slots[0]} = ${c}`}
           </span>
         ) : (
-          <Feedback state={chk.v} wrong="Look at the two parts and the whole again." />
+          <Feedback state={chk.v} wrong={sub ? 'Start with the whole. Then take away a part.' : 'Look at the two parts and the whole again.'} />
         )
       }
       tools={
         <>
+          {sub && (
+            <>
+              <Btn tone={kind === 'away' ? 'blue' : 'plain'} onClick={() => (setKind('away'), setSlots([null, null, null]), chk.reset())}>
+                take away
+              </Btn>
+              <Btn tone={kind === 'part' ? 'blue' : 'plain'} onClick={() => (setKind('part'), setSlots([null, null, null]), chk.reset())}>
+                part-whole
+              </Btn>
+            </>
+          )}
           <Btn tone="warn" onClick={() => (setSlots([null, null, null]), chk.reset())}>
             clear
           </Btn>
@@ -700,7 +730,7 @@ export function EquationBuilder({ a: a0, b: b0, sprite: s0 }: { a?: number; b?: 
           <Btn
             tone="pink"
             onClick={() => {
-              setQ(newEq())
+              setQ(newEq(op))
               setSlots([null, null, null])
               chk.reset()
             }}
@@ -711,26 +741,39 @@ export function EquationBuilder({ a: a0, b: b0, sprite: s0 }: { a?: number; b?: 
       }
     >
       <div className="lx-eqb">
-        <div className="lx-eqb-story">
-          <div className="lx-eqb-group">
-            {[...Array(q.a)].map((_, i) => (
-              <Sprite key={i} name={q.sprite} size={2.8} />
-            ))}
-            {q.a === 0 && <span className="lx-dim">none</span>}
+        {sub ? (
+          <div className="lx-eqb-story">
+            <div className="lx-eqb-group lx-eqb-wide">
+              {[...Array(q.a)].map((_, i) => {
+                const gone = i >= q.a - q.b
+                return (
+                  <span key={i} className={`lx-set-thing ${gone && kind === 'away' ? 'lx-gone' : ''}`}>
+                    <Sprite name={q.sprite} size={2.8} style={gone && kind === 'part' ? TINT : undefined} />
+                  </span>
+                )
+              })}
+            </div>
           </div>
-          <div className="lx-eqb-group">
-            {[...Array(q.b)].map((_, i) => (
-              <Sprite key={i} name={q.sprite} size={2.8} style={TINT} />
-            ))}
-            {q.b === 0 && <span className="lx-dim">none</span>}
+        ) : (
+          <div className="lx-eqb-story">
+            <div className="lx-eqb-group">
+              {[...Array(q.a)].map((_, i) => (
+                <Sprite key={i} name={q.sprite} size={2.8} />
+              ))}
+              {q.a === 0 && <span className="lx-dim">none</span>}
+            </div>
+            <div className="lx-eqb-group">
+              {[...Array(q.b)].map((_, i) => (
+                <Sprite key={i} name={q.sprite} size={2.8} style={TINT} />
+              ))}
+              {q.b === 0 && <span className="lx-dim">none</span>}
+            </div>
           </div>
-        </div>
-        <p className="lx-eqb-text">
-          There {q.a === 1 ? 'is' : 'are'} {q.a} {q.a === 1 ? t.one : t.many} here and {q.b} there. How many altogether?
-        </p>
+        )}
+        <p className="lx-eqb-text">{story}</p>
         <div className={`lx-eq ${flash === 'eq' ? 'is-wrong' : ''}`}>
           <Zone id="e0" className="lx-slot">{slots[0] ?? ''}</Zone>
-          <span>+</span>
+          <span>{sub ? '−' : '+'}</span>
           <Zone id="e1" className="lx-slot">{slots[1] ?? ''}</Zone>
           <span>=</span>
           <Zone id="e2" className="lx-slot">{slots[2] ?? ''}</Zone>
@@ -750,35 +793,43 @@ export function EquationBuilder({ a: a0, b: b0, sprite: s0 }: { a?: number; b?: 
 
 // ---------------------------------------------------------------------------
 // Fact hunt: find every card with the same value as the target.
+// With `mixed`, the cards include subtraction facts too.
 // ---------------------------------------------------------------------------
 
-function dealFacts() {
-  const t = rand(4, 10)
-  const same = shuffle([...Array(t + 1).keys()].map((a) => [a, t - a] as [number, number])).slice(0, rand(4, 6))
-  const others: [number, number][] = []
-  while (others.length < 12 - same.length) {
-    const a = rand(0, 6)
-    const b = rand(0, 10 - a)
-    if (a + b !== t && !others.some(([x, y]) => x === a && y === b)) others.push([a, b])
+type FactCard = { i: number; a: number; b: number; op: Op }
+const val = (f: { a: number; b: number; op: Op }) => (f.op === '+' ? f.a + f.b : f.a - f.b)
+const show = (f: { a: number; b: number; op: Op }) => `${f.a} ${f.op === '+' ? '+' : '−'} ${f.b}`
+
+function dealFacts(mixed: boolean) {
+  const t = rand(mixed ? 2 : 4, mixed ? 8 : 10)
+  const same: Omit<FactCard, 'i'>[] = [...Array(t + 1).keys()].map((a) => ({ a, b: t - a, op: '+' as Op }))
+  if (mixed) for (let w = t; w <= 10; w++) same.push({ a: w, b: w - t, op: '-' })
+  const pick = shuffle(same).slice(0, rand(5, mixed ? 7 : 6))
+  const others: Omit<FactCard, 'i'>[] = []
+  while (others.length < 12 - pick.length + 1) {
+    const sub = mixed && Math.random() < 0.5
+    const a = sub ? rand(1, 10) : rand(0, 6)
+    const b = sub ? rand(0, a) : rand(0, 10 - a)
+    const f = { a, b, op: (sub ? '-' : '+') as Op }
+    if (val(f) !== t && !others.some((o) => o.a === a && o.b === b && o.op === f.op)) others.push(f)
   }
-  const target = same[0]
-  return { t, target, cards: shuffle([...same.slice(1), ...others]).map(([a, b], i) => ({ i, a, b })) }
+  const target = pick[0]
+  return { t, target, cards: shuffle([...pick.slice(1), ...others]).slice(0, 12).map((f, i) => ({ ...f, i })) }
 }
 
-export function FactHunt() {
+export function FactHunt({ mixed = false }: { mixed?: boolean }) {
   const { report } = useSlide()
-  const [d, setD] = useState(dealFacts)
+  const [d, setD] = useState(() => dealFacts(mixed))
   const [picked, setPicked] = useState<Set<number>>(new Set())
   const [flash, setFlash] = useFlash()
   const misses = useRef(0)
-  const need = d.cards.filter((c) => c.a + c.b === d.t).length
-  const got = [...picked].filter((i) => d.cards[i].a + d.cards[i].b === d.t).length
+  const need = d.cards.filter((c) => val(c) === d.t).length
+  const got = [...picked].filter((i) => val(d.cards[i]) === d.t).length
   const done = got === need
 
   function tap(i: number) {
     if (picked.has(i) || done) return
-    const c = d.cards[i]
-    if (c.a + c.b === d.t) {
+    if (val(d.cards[i]) === d.t) {
       const p = new Set(picked)
       p.add(i)
       setPicked(p)
@@ -800,11 +851,7 @@ export function FactHunt() {
       scene="night"
       prompt={
         <>
-          Find every card that has the <b>same value</b> as{' '}
-          <b>
-            {d.target[0]} + {d.target[1]}
-          </b>
-          !
+          Find every card that has the <b>same value</b> as <b>{show(d.target)}</b>!
         </>
       }
       status={<span className="lx-tally">found {got} of {need}</span>}
@@ -812,7 +859,7 @@ export function FactHunt() {
         <Btn
           tone="pink"
           onClick={() => {
-            setD(dealFacts())
+            setD(dealFacts(mixed))
             setPicked(new Set())
             misses.current = 0
           }}
@@ -822,13 +869,11 @@ export function FactHunt() {
       }
     >
       <div className="lx-facts">
-        <div className="lx-fact lx-fact-target">
-          {d.target[0]} + {d.target[1]}
-        </div>
+        <div className="lx-fact lx-fact-target">{show(d.target)}</div>
         <div className="lx-facts-grid">
           {d.cards.map((c) => (
             <button type="button" key={c.i} className={`lx-fact ${picked.has(c.i) ? 'is-right' : ''} ${flash === `c${c.i}` ? 'is-wrong' : ''}`} onClick={(e) => (e.stopPropagation(), tap(c.i))}>
-              {c.a} + {c.b}
+              {show(c)}
               {picked.has(c.i) && <small>= {d.t}</small>}
             </button>
           ))}
@@ -836,7 +881,7 @@ export function FactHunt() {
         {done && (
           <div className="lx-result">
             <Confetti />
-            <span>They all make {d.t}!</span>
+            <span>They all equal {d.t}!</span>
           </div>
         )}
       </div>
@@ -845,28 +890,31 @@ export function FactHunt() {
 }
 
 // ---------------------------------------------------------------------------
-// Story maker: build an addition story with pictures, then the equation.
+// Story maker: build an addition or subtraction story, then the equation.
 // ---------------------------------------------------------------------------
 
-const STORY_THINGS: SpriteName[] = ['duck', 'apple', 'fish', 'butterfly', 'cupcake', 'star', 'rabbit', 'shell']
+const STORY_THINGS: SpriteName[] = ['duck', 'apple', 'fish', 'butterfly', 'cupcake', 'balloon', 'rabbit', 'shell']
+type StoryKind = 'together' | 'more' | 'away'
 
-export function StoryMaker() {
+export function StoryMaker({ kinds = ['together', 'more'] }: { kinds?: StoryKind[] }) {
   const [sprite, setSprite] = useState<SpriteName>('duck')
-  const [kind, setKind] = useState<'together' | 'more'>('more')
-  const [n1, setN1] = useState(4)
+  const [kind, setKind] = useState<StoryKind>(kinds.includes('away') ? 'away' : 'more')
+  const [n1, setN1] = useState(kinds.includes('away') ? 7 : 4)
   const [n2, setN2] = useState(2)
   const [show, setShow] = useState(false)
   const t = thing(sprite)
-  const total = n1 + n2
+  const away = kind === 'away'
+  const total = away ? n1 - n2 : n1 + n2
   const nm = (n: number) => (n === 1 ? t.one : t.many)
+  const LABEL: Record<StoryKind, string> = { together: 'put together', more: 'more come', away: 'go away' }
 
-  const step = (v: number, set: (n: number) => void, other: number) => (
+  const step = (v: number, set: (n: number) => void, min: number, max: number) => (
     <span className="lx-stepper">
-      <button type="button" onClick={(e) => (e.stopPropagation(), set(Math.max(0, v - 1)), setShow(false), sfx.blip())}>
+      <button type="button" onClick={(e) => (e.stopPropagation(), set(Math.max(min, v - 1)), setShow(false), sfx.blip())}>
         −
       </button>
       <b>{v}</b>
-      <button type="button" onClick={(e) => (e.stopPropagation(), set(Math.min(10 - other, v + 1)), setShow(false), sfx.blip())}>
+      <button type="button" onClick={(e) => (e.stopPropagation(), set(Math.min(max, v + 1)), setShow(false), sfx.blip())}>
         +
       </button>
     </span>
@@ -876,7 +924,7 @@ export function StoryMaker() {
     <Act
       tag="story maker"
       scene="pond"
-      prompt={<>Make an addition story. Tell it aloud, then write the equation.</>}
+      prompt={<>Make a number story. Tell it aloud, then write the equation.</>}
       tools={
         <>
           {STORY_THINGS.map((s) => (
@@ -884,12 +932,20 @@ export function StoryMaker() {
               <Sprite name={s} size={1.2} />
             </Btn>
           ))}
-          <Btn tone={kind === 'together' ? 'blue' : 'plain'} onClick={() => (setKind('together'), setShow(false))}>
-            put together
-          </Btn>
-          <Btn tone={kind === 'more' ? 'blue' : 'plain'} onClick={() => (setKind('more'), setShow(false))}>
-            more come
-          </Btn>
+          {kinds.map((k) => (
+            <Btn
+              key={k}
+              tone={kind === k ? 'blue' : 'plain'}
+              onClick={() => {
+                setKind(k)
+                setShow(false)
+                if (k === 'away') setN2((v) => Math.min(v, n1))
+                else setN2((v) => Math.min(v, 10 - n1))
+              }}
+            >
+              {LABEL[k]}
+            </Btn>
+          ))}
           <Btn tone="go" onClick={() => (setShow(true), sfx.yes())}>
             show equation
           </Btn>
@@ -898,37 +954,55 @@ export function StoryMaker() {
     >
       <div className="lx-sm">
         <div className="lx-sm-scene">
-          <div className="lx-eqb-group">
-            {[...Array(n1)].map((_, i) => (
-              <Sprite key={i} name={sprite} size={3} />
-            ))}
-          </div>
-          <div className={`lx-eqb-group ${kind === 'more' ? 'lx-sm-coming' : ''}`} key={`${kind}${n2}`}>
-            {[...Array(n2)].map((_, i) => (
-              <Sprite key={i} name={sprite} size={3} style={kind === 'together' ? TINT : undefined} />
-            ))}
-          </div>
+          {away ? (
+            <div className="lx-eqb-group lx-eqb-wide" key={`a${n1}${n2}`}>
+              {[...Array(n1)].map((_, i) => (
+                <span key={i} className={`lx-set-thing ${i >= n1 - n2 ? 'lx-gone' : ''}`}>
+                  <Sprite name={sprite} size={3} />
+                </span>
+              ))}
+            </div>
+          ) : (
+            <>
+              <div className="lx-eqb-group">
+                {[...Array(n1)].map((_, i) => (
+                  <Sprite key={i} name={sprite} size={3} />
+                ))}
+              </div>
+              <div className={`lx-eqb-group ${kind === 'more' ? 'lx-sm-coming' : ''}`} key={`${kind}${n2}`}>
+                {[...Array(n2)].map((_, i) => (
+                  <Sprite key={i} name={sprite} size={3} style={kind === 'together' ? TINT : undefined} />
+                ))}
+              </div>
+            </>
+          )}
         </div>
         <div className="lx-sm-story">
           <p>
-            There {n1 === 1 ? 'is' : 'are'} {step(n1, setN1, n2)} {kind === 'together' ? 'yellow ' : ''}
+            There {n1 === 1 ? 'is' : 'are'} {step(n1, (v) => (setN1(v), setN2((m) => Math.min(m, away ? v : 10 - v))), away ? 1 : 0, 10)} {kind === 'together' ? 'yellow ' : ''}
             {nm(n1)}.
           </p>
-          {kind === 'together' ? (
+          {kind === 'together' && (
             <p>
-              There {n2 === 1 ? 'is' : 'are'} {step(n2, setN2, n1)} other {nm(n2)}.
+              There {n2 === 1 ? 'is' : 'are'} {step(n2, setN2, 0, 10 - n1)} other {nm(n2)}.
             </p>
-          ) : (
+          )}
+          {kind === 'more' && (
             <p>
-              {step(n2, setN2, n1)} more {nm(n2)} {n2 === 1 ? 'comes' : 'come'} along.
+              {step(n2, setN2, 0, 10 - n1)} more {nm(n2)} {n2 === 1 ? 'comes' : 'come'} along.
+            </p>
+          )}
+          {away && (
+            <p>
+              {step(n2, setN2, 0, n1)} {nm(n2)} {n2 === 1 ? 'goes' : 'go'} away.
             </p>
           )}
           <p>
-            There {total === 1 ? 'is' : 'are'} <b>{show ? total : '?'}</b> {nm(total)} {kind === 'together' ? 'altogether' : 'now'}.
+            There {total === 1 ? 'is' : 'are'} <b>{show ? total : '?'}</b> {nm(total)} {kind === 'together' ? 'altogether' : away ? 'left' : 'now'}.
           </p>
           <div className="lx-eq lx-eq-small">
             <span className="lx-slot">{n1}</span>
-            <span>+</span>
+            <span>{away ? '−' : '+'}</span>
             <span className="lx-slot">{n2}</span>
             <span>=</span>
             <span className="lx-slot">{show ? total : '?'}</span>

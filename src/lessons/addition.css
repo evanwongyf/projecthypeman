@@ -662,3 +662,17 @@
   padding: 0;
   cursor: pointer;
 }
+
+/* things taken away: crossed out and faded */
+.lx-gone { opacity: 0.45; }
+
+.lx-gone::after {
+  content: "";
+  position: absolute;
+  inset: -0.2em;
+  background:
+    linear-gradient(45deg, transparent 44%, var(--lx-red) 44% 56%, transparent 56%),
+    linear-gradient(-45deg, transparent 44%, var(--lx-red) 44% 56%, transparent 56%);
+}
+
+.lx-eqb-wide { max-width: 34em; }
