@@ -5,7 +5,7 @@ import { useData } from '../lib/data-context'
 import { isOverdue, displayState } from '../lib/status'
 import { useNow } from '../lib/useNow'
 import { Logo } from './Logo'
-import { IconArchive, IconBook, IconClass, IconDocument, IconHomework, IconLab, IconLogout, IconRoster, IconRun, IconSettings } from './Icons'
+import { IconArchive, IconBook, IconClass, IconDocument, IconHomework, IconLab, IconLessons, IconLogout, IconRoster, IconRun, IconSettings } from './Icons'
 import { TabsProvider, useTabs } from '../lib/tabs-context'
 import { ModeSwitcher } from './profile/ModeSwitcher'
 import { TabBar } from './tabs/TabBar'
@@ -17,6 +17,7 @@ const NAV = {
     { to: '/classes', label: 'Classes', Icon: IconClass },
     { to: '/homework', label: 'Homework', Icon: IconHomework },
     { to: '/documents', label: 'Documents', Icon: IconDocument },
+    { to: '/lessons', label: 'Lessons', Icon: IconLessons },
     { to: '/settings', label: 'Settings', Icon: IconSettings },
   ],
   personal: [

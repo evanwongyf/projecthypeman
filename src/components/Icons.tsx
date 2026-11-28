@@ -206,3 +206,11 @@ export const IconPrint = (p: Props) => (
     <path d="M7.5 11h5" />
   </Svg>
 )
+
+export const IconLessons = (p: Props) => (
+  <Svg {...p}>
+    <rect x="2.5" y="3.5" width="15" height="10" />
+    <path d="M8.5 6.5v4l3.5-2z" />
+    <path d="M7 17h6M10 13.5V17" />
+  </Svg>
+)

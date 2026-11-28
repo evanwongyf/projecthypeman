@@ -16,6 +16,9 @@ import { NotFound } from './pages/NotFound'
 import { RunningPage } from './pages/RunningPage'
 import { RaceLabPage } from './pages/RaceLabPage'
 
+// Lessons carry their own pixel art, stage styles and activities, so they load on demand.
+const LessonsPage = lazy(() => import('./pages/LessonsPage').then((m) => ({ default: m.LessonsPage })))
+
 // The Archive carries large data sets (shoes, theory, charts), so it loads on demand.
 const ArchivePage = lazy(() => import('./pages/ArchivePage').then((m) => ({ default: m.ArchivePage })))
 // The personal archive is ~1,400 guides plus 3D, maths and audio engines; every guide loads on its own.
@@ -39,6 +42,14 @@ export const pageRoutes = (
     <Route path="/classes/:classId/sociogram" element={<SociogramPage />} />
     <Route path="/documents" element={<DocumentsPage />} />
     <Route path="/documents/:documentId" element={<DocumentLabPage />} />
+    <Route
+      path="/lessons/:deckId?"
+      element={
+        <Suspense fallback={<p className="label p-8">loading lessons…</p>}>
+          <LessonsPage />
+        </Suspense>
+      }
+    />
     <Route path="/homework" element={<HomeworkPage />} />
     <Route path="/homework/:homeworkId" element={<HomeworkDetailPage />} />
     <Route path="/running" element={<RunningPage />} />

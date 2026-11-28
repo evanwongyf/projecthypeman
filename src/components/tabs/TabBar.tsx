@@ -3,6 +3,7 @@ import { useData } from '../../lib/data-context'
 import { hasDraft } from '../../lib/drafts'
 import { useTabs, type Tab } from '../../lib/tabs-context'
 import { IconClose, IconPlus } from '../Icons'
+import { LESSON_TITLES } from '../../lessons/titles'
 
 function humanise(slug: string): string {
   const s = decodeURIComponent(slug).replace(/[-_]+/g, ' ').trim()
@@ -25,6 +26,7 @@ export function tabTitle(path: string, data: TerminalData): string {
     return c ? `${name} · ${humanise(c)}` : name
   }
   if (a === 'homework') return b ? (data.homework.find((x) => x.id === b)?.title ?? 'Homework') : 'Homework'
+  if (a === 'lessons') return b ? (LESSON_TITLES[b] ?? 'Lesson') : 'Lessons'
   if (a === 'documents') return b ? 'Document' : 'Documents'
   if (a === 'running') return b === 'race-lab' ? 'Race Lab' : b === 'archive' ? 'Running archive' : 'Runs'
   if (a === 'personal') return parts.length > 2 ? humanise(parts[parts.length - 1]) : 'Archive'

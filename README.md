@@ -204,6 +204,38 @@ switches mode and brings that mode's tabs back as they were.
   button clears the draft, as does closing the tab. Drafts expire after two
   weeks. Add `data-no-draft` to a field or container to opt it out.
 
+## Lessons
+
+Teaching → Lessons is a library of interactive teaching assets, starting with
+Primary 1, Chapter 1: Numbers to 10 (outcomes C1.1 to C1.5). Everything is
+drawn in code: pixel-art characters (Pip, Bolt, Mei, Ravi) and objects are
+text grids rendered as SVG (`src/lessons/pixel.tsx`), and the 8-bit sounds are
+generated with WebAudio (`src/lessons/sfx.ts`).
+
+- **Class slides**: three decks to present on the board (counting all;
+  order, 1 more / 1 less and number words; comparing). They mix story beats,
+  concept cards revealed one press at a time, and drag-and-drop activities.
+  Each slide carries teacher notes, questions to ask and its curriculum
+  reference.
+- **Story run-through**: *Bolt Loses Count* tells the whole chapter as one
+  adventure, with a few activities along the way.
+- **Student packages**: self-paced quests with an on-screen number pad,
+  instant feedback and up to three stars per challenge, ending in a summary.
+- **Toolkit**: one-screen manipulatives (ten-frame, flash dots, number tape,
+  number train, counter cup, flip and compare, play money, memory pairs).
+
+The player (`src/lessons/Player.tsx`) scales a 16:9 stage to any screen.
+Keys: → / Space / PageDown for next (presentation clickers work), ← for back,
+F fullscreen, G slide overview, N teacher notes, R restart the slide. A story
+line or a concept card takes the "next" press before the slide changes. The
+last slide per deck and student stars are kept in `localStorage`
+(`hypeman.lessons.pos.v1`, `hypeman.lessons.scores.v1`).
+
+Decks are plain data in `src/lessons/decks.tsx`: a deck is a list of slides,
+each a title, an optional reference, notes, and a `render` returning an
+activity from `counting.tsx`, `comparing.tsx` or `scenes.tsx`. Add a deck
+there, and add its short tab name to `src/lessons/titles.ts`.
+
 ## Document Lab
 
 Documents → a template → the lab: the form on the left, the A4 page on the
