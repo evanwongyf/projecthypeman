@@ -177,8 +177,66 @@ overdue to the top, then assigned, then collected.
 - `src/components` — shared UI
 - `src/lib` — client-safe logic: `status.ts` (state derivation and sorting),
   `format.ts` (names, dates, stamps), `data-context.tsx` (one bootstrap read)
+- `src/lib/documents` — the Document Lab: `layout.ts` (the typesetter),
+  `fonts.ts` (metrics), `pdf.ts` (display list to file), `templates/` (the
+  catalogue)
 - `netlify/functions` — the API; `_shared/` holds the R2 + auth code that must
   never reach the browser bundle
+
+## Document Lab
+
+Documents → a template → the lab: the form on the left, the A4 page on the
+right, filling in as you type. **Download PDF** produces a real file, not a
+print dialog.
+
+Thirty-one templates across Behaviour, Communication, Academic, Classroom and
+Admin: incident reports, letters home, progress reports, lesson plans, consent
+forms, risk assessments, testimonials and the rest. Choose one or more students
+(or a class, or nobody) and the fields the terminal already knows the answer to
+arrive filled in: name, class, school, contacts, points, homework record,
+logged notes and incidents. Several templates go further and *are* the record,
+the way Item Analysis is written from the marks already entered and Seating
+Plan Record prints a saved plan with its conflicts.
+
+**The preview is the document.** Blocks are measured and flowed into pages once,
+in PostScript points, against pdf-lib's own font metrics; the resulting display
+list is drawn twice, as SVG on screen and with pdf-lib into the file. An SVG
+baseline is the number the layout computed rather than something the browser
+infers, so a line cannot land in one place on screen and another on the page.
+Helvetica and Arial are metric-compatible, as are Times-Roman and Times New
+Roman, which is why the CSS font stacks name both.
+
+Two things the flow does that separate a generated form from a professional
+one: a heading is never left at the foot of a page, and a table that splits
+repeats its headings on the next one. Text is drawn as text, so the PDF is
+selectable and searchable. **Print** is also there, rendering the same pages
+into `#print-root` with `@page { size: A4; margin: 0 }`.
+
+### Projects and versions
+
+A document is a project: the template id, who it is about, the values typed in,
+and its history. Templates are code and only the id is stored, so improving a
+template improves every document already written from it. That makes the ids
+part of the data format, so they are never renamed.
+
+The draft **saves itself** a second after you stop typing. A version is a
+marker you choose to drop, which is what makes the history worth reading, and
+**restoring appends**: an old version comes back as a new, higher-numbered one
+and nothing is rewritten. Beyond forty versions the oldest is dropped, except
+version 1, which is the document as it was first written.
+
+Projects live in their own R2 objects rather than in the terminal blob, since
+`/api/data` is read on every page load and a history of versions has no
+business arriving with it:
+
+```
+projecthypeman/
+  documents/<username>.json        # index of summaries
+  documents-proj/<username>/<id>.json   # one project, with its versions
+```
+
+An unknown field id is kept rather than dropped on save, so editing a template
+never silently discards what a teacher typed.
 
 ## Design
 

@@ -5,7 +5,7 @@ import { useData } from '../lib/data-context'
 import { isOverdue, displayState } from '../lib/status'
 import { useNow } from '../lib/useNow'
 import { Logo } from './Logo'
-import { IconArchive, IconBook, IconClass, IconHomework, IconLab, IconLogout, IconRoster, IconRun, IconSettings } from './Icons'
+import { IconArchive, IconBook, IconClass, IconDocument, IconHomework, IconLab, IconLogout, IconRoster, IconRun, IconSettings } from './Icons'
 import { useProfile } from '../lib/profile-context'
 import { LemonAvatar } from './profile/LemonAvatar'
 import { ModeMedal } from './profile/ModeMedal'
@@ -16,6 +16,7 @@ const NAV = {
     { to: '/students', label: 'Students', Icon: IconRoster },
     { to: '/classes', label: 'Classes', Icon: IconClass },
     { to: '/homework', label: 'Homework', Icon: IconHomework },
+    { to: '/documents', label: 'Documents', Icon: IconDocument },
     { to: '/settings', label: 'Settings', Icon: IconSettings },
   ],
   personal: [

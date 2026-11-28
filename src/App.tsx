@@ -16,6 +16,8 @@ import { SociogramPage } from './pages/SociogramPage'
 import { HomeworkPage } from './pages/HomeworkPage'
 import { HomeworkDetailPage } from './pages/HomeworkDetailPage'
 import { SettingsPage } from './pages/SettingsPage'
+import { DocumentsPage } from './pages/DocumentsPage'
+import { DocumentLabPage } from './pages/DocumentLabPage'
 import { NotFound } from './pages/NotFound'
 import { RunningPage } from './pages/RunningPage'
 import { RaceLabPage } from './pages/RaceLabPage'
@@ -44,6 +46,8 @@ export default function App() {
             <Route path="/classes/:classId/seating" element={<SeatingPage />} />
             <Route path="/classes/:classId/seating/:planId" element={<SeatingPage />} />
             <Route path="/classes/:classId/sociogram" element={<SociogramPage />} />
+            <Route path="/documents" element={<DocumentsPage />} />
+            <Route path="/documents/:documentId" element={<DocumentLabPage />} />
             <Route path="/homework" element={<HomeworkPage />} />
             <Route path="/homework/:homeworkId" element={<HomeworkDetailPage />} />
             <Route path="/running" element={<RunningPage />} />
