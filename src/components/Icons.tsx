@@ -206,3 +206,50 @@ export const IconPrint = (p: Props) => (
     <path d="M7.5 11h5" />
   </Svg>
 )
+
+export const IconChart = (p: Props) => (
+  <Svg {...p}>
+    <path d="M3 3v14h14" />
+    <path d="M6.5 13V9.5M10 13V6M13.5 13v-5" />
+  </Svg>
+)
+
+export const IconSpark = (p: Props) => (
+  <Svg {...p}>
+    <path d="M10 2.5l1.6 4.4 4.4 1.6-4.4 1.6L10 14.5l-1.6-4.4L4 8.5l4.4-1.6z" />
+    <path d="M15.5 13.5l.7 1.8 1.8.7-1.8.7-.7 1.8-.7-1.8-1.8-.7 1.8-.7z" />
+  </Svg>
+)
+
+export const IconUpload = (p: Props) => (
+  <Svg {...p}>
+    <path d="M10 13V3.5M6 7.5l4-4 4 4" />
+    <path d="M3.5 13v3.5h13V13" />
+  </Svg>
+)
+
+export const IconSend = (p: Props) => (
+  <Svg {...p}>
+    <path d="M3 10l14-6.5L12 17l-2.5-5.5z" />
+    <path d="M9.5 11.5L17 3.5" />
+  </Svg>
+)
+
+export const IconStop = (p: Props) => (
+  <Svg {...p}>
+    <rect x="5" y="5" width="10" height="10" />
+  </Svg>
+)
+
+export const IconCode = (p: Props) => (
+  <Svg {...p}>
+    <path d="M7 6l-4 4 4 4M13 6l4 4-4 4" />
+  </Svg>
+)
+
+export const IconDatabase = (p: Props) => (
+  <Svg {...p}>
+    <ellipse cx="10" cy="5" rx="6" ry="2.2" />
+    <path d="M4 5v10c0 1.2 2.7 2.2 6 2.2s6-1 6-2.2V5M4 10c0 1.2 2.7 2.2 6 2.2s6-1 6-2.2" />
+  </Svg>
+)

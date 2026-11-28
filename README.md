@@ -238,6 +238,39 @@ projecthypeman/
 An unknown field id is kept rather than dropped on save, so editing a template
 never silently discards what a teacher typed.
 
+## Analytics
+
+A dashboard builder with an AI copilot, in its own profile mode (Analytics).
+
+- **Data stays in the browser.** Uploaded CSV, TSV, Parquet, JSON or Excel
+  files load into DuckDB running as WebAssembly, and are kept in IndexedDB so
+  they survive a reload. Dashboards (chart specs and their SQL) are saved to R2
+  per account; on another device they load and ask for the files again.
+- **Profiles, not rows.** Each table is profiled on upload: types, a role per
+  column (time, measure, category, id, text, geo, boolean), exact distinct
+  counts, ranges, top values and five sample rows. Columns that look like
+  personal data are masked. The profile is what the AI sees.
+- **The AI never does the maths.** The copilot works through a fixed tool set
+  (`netlify/functions/_shared/ai/tools.ts`): read-only SQL, table profiles,
+  the rule-based recommender (`src/lib/analytics/recommend.ts`), and creating,
+  updating or removing charts. Every chart's SQL is run and drawn before it
+  reaches the dashboard; errors go back to the model to fix.
+- **Keys stay on the server.** `/api/analytics/copilot` makes one streamed
+  model call per request and the browser runs the tool loop, so each request
+  stays inside the function time limit. OpenAI goes through the Responses API
+  (needed for tools on GPT-6.2); Claude through the Messages API with prompt
+  caching and server-side refusal fallback. The system prompt is frozen for a
+  conversation, so the cache holds and replayed reasoning stays valid.
+- **Charts** use ECharts with the validated categorical palette (separate
+  light and dark steps), one y-axis, legends for two or more series, and extra
+  series folded into "Other".
+
+Settings → AI usage meters every call per API key (identified by a hash, never
+stored): requests, tokens and estimated cost at list prices
+(`netlify/functions/_shared/ai/pricing.ts`), with daily spend. Provider APIs do
+not expose a credit balance to ordinary keys, so this covers usage through
+Hypeman only.
+
 ## Design
 
 Settings → Design. Nine independent axes, each a `data-*` attribute on `<html>`

@@ -5,7 +5,7 @@ import { useData } from '../lib/data-context'
 import { isOverdue, displayState } from '../lib/status'
 import { useNow } from '../lib/useNow'
 import { Logo } from './Logo'
-import { IconArchive, IconBook, IconClass, IconDocument, IconHomework, IconLab, IconLogout, IconRoster, IconRun, IconSettings } from './Icons'
+import { IconArchive, IconBook, IconChart, IconClass, IconDocument, IconHomework, IconLab, IconLogout, IconRoster, IconRun, IconSettings } from './Icons'
 import { useProfile } from '../lib/profile-context'
 import { LemonAvatar } from './profile/LemonAvatar'
 import { ModeMedal } from './profile/ModeMedal'
@@ -21,6 +21,10 @@ const NAV = {
   ],
   personal: [
     { to: '/personal/archive', label: 'Archive', Icon: IconBook },
+    { to: '/settings', label: 'Settings', Icon: IconSettings },
+  ],
+  analytics: [
+    { to: '/analytics', label: 'Dashboards', Icon: IconChart },
     { to: '/settings', label: 'Settings', Icon: IconSettings },
   ],
   running: [
