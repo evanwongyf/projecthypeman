@@ -3,6 +3,7 @@ import type { ReactNode } from 'react'
 import { api } from './api'
 import type { TerminalData } from './types'
 import { nameKey } from './format'
+import { useDesign } from './design-context'
 
 type DataContextValue = {
   data: TerminalData
@@ -31,6 +32,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [version, setVersion] = useState(0)
+  const { adopt } = useDesign()
 
   const reload = useCallback(async () => {
     try {
@@ -38,12 +40,14 @@ export function DataProvider({ children }: { children: ReactNode }) {
       setData(next)
       setError(null)
       setVersion((v) => v + 1)
+      // Pick up a design saved from another device.
+      adopt(next.settings?.design)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Could not load the terminal.')
     } finally {
       setLoading(false)
     }
-  }, [])
+  }, [adopt])
 
   useEffect(() => {
     void reload()

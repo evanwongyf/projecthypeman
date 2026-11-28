@@ -35,23 +35,23 @@ export function Modal({
   return (
     <div
       className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto p-4 sm:p-8"
-      style={{ background: 'rgba(12, 24, 52, 0.62)' }}
+      style={{ background: 'rgba(5, 4, 4, 0.72)' }}
       onMouseDown={(e) => {
         if (e.target === e.currentTarget) onClose()
       }}
     >
       <div
-        className={`panel my-auto w-full p-[3px] ${xl ? 'max-w-4xl' : wide ? 'max-w-2xl' : 'max-w-md'}`}
+        className={`panel my-auto w-full ${xl ? 'max-w-4xl' : wide ? 'max-w-2xl' : 'max-w-md'}`}
         role="dialog"
         aria-modal="true"
         aria-label={title}
       >
-        <header className="titlebar flex items-center justify-between gap-4 px-3 py-2">
+        <header className="flex items-start justify-between gap-4 border-b p-5 hairline">
           <div>
-            {eyebrow && <p className="label mb-0.5">{eyebrow}</p>}
-            <h2>{title}</h2>
+            {eyebrow && <p className="label mb-1">{eyebrow}</p>}
+            <h2 className="text-lg font-semibold tracking-tight">{title}</h2>
           </div>
-          <button type="button" className="btn" onClick={onClose} aria-label="Close">
+          <button type="button" className="btn btn-ghost -mt-1 -mr-1 !px-2" onClick={onClose} aria-label="Close">
             <IconClose />
           </button>
         </header>

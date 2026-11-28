@@ -56,7 +56,7 @@ export function TerminalLayout() {
     <div className="flex min-h-full flex-1 flex-col lg:flex-row">
       {/* ---- rail ---- */}
       <aside
-        className="rail flex shrink-0 flex-col border-b lg:h-screen lg:w-60 lg:border-r lg:border-b-0 lg:sticky lg:top-0"
+        className="flex shrink-0 flex-col border-b lg:h-screen lg:w-60 lg:border-r lg:border-b-0 lg:sticky lg:top-0"
         style={{ borderColor: 'var(--line)', background: 'var(--panel)' }}
       >
         <div className="flex items-center justify-between gap-3 border-b px-5 py-4 hairline">
@@ -111,10 +111,10 @@ export function TerminalLayout() {
 
         <div className="mt-auto hidden border-t p-5 lg:block hairline">
           {mode === 'teaching' && (
-            <dl className="crt crt-green flex flex-col gap-1 px-3 py-2.5">
-              <SideStat label="outstanding" value={loading ? '-' : outstanding} tone={outstanding ? 'var(--phos-amber)' : 'var(--ink-faint)'} />
-              <SideStat label="past due" value={loading ? '-' : overdueCount} tone={overdueCount ? 'var(--phos-red)' : 'var(--ink-faint)'} />
-              <SideStat label="students" value={loading ? '-' : data.students.length} tone="var(--ink)" />
+            <dl className="grid grid-cols-3 gap-3">
+              <SideStat label="outstanding" value={loading ? '-' : outstanding} tone={outstanding ? 'var(--assigned)' : 'var(--ink-faint)'} />
+              <SideStat label="past due" value={loading ? '-' : overdueCount} tone={overdueCount ? 'var(--overdue)' : 'var(--ink-faint)'} />
+              <SideStat label="students" value={loading ? '-' : data.students.length} tone="var(--ink-soft)" />
             </dl>
           )}
 
@@ -157,9 +157,9 @@ export function TerminalLayout() {
 
 function SideStat({ label, value, tone }: { label: string; value: number | string; tone: string }) {
   return (
-    <div className="flex min-w-0 items-baseline justify-between gap-3">
+    <div className="min-w-0">
       <dt className="label truncate">{label}</dt>
-      <dd className="crt-type text-2xl leading-none" style={{ color: tone }}>
+      <dd className="mono mt-1 text-sm font-semibold" style={{ color: tone }}>
         {value}
       </dd>
     </div>

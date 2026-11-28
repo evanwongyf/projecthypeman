@@ -71,7 +71,7 @@ function CollectionView({ trail }: { trail: ArchiveNode[] }) {
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="crt crt-green px-5 py-5 sm:px-7 sm:py-6">
+      <div>
         {node ? (
           <Link to={archiveHref(parent)} className="eyebrow font-bold">
             ← {parent.length ? parent[parent.length - 1].title.toLowerCase() : 'archive'}

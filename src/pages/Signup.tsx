@@ -49,9 +49,9 @@ export function Signup() {
   }
 
   return (
-    <div className="desktop flex flex-1 items-center justify-center p-5">
+    <div className="grid-field flex flex-1 items-center justify-center p-5">
       <div className="w-full max-w-sm">
-        <div className="crt crt-green mb-6 flex flex-col items-start gap-3 p-5">
+        <div className="mb-8 flex flex-col gap-3">
           <Logo />
           <p className="text-sm" style={{ color: 'var(--ink-soft)' }}>
             Create the account for this terminal.
