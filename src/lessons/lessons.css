@@ -1,14 +1,15 @@
-/* Numerals in a clearer pixel face: Pixelify's 5 and 2 read poorly from the
-   back of a room, so digits come from Press Start 2P, scaled to sit beside
-   Pixelify letters. Only 0-9 use it, via unicode-range. */
+/* Numerals in a clearer pixel face. Pixelify's 5 and 2 read poorly from the
+   back of a room, so digits come from lx-digits.woff2: Press Start 2P's 0-9
+   (SIL Open Font License), redrawn at 93% of Pixelify's letter height and
+   moved onto Pixelify's baseline, with Pixelify's line metrics, so numbers sit
+   exactly in line with the words around them. Only 0-9 use it. */
 @font-face {
   font-family: 'Lx Digits';
   font-style: normal;
   font-weight: 400 700;
-  font-display: swap;
-  src: url(https://fonts.gstatic.com/s/pressstart2p/v16/e3t4euO8T-267oIAQAu6jDQyK3nVivM.woff2) format('woff2');
+  font-display: block;
+  src: url('./lx-digits.woff2') format('woff2');
   unicode-range: U+0030-0039;
-  size-adjust: 78%;
 }
 
 /* ===========================================================================
