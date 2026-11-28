@@ -444,16 +444,16 @@ export function Conservation({ variant = 'spread' }: { variant?: 'spread' | 'siz
       ? {
           prompt: (
             <>
-              Ravi’s bars are close together. Mei’s bars are spread out. <b>Who is correct?</b>
+              Ravi’s bars are close together. Jessie’s bars are spread out. <b>Who is correct?</b>
             </>
           ),
           rows: [
             { label: 'Ravi’s chocolate bars', sprite: 'choc' as SpriteName, n: 4, size: 2.6, gap: squeezed ? 0.3 : 0.3 },
-            { label: 'Mei’s chocolate bars', sprite: 'choc' as SpriteName, n: 4, size: 2.6, gap: squeezed ? 0.3 : 4.5 },
+            { label: 'Jessie’s chocolate bars', sprite: 'choc' as SpriteName, n: 4, size: 2.6, gap: squeezed ? 0.3 : 4.5 },
           ],
           claims: [
             { who: 'pip', text: 'Ravi has fewer chocolate bars.', right: false },
-            { who: 'mei', text: 'I have more chocolate bars!', right: false },
+            { who: 'jessie', text: 'I have more chocolate bars!', right: false },
             { who: 'bolt', text: 'They have the same number of bars.', right: true },
           ] as Claim[],
           why: 'Spreading things out does not change how many there are.',
@@ -470,7 +470,7 @@ export function Conservation({ variant = 'spread' }: { variant?: 'spread' | 'siz
           ],
           claims: [
             { who: 'ravi', text: 'There are more melons. They are bigger!', right: false },
-            { who: 'mei', text: 'There are more cherries.', right: true },
+            { who: 'jessie', text: 'There are more cherries.', right: true },
             { who: 'pip', text: 'There are the same number.', right: false },
           ] as Claim[],
           why: 'Bigger things do not mean more things. Count to check!',
@@ -550,7 +550,7 @@ export const AROUND_US: SortItem[] = [
   { id: 'bus', label: 'Bus 2', kind: 'label', art: <span className="lx-art"><Sprite name="bus" size={2.6} />{plate(2)}</span> },
   { id: 'block', label: 'Block 5', kind: 'label', art: <span className="lx-art"><Sprite name="block" size={3.2} />{plate(5)}</span> },
   { id: 'shirt', label: 'Jersey 7', kind: 'label', art: <span className="lx-art"><Sprite name="shirt" size={2.8} />{plate(7)}</span> },
-  { id: 'people', label: '4 people', kind: 'count', art: <span className="lx-art">{['mei', 'ravi', 'mei', 'ravi'].map((w, i) => <Sprite key={i} name={w as SpriteName} size={2.4} />)}</span> },
+  { id: 'people', label: '4 people', kind: 'count', art: <span className="lx-art">{['jessie', 'ravi', 'jessie', 'ravi'].map((w, i) => <Sprite key={i} name={w as SpriteName} size={2.4} />)}</span> },
   { id: 'crayons', label: '6 crayons', kind: 'count', art: <span className="lx-art">{['#e8423f', '#ffd23f', '#4fc35a', '#3d7be0', '#a565f0', '#ff9a2e'].map((c) => <Sprite key={c} name="crayon" size={2.4} pal={{ R: c, r: '#1d2238' }} />)}</span> },
   { id: 'apples', label: '3 apples', kind: 'count', art: <span className="lx-art">{[0, 1, 2].map((i) => <Sprite key={i} name="apple" size={2.2} />)}</span> },
 ]

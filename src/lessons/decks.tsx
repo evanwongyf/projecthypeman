@@ -82,11 +82,11 @@ const countDeck: Deck = {
       render: () => (
         <Story
           scene="pond"
-          cast={[{ who: 'pip', x: 14 }, { who: 'bolt', x: 46 }, { who: 'mei', x: 76, flip: true }]}
+          cast={[{ who: 'pip', x: 14 }, { who: 'bolt', x: 46 }, { who: 'jessie', x: 76, flip: true }]}
           props={[
-            { sprite: 'bird', x: 30, y: 12, size: 1.2 },
-            { sprite: 'bird', x: 38, y: 18, size: 1.2 },
-            { sprite: 'bird', x: 48, y: 10, size: 1.2 },
+            { sprite: 'butterfly', x: 30, y: 14, size: 2 },
+            { sprite: 'butterfly', x: 40, y: 22, size: 1.8 },
+            { sprite: 'butterfly', x: 50, y: 12, size: 2 },
             { sprite: 'duck', x: 30, y: 63, size: 2.4 },
             { sprite: 'duck', x: 57, y: 66, size: 2.4 },
             { sprite: 'duck', x: 64, y: 61, size: 2.4 },
@@ -94,7 +94,7 @@ const countDeck: Deck = {
           lines={[
             { who: 'pip', text: 'Welcome to my pond! There are *so many* things to count here.' },
             { who: 'bolt', text: 'Beep boop! I am Bolt. My counting chip is brand new. Can you help me count?' },
-            { who: 'mei', text: 'What can we count? I can see ducks, birds… what else can you see?' },
+            { who: 'jessie', text: 'What can we count? I can see ducks, butterflies… what else can you see?' },
             { who: 'pip', text: 'Let’s count *all* of them. One at a time!' },
           ]}
         />
@@ -110,7 +110,7 @@ const countDeck: Deck = {
         <CountTap
           groups={[
             { sprite: 'duck', n: 3 },
-            { sprite: 'bird', n: 5 },
+            { sprite: 'butterfly', n: 5 },
             { sprite: 'fish', n: 4 },
             { sprite: 'ladybug', n: 7 },
             { sprite: 'flower', n: 9 },
@@ -158,11 +158,11 @@ const countDeck: Deck = {
       render: () => (
         <Story
           scene="pond"
-          cast={[{ who: 'bolt', x: 18 }, { who: 'mei', x: 74, flip: true }]}
+          cast={[{ who: 'bolt', x: 18 }, { who: 'jessie', x: 74, flip: true }]}
           lines={[
             { who: 'bolt', text: 'Easy! 1, 2, 3, 4! There are *4* ducks!', show: <SpriteRow name="duck" n={3} size={4} gap={1.5} /> },
-            { who: 'mei', text: 'Hmm. Let’s look again. How many ducks can you see?', show: <SpriteRow name="duck" n={3} size={4} gap={1.5} /> },
-            { who: 'mei', text: 'Oops! Bolt counted this duck *twice*.', show: <SpriteRow name="duck" n={3} size={4} gap={1.5} /> },
+            { who: 'jessie', text: 'Hmm. Let’s look again. How many ducks can you see?', show: <SpriteRow name="duck" n={3} size={4} gap={1.5} /> },
+            { who: 'jessie', text: 'Oops! Bolt counted this duck *twice*.', show: <SpriteRow name="duck" n={3} size={4} gap={1.5} /> },
             { who: 'bolt', text: 'Each thing gets *one* number only. 1, 2, 3. *3* ducks! Beep!', show: <span className="lx-bignum-inline">3</span> },
           ]}
         />
@@ -289,7 +289,7 @@ const orderDeck: Deck = {
       render: () => (
         <Teach
           title="Seven, three ways"
-          guide={{ who: 'mei', text: 'They all mean the same number!' }}
+          guide={{ who: 'jessie', text: 'They all mean the same number!' }}
           cards={[
             { head: 'dots', body: 'Count the dots.', visual: <DotCard n={7} size={7} /> },
             { head: 'numeral', body: 'We write it like this.', visual: <NumCard n={7} size={7} /> },
@@ -356,7 +356,7 @@ const compareDeck: Deck = {
     {
       id: 'title',
       title: 'Title',
-      render: () => <Title kicker="P1 · Numbers to 10 · Lesson 3" title="More or Fewer?" sub="Match, count and compare." scene="market" cast={[{ who: 'mei', x: 22 }, { who: 'ravi', x: 70, flip: true }]} />,
+      render: () => <Title kicker="P1 · Numbers to 10 · Lesson 3" title="More or Fewer?" sub="Match, count and compare." scene="market" cast={[{ who: 'jessie', x: 22 }, { who: 'ravi', x: 70, flip: true }]} />,
     },
     {
       id: 'story-share',
@@ -367,13 +367,13 @@ const compareDeck: Deck = {
       render: () => (
         <Story
           scene="class"
-          cast={[{ who: 'ravi', x: 14 }, { who: 'mei', x: 40 }, { who: 'bolt', x: 72, flip: true }]}
+          cast={[{ who: 'ravi', x: 14 }, { who: 'jessie', x: 40 }, { who: 'bolt', x: 72, flip: true }]}
           lines={[
-            { who: 'ravi', text: 'I have *more* counters than you, Mei!' },
-            { who: 'mei', text: 'No way! *I* have more!' },
+            { who: 'ravi', text: 'I have *more* counters than you, Jessie!' },
+            { who: 'jessie', text: 'No way! *I* have more!' },
             { who: 'bolt', text: 'Beep! Let’s line them up and *match* them, one to one.' },
             { who: 'bolt', text: 'The row with counters left over has *more*. The other row has *fewer*.', show: <div style={{ display: 'grid', gap: '0.6em' }}><div style={{ display: 'flex', gap: '0.6em' }}>{[...Array(6)].map((_, i) => <Sprite key={i} name="counterYellow" size={2.4} />)}</div><div style={{ display: 'flex', gap: '0.6em' }}>{[...Array(4)].map((_, i) => <Sprite key={i} name="counterRed" size={2.4} />)}</div></div> },
-            { who: 'mei', text: 'And if every counter has a partner, we have *the same number*!' },
+            { who: 'jessie', text: 'And if every counter has a partner, we have *the same number*!' },
           ]}
         />
       ),
@@ -546,10 +546,10 @@ const storyDeck: Deck = {
       render: () => (
         <Story
           scene="market"
-          cast={[{ who: 'mei', x: 18 }, { who: 'bolt', x: 66, flip: true }]}
+          cast={[{ who: 'jessie', x: 18 }, { who: 'bolt', x: 66, flip: true }]}
           lines={[
             { who: 'bolt', text: 'Mmm! Cupcakes! Can I buy one? It costs *$5*.' },
-            { who: 'mei', text: 'Let’s count your dollars, one note at a time: $1, $2, $3, $4, $5!', show: note(5) },
+            { who: 'jessie', text: 'Let’s count your dollars, one note at a time: $1, $2, $3, $4, $5!', show: note(5) },
           ]}
         />
       ),
@@ -579,10 +579,10 @@ const storyDeck: Deck = {
       render: () => (
         <Story
           scene="pond"
-          cast={[{ who: 'pip', x: 10 }, { who: 'mei', x: 34 }, { who: 'bolt', x: 56 }, { who: 'ravi', x: 80, flip: true }]}
+          cast={[{ who: 'pip', x: 10 }, { who: 'jessie', x: 34 }, { who: 'bolt', x: 56 }, { who: 'ravi', x: 80, flip: true }]}
           lines={[
             { who: 'bolt', text: 'Ding! My number chip is working again! 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10!', show: <Sprite name="trophy" size={6} /> },
-            { who: 'mei', text: 'Remember: count each thing *once*. The *last number* tells how many.' },
+            { who: 'jessie', text: 'Remember: count each thing *once*. The *last number* tells how many.' },
             { who: 'ravi', text: 'Numbers go in order. *1 more*, *1 less*.' },
             { who: 'pip', text: 'And when we compare: *more* or *fewer* things, *greater* or *smaller* numbers. Ribbit!' },
             { who: 'bolt', text: 'Thank you, friends! Beep boop! THE END.' },
@@ -605,9 +605,9 @@ const countQuest: Deck = {
   sections: ['C1.1', 'C1.2', 'C1.3', 'C1.5'],
   refs: ['Practice 1–3'],
   minutes: 20,
-  cover: { scene: 'sky', sprites: ['mei', 'star', 'star', 'star'] },
+  cover: { scene: 'sky', sprites: ['jessie', 'star', 'star', 'star'] },
   slides: [
-    { id: 'title', title: 'Start', render: () => <Title kicker="Student quest" title="Counting Quest" sub="Earn a star for every challenge!" scene="sky" cast={[{ who: 'mei', x: 24 }, { who: 'pip', x: 70, flip: true }]} /> },
+    { id: 'title', title: 'Start', render: () => <Title kicker="Student quest" title="Counting Quest" sub="Earn a star for every challenge!" scene="sky" cast={[{ who: 'jessie', x: 24 }, { who: 'pip', x: 70, flip: true }]} /> },
     { id: 'c1', title: 'Count the fish', scored: true, render: () => <CountTap groups={[{ sprite: 'fish', n: 7 }]} /> },
     { id: 'c2', title: 'Count the flowers', scored: true, render: () => <CountTap groups={[{ sprite: 'flower', n: 4 }]} scene="sky" /> },
     { id: 'tf', title: 'Ten-frame', scored: true, render: () => <TenFrameBuild targets={[8, 4, 6]} /> },
@@ -682,7 +682,7 @@ const tools: Deck[] = [
   tool('tool-tape', 'Number tape', 'Hop 1 more / 1 less, hide numbers, ask what is missing.', 'sky', ['pip'], () => <NumberTape mode="hop" />, ['C1.5']),
   tool('tool-train', 'Number train', 'Endless missing-number trains, forward or back.', 'rail', ['bolt'], () => <NumberTrain dir="up" missing={2} />, ['C1.5']),
   tool('tool-cup', 'Counter cup', 'Shake two-colour counters, line them up and match.', 'class', ['counterRed', 'counterYellow'], () => <SpillCompare />, ['C1.4']),
-  tool('tool-cards', 'Flip & compare', 'Two random cards and a greater / smaller sentence.', 'class', ['mei'], () => <CardCompare />, ['C1.4']),
+  tool('tool-cards', 'Flip & compare', 'Two random cards and a greater / smaller sentence.', 'class', ['jessie'], () => <CardCompare />, ['C1.4']),
   tool('tool-money', 'Play money', 'Count $1 notes to $10 and swap for a $10 note.', 'market', ['cupcake'], () => <MoneyMake targets={[3, 8, 5, 10, 1, 7]} />, ['C1.1']),
   tool('tool-memory', 'Memory pairs', 'Team game: match dot cards to numerals.', 'space', ['trophy'], () => <MemoryPairs />, ['C1.3']),
 ]

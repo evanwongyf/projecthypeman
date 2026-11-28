@@ -75,7 +75,7 @@ export const SPRITES = {
       '...OOO..OOO...',
     ],
   },
-  mei: {
+  jessie: {
     rows: [
       '...HHHHHH...',
       '..HHHHHHHH..',
@@ -151,7 +151,9 @@ export const SPRITES = {
     ],
     pal: { A: '#6f7890' },
   },
-  bird: { rows: ['K......K', '.K....K.', '..K..K..', '...KK...'] },
+  butterfly: {
+    rows: ['..K...K..', '...K.K...', '.VV.K.VV.', 'VPPVKVPPV', 'VPPVKVPPV', '.VVVKVVV.', '..VPKPV..', '.VPPKPPV.', '.VVV.VVV.'],
+  },
   sun: {
     rows: ['....Y....', '.Y..Y..Y.', '..YYYYY..', '..YYYYY..', 'YYYYYYYYY', '..YYYYY..', '..YYYYY..', '.Y..Y..Y.', '....Y....'],
   },
@@ -213,7 +215,7 @@ export const THINGS: { sprite: SpriteName; one: string; many: string }[] = [
   { sprite: 'ladybug', one: 'ladybird', many: 'ladybirds' },
   { sprite: 'apple', one: 'apple', many: 'apples' },
   { sprite: 'star', one: 'star', many: 'stars' },
-  { sprite: 'bird', one: 'bird', many: 'birds' },
+  { sprite: 'butterfly', one: 'butterfly', many: 'butterflies' },
   { sprite: 'cupcake', one: 'cupcake', many: 'cupcakes' },
   { sprite: 'carrot', one: 'carrot', many: 'carrots' },
   { sprite: 'rabbit', one: 'rabbit', many: 'rabbits' },
@@ -291,7 +293,7 @@ export const Sprite = memo(function Sprite({
 export const CAST = {
   pip: { name: 'Pip', sprite: 'pip' as SpriteName, colour: '#4fc35a' },
   bolt: { name: 'Bolt', sprite: 'bolt' as SpriteName, colour: '#3d7be0' },
-  mei: { name: 'Mei', sprite: 'mei' as SpriteName, colour: '#ff8fb8' },
+  jessie: { name: 'Jessie', sprite: 'jessie' as SpriteName, colour: '#ff8fb8' },
   ravi: { name: 'Ravi', sprite: 'ravi' as SpriteName, colour: '#ffb03f' },
 }
 export type CastId = keyof typeof CAST

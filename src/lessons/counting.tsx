@@ -186,7 +186,7 @@ export function CountTap({ groups, scene = 'pond' }: { groups: { sprite: SpriteN
 // Number gallery: 0 to 10 as things, a ten-frame, dots, numeral and word.
 // ---------------------------------------------------------------------------
 
-const GALLERY: SpriteName[] = ['duck', 'sun', 'tree', 'duck', 'flower', 'ladybug', 'bird', 'apple', 'flower', 'star', 'fish']
+const GALLERY: SpriteName[] = ['duck', 'sun', 'tree', 'duck', 'flower', 'ladybug', 'butterfly', 'apple', 'flower', 'star', 'fish']
 
 export function Gallery({ start = 0 }: { start?: number }) {
   const { active, onStep } = useSlide()
@@ -681,7 +681,7 @@ export function MatchUp({ count = 4 }: { count?: number }) {
           </Btn>
         </>
       }
-      status={done ? <Bubble who="mei">All matched! Brilliant!</Bubble> : null}
+      status={done ? <Bubble who="jessie">All matched! Brilliant!</Bubble> : null}
     >
       <div className="lx-match">
         <div className="lx-match-rows">

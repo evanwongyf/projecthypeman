@@ -208,7 +208,7 @@ switches mode and brings that mode's tabs back as they were.
 
 Teaching → Lessons is a library of interactive teaching assets, starting with
 Primary 1, Chapter 1: Numbers to 10 (outcomes C1.1 to C1.5). Everything is
-drawn in code: pixel-art characters (Pip, Bolt, Mei, Ravi) and objects are
+drawn in code: pixel-art characters (Pip, Bolt, Jessie, Ravi) and objects are
 text grids rendered as SVG (`src/lessons/pixel.tsx`), and the 8-bit sounds are
 generated with WebAudio (`src/lessons/sfx.ts`).
 

@@ -1,3 +1,16 @@
+/* Numerals in a clearer pixel face: Pixelify's 5 and 2 read poorly from the
+   back of a room, so digits come from Press Start 2P, scaled to sit beside
+   Pixelify letters. Only 0-9 use it, via unicode-range. */
+@font-face {
+  font-family: 'Lx Digits';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/pressstart2p/v16/e3t4euO8T-267oIAQAu6jDQyK3nVivM.woff2) format('woff2');
+  unicode-range: U+0030-0039;
+  size-adjust: 78%;
+}
+
 /* ===========================================================================
    Lessons: a vivid pixel-art stage that looks the same in every app theme,
    because it is projected to a class. Everything on the stage is sized in em,
@@ -16,7 +29,7 @@
   --lx-red: #e8423f;
   --lx-purple: #a565f0;
   --lx-display: 'Press Start 2P', 'Pixelify Sans', ui-monospace, monospace;
-  --lx-body: 'Pixelify Sans', 'VT323', ui-rounded, system-ui, sans-serif;
+  --lx-body: 'Lx Digits', 'Pixelify Sans', 'VT323', ui-rounded, system-ui, sans-serif;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -2290,7 +2303,7 @@
   overflow: hidden;
   container-type: inline-size;
   border-bottom: 3px solid #1d2238;
-  font-family: 'Pixelify Sans', ui-monospace, monospace;
+  font-family: 'Lx Digits', 'Pixelify Sans', ui-monospace, monospace;
 }
 
 .lx-cover-sm { aspect-ratio: 16 / 6; }
