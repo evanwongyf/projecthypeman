@@ -3,6 +3,7 @@ import { Sprite, type SpriteName } from './pixel'
 import { DotCard, NumCard, SpriteRow, TenFrame, type Scene } from './kit'
 import { Story, Teach, Title } from './scenes'
 import { CountTap, FlashDots, Gallery, MatchUp, MemoryPairs, MoneyMake, NumberTape, NumberTrain, TenFrameBuild } from './counting'
+import { CHAPTER_2, CHAPTER_2_DECKS } from './decks-c2'
 import { CardCompare, Conservation, MatchPairs, Quiz, SortBins, SpillCompare, WhichSet } from './comparing'
 
 export type SlideDef = {
@@ -21,6 +22,8 @@ export type DeckKind = 'class' | 'story' | 'student' | 'tool'
 
 export type Deck = {
   id: string
+  /** Which chapter it belongs to, e.g. "p1-c1". */
+  chapter: string
   kind: DeckKind
   title: string
   blurb: string
@@ -31,8 +34,11 @@ export type Deck = {
   slides: SlideDef[]
 }
 
-export const CHAPTER = {
+export type Chapter = { id: string; level: string; number: number; title: string; sections: { id: string; name: string }[] }
+
+export const CHAPTER: Chapter = {
   id: 'p1-c1',
+  number: 1,
   level: 'Primary 1',
   title: 'Numbers to 10',
   sections: [
@@ -60,6 +66,7 @@ const note = (dollars: number) => (
 
 const countDeck: Deck = {
   id: 'p1c1-count',
+  chapter: 'p1-c1',
   kind: 'class',
   title: 'Pip’s Pond: Count All',
   blurb: 'Count objects one at a time, zero, the ten-frame, dollars to $10, and numbers that count versus numbers that name.',
@@ -225,6 +232,7 @@ const countDeck: Deck = {
 
 const orderDeck: Deck = {
   id: 'p1c1-order',
+  chapter: 'p1-c1',
   kind: 'class',
   title: 'The Number Train: Order & Words',
   blurb: 'Count forward and back, find missing numbers with 1 more / 1 less, match dots, numerals and number words, then play.',
@@ -345,6 +353,7 @@ const orderDeck: Deck = {
 
 const compareDeck: Deck = {
   id: 'p1c1-compare',
+  chapter: 'p1-c1',
   kind: 'class',
   title: 'More or Fewer? Comparing',
   blurb: 'One-to-one matching, more / fewer / the same, greater than and smaller than, and the thinking-aloud tricks.',
@@ -473,6 +482,7 @@ const compareDeck: Deck = {
 
 const storyDeck: Deck = {
   id: 'p1c1-story',
+  chapter: 'p1-c1',
   kind: 'story',
   title: 'Bolt Loses Count',
   blurb: 'A story run-through of the whole chapter. Bolt’s number chip falls out, and the class helps him relearn 0 to 10.',
@@ -599,6 +609,7 @@ const storyDeck: Deck = {
 
 const countQuest: Deck = {
   id: 'p1c1-quest-count',
+  chapter: 'p1-c1',
   kind: 'student',
   title: 'Counting Quest',
   blurb: 'Self-paced practice: count and write, ten-frames, quick looks, number trains and matching. Earns stars.',
@@ -635,6 +646,7 @@ const countQuest: Deck = {
 
 const compareQuest: Deck = {
   id: 'p1c1-quest-compare',
+  chapter: 'p1-c1',
   kind: 'student',
   title: 'Compare Quest',
   blurb: 'Self-paced practice: match one to one, more and fewer, greater and smaller, and numbers around us. Earns stars.',
@@ -672,8 +684,8 @@ const compareQuest: Deck = {
 // Toolkit: single-screen manipulatives for any lesson
 // ---------------------------------------------------------------------------
 
-function tool(id: string, title: string, blurb: string, scene: Scene, sprites: SpriteName[], el: () => ReactNode, sections: string[]): Deck {
-  return { id, kind: 'tool', title, blurb, sections, refs: [], minutes: 0, cover: { scene, sprites }, slides: [{ id: 'tool', title, render: el }] }
+export function tool(id: string, title: string, blurb: string, scene: Scene, sprites: SpriteName[], el: () => ReactNode, sections: string[], chapter = 'p1-c1'): Deck {
+  return { id, chapter, kind: 'tool', title, blurb, sections, refs: [], minutes: 0, cover: { scene, sprites }, slides: [{ id: 'tool', title, render: el }] }
 }
 
 const tools: Deck[] = [
@@ -687,7 +699,9 @@ const tools: Deck[] = [
   tool('tool-memory', 'Memory pairs', 'Team game: match dot cards to numerals.', 'space', ['trophy'], () => <MemoryPairs />, ['C1.3']),
 ]
 
-export const DECKS: Deck[] = [countDeck, orderDeck, compareDeck, storyDeck, countQuest, compareQuest, ...tools]
+export const CHAPTERS: Chapter[] = [CHAPTER, CHAPTER_2]
+
+export const DECKS: Deck[] = [countDeck, orderDeck, compareDeck, storyDeck, countQuest, compareQuest, ...tools, ...CHAPTER_2_DECKS]
 
 export function findDeck(id: string | undefined) {
   return DECKS.find((d) => d.id === id)

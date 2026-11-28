@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { MetaItem, PageHeader } from '../components/PageHeader'
 import { NotFound } from './NotFound'
-import { CHAPTER, DECKS, findDeck, type Deck, type DeckKind } from '../lessons/decks'
+import { CHAPTERS, DECKS, findDeck, type Deck, type DeckKind } from '../lessons/decks'
 import { Player, deckStars, lastSlide, useLessonFonts } from '../lessons/Player'
 import { Backdrop } from '../lessons/scenes'
 import { Sprite } from '../lessons/pixel'
@@ -26,11 +26,31 @@ export function LessonsPage() {
   return <Library />
 }
 
+const CHAPTER_KEY = 'hypeman.lessons.chapter'
+
 function Library() {
   useLessonFonts()
+  const [chapterId, setChapterId] = useState(() => {
+    try {
+      return localStorage.getItem(CHAPTER_KEY) ?? CHAPTERS[0].id
+    } catch {
+      return CHAPTERS[0].id
+    }
+  })
+  const chapter = CHAPTERS.find((c) => c.id === chapterId) ?? CHAPTERS[0]
   const [section, setSection] = useState<string | null>(null)
-  const activities = DECKS.reduce((n, d) => n + d.slides.length, 0)
-  const shown = DECKS.filter((d) => !section || d.sections.includes(section))
+  const inChapter = DECKS.filter((d) => d.chapter === chapter.id)
+  const shown = inChapter.filter((d) => !section || d.sections.includes(section))
+
+  function pickChapter(id: string) {
+    setChapterId(id)
+    setSection(null)
+    try {
+      localStorage.setItem(CHAPTER_KEY, id)
+    } catch {
+      /* fine */
+    }
+  }
 
   return (
     <>
@@ -39,24 +59,39 @@ function Library() {
         title="Lessons"
         meta={
           <>
-            <MetaItem label="chapter">
-              {CHAPTER.level} · {CHAPTER.title}
-            </MetaItem>
+            <MetaItem label="chapters">{CHAPTERS.length}</MetaItem>
             <MetaItem label="decks">{DECKS.filter((d) => d.kind !== 'tool').length}</MetaItem>
             <MetaItem label="tools">{DECKS.filter((d) => d.kind === 'tool').length}</MetaItem>
-            <MetaItem label="slides">{activities}</MetaItem>
+            <MetaItem label="slides">{DECKS.reduce((n, d) => n + d.slides.length, 0)}</MetaItem>
           </>
         }
       />
 
       <div className="p-5 sm:p-8">
+        <div className="mb-4 flex flex-wrap gap-2" role="tablist" aria-label="Chapter">
+          {CHAPTERS.map((c) => (
+            <button
+              type="button"
+              role="tab"
+              aria-selected={c.id === chapter.id}
+              key={c.id}
+              className={`btn ${c.id === chapter.id ? 'btn-primary' : ''}`}
+              onClick={() => pickChapter(c.id)}
+            >
+              {c.level} · Ch {c.number} · {c.title}
+            </button>
+          ))}
+        </div>
+
         <section className="panel mb-8 p-5">
-          <p className="label">Chapter 1 · learning outcomes</p>
+          <p className="label">
+            Chapter {chapter.number} · {chapter.title} · learning outcomes
+          </p>
           <div className="mt-3 flex flex-wrap gap-2">
             <button type="button" className={`chip ${section === null ? 'chip-assigned' : 'chip-neutral'}`} onClick={() => setSection(null)}>
               all
             </button>
-            {CHAPTER.sections.map((s) => (
+            {chapter.sections.map((s) => (
               <button
                 type="button"
                 key={s.id}

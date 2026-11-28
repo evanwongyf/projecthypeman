@@ -7,7 +7,7 @@ import { sfx } from './sfx'
 export function Backdrop({ scene, quiet }: { scene: Scene; quiet?: boolean }) {
   return (
     <div className={`lx-backdrop lx-bg-${scene} ${quiet ? 'is-quiet' : ''}`} aria-hidden>
-      {(scene === 'pond' || scene === 'sky' || scene === 'rail' || scene === 'market') && (
+      {(scene === 'pond' || scene === 'sky' || scene === 'rail' || scene === 'market' || scene === 'beach') && (
         <>
           <div className="lx-cloud" style={{ left: '8%', top: '10%' }} />
           <div className="lx-cloud lx-cloud-2" style={{ left: '58%', top: '6%' }} />

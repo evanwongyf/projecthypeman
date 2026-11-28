@@ -298,7 +298,7 @@ export function Act({
   )
 }
 
-export type Scene = 'pond' | 'sky' | 'class' | 'rail' | 'night' | 'market' | 'paper' | 'space'
+export type Scene = 'pond' | 'sky' | 'class' | 'rail' | 'night' | 'market' | 'paper' | 'space' | 'beach'
 
 export function Bubble({ who, children, side = 'left', style }: { who?: CastId; children: ReactNode; side?: 'left' | 'right'; style?: CSSProperties }) {
   return (
@@ -375,12 +375,50 @@ export function Feedback({ state, right, wrong }: { state: 'idle' | 'right' | 'w
   )
 }
 
-export function SpriteRow({ name, n, size = 2.2, gap = 0.4, wrap }: { name: SpriteName; n: number; size?: number; gap?: number; wrap?: boolean }) {
+export function SpriteRow({ name, n, size = 2.2, gap = 0.4, wrap, pal }: { name: SpriteName; n: number; size?: number; gap?: number; wrap?: boolean; pal?: Record<string, string> }) {
   return (
     <div style={{ display: 'flex', gap: `${gap}em`, flexWrap: wrap ? 'wrap' : 'nowrap', justifyContent: 'center', alignItems: 'flex-end' }}>
       {[...Array(n)].map((_, i) => (
-        <Sprite key={i} name={name} size={size} />
+        <Sprite key={i} name={name} size={size} pal={pal} />
       ))}
+    </div>
+  )
+}
+
+/** Student check helper: the first try counts towards the score. */
+export function useCheck() {
+  const { report } = useSlide()
+  const tries = useRef(0)
+  const [v, setV] = useState<'idle' | 'right' | 'wrong'>('idle')
+  return {
+    v,
+    reset: () => {
+      tries.current = 0
+      setV('idle')
+    },
+    check(ok: boolean) {
+      tries.current++
+      setV(ok ? 'right' : 'wrong')
+      if (ok) {
+        sfx.yes()
+        report(tries.current === 1 ? 1 : tries.current === 2 ? 0.6 : 0.3)
+      } else sfx.no()
+      return ok
+    },
+  }
+}
+
+/** The three-circle number bond: two parts above, the whole below. */
+export function BondDiagram({ a, b, whole, size = 1, colours = ['#ffd6d4', '#fff1b3'] }: { a: ReactNode; b: ReactNode; whole: ReactNode; size?: number; colours?: [string, string] | string[] }) {
+  return (
+    <div className="lx-bond" style={{ fontSize: `${size}em` }}>
+      <svg viewBox="0 0 100 90" className="lx-bond-lines" aria-hidden>
+        <line x1="22" y1="30" x2="50" y2="62" />
+        <line x1="78" y1="30" x2="50" y2="62" />
+      </svg>
+      <span className="lx-bond-c lx-bond-a" style={{ background: colours[0] }}>{a}</span>
+      <span className="lx-bond-c lx-bond-b" style={{ background: colours[1] }}>{b}</span>
+      <span className="lx-bond-c lx-bond-w">{whole}</span>
     </div>
   )
 }

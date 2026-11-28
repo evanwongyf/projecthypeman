@@ -833,14 +833,19 @@ export function FlashDots() {
 // ---------------------------------------------------------------------------
 
 type MCard = { id: number; n: number; face: 'dots' | 'num' }
-function deal(k: number): MCard[] {
+function deal(k: number, ten = false): MCard[] {
+  if (ten) {
+    // Pairs that make 10: a dot card and the numeral that completes it.
+    const pairs = shuffle([[1, 9], [2, 8], [3, 7], [4, 6], [5, 5], [0, 10], [6, 4], [7, 3]]).slice(0, k)
+    return shuffle(pairs.flatMap(([a, b], i) => [{ id: i * 2, n: a, face: 'dots' as const }, { id: i * 2 + 1, n: b, face: 'num' as const }]))
+  }
   const nums = pickNums(k)
   return shuffle(nums.flatMap((n, i) => [{ id: i * 2, n, face: 'dots' as const }, { id: i * 2 + 1, n, face: 'num' as const }]))
 }
 
-export function MemoryPairs({ pairs = 6 }: { pairs?: number }) {
+export function MemoryPairs({ pairs = 6, makeTen = false }: { pairs?: number; makeTen?: boolean }) {
   const { student, report } = useSlide()
-  const [cards, setCards] = useState(() => deal(pairs))
+  const [cards, setCards] = useState(() => deal(pairs, makeTen))
   const [up, setUp] = useState<number[]>([])
   const [got, setGot] = useState<Record<number, number>>({})
   const [team, setTeam] = useState(0)
@@ -858,7 +863,7 @@ export function MemoryPairs({ pairs = 6 }: { pairs?: number }) {
     setMoves((m) => m + 1)
     const [a, b] = next.map((id) => cards.find((x) => x.id === id)!)
     busy.current = true
-    if (a.n === b.n && a.face !== b.face) {
+    if (a.face !== b.face && (makeTen ? a.n + b.n === 10 : a.n === b.n)) {
       window.setTimeout(() => {
         sfx.yes()
         const g = { ...got, [a.id]: team, [b.id]: team }
@@ -882,11 +887,19 @@ export function MemoryPairs({ pairs = 6 }: { pairs?: number }) {
 
   return (
     <Act
-      tag="memory game"
+      tag={makeTen ? 'make 10' : 'memory game'}
       scene="space"
       prompt={
         <>
-          Flip two cards. Find a <b>dot card</b> and its <b>numeral</b>!
+          {makeTen ? (
+            <>
+              Flip a dot card and a numeral card. Do they <b>make 10</b>?
+            </>
+          ) : (
+            <>
+              Flip two cards. Find a <b>dot card</b> and its <b>numeral</b>!
+            </>
+          )}
         </>
       }
       status={
@@ -906,7 +919,7 @@ export function MemoryPairs({ pairs = 6 }: { pairs?: number }) {
         <Btn
           tone="pink"
           onClick={() => {
-            setCards(deal(pairs))
+            setCards(deal(pairs, makeTen))
             setUp([])
             setGot({})
             setScore([0, 0])

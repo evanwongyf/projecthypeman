@@ -498,6 +498,7 @@
 }
 
 /* Scene washes behind activities */
+.lx-scene-beach { background: linear-gradient(#8fe3ff 0 30%, #3fb7e8 30% 42%, #f5dc9a 42% 100%); }
 .lx-scene-paper { background: var(--lx-paper) repeating-linear-gradient(0deg, transparent 0 1.9em, #e9dcc0 1.9em 2em); }
 .lx-scene-pond { background: linear-gradient(#9ee8ff 0 45%, #7fd36a 45% 100%); }
 .lx-scene-sky { background: linear-gradient(#7fd8ff, #c9f1ff); }
@@ -523,6 +524,17 @@
 .lx-bg-rail { background: linear-gradient(#ffb86b 0%, #ffd9a0 50%, #8fd06e 50% 100%); }
 .lx-bg-market { background: linear-gradient(#fff1f5 0 60%, #f4c9a0 60% 100%); }
 .lx-bg-class { background: linear-gradient(#ffe7b0 0 68%, #c98d55 68% 100%); }
+.lx-bg-beach { background: linear-gradient(#8fe3ff 0 48%, #3fb7e8 48% 58%, #f5dc9a 58% 100%); }
+.lx-bg-beach::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 56%;
+  height: 0.6em;
+  background: repeating-linear-gradient(90deg, #fff 0 2em, transparent 2em 3.5em);
+  opacity: 0.8;
+}
 .lx-bg-paper { background: var(--lx-paper); }
 .lx-bg-night,
 .lx-bg-space { background: radial-gradient(ellipse at 50% 20%, #2f3f86, #0b1022 72%); }

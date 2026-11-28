@@ -1,0 +1,664 @@
+/* ===========================================================================
+   Chapter 2: addition activities. Same stage rules as lessons.css: sizes in
+   em, so everything scales with the slide.
+   =========================================================================== */
+
+.lx-say {
+  padding: 0.3em 0.7em;
+  background: #fff;
+  border: 0.16em solid var(--lx-ink);
+  font-size: 1.3em;
+}
+
+.lx-say b { background: var(--lx-yellow); padding: 0 0.15em; }
+
+/* number bond diagram */
+.lx-bond {
+  position: relative;
+  width: 9em;
+  height: 8.1em;
+  flex-shrink: 0;
+}
+
+.lx-bond-lines {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  stroke: var(--lx-ink);
+  stroke-width: 2.4;
+}
+
+.lx-bond-c {
+  position: absolute;
+  width: 3.4em;
+  height: 3.4em;
+  display: grid;
+  place-items: center;
+  border: 0.18em solid var(--lx-ink);
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0.2em 0 var(--lx-ink);
+  font-family: var(--lx-display);
+  font-size: 1em;
+}
+
+.lx-bond-a { left: 0.2em; top: 0; }
+.lx-bond-b { right: 0.2em; top: 0; }
+.lx-bond-w { left: 50%; top: 4.5em; transform: translateX(-50%); width: 3.6em; height: 3.6em; background: #d4f5ff !important; }
+
+/* number bond builder */
+.lx-nb {
+  display: flex;
+  gap: 2em;
+  align-items: center;
+  width: 100%;
+  justify-content: center;
+}
+
+.lx-nb-left { display: grid; gap: 1em; }
+
+.lx-nb-tray {
+  min-height: 5.6em;
+  padding: 0.5em 0.8em;
+  background: rgb(255 255 255 / 0.85);
+  border: 0.2em solid var(--lx-ink);
+  box-shadow: 0 0.25em 0 var(--lx-ink);
+}
+
+.lx-nb-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45em;
+  margin-top: 0.3em;
+  min-height: 2.8em;
+  align-items: center;
+}
+
+.lx-nb-parts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1em;
+}
+
+.lx-nb-part {
+  position: relative;
+  width: 17em;
+  min-height: 9em;
+  padding: 0.6em 0.8em;
+  border: 0.22em dashed var(--lx-ink);
+  border-radius: 1.2em 1.2em 0.4em 0.4em;
+}
+
+.lx-nb-part-a { background: #ffe4e2; }
+.lx-nb-part-b { background: #fff6c8; }
+
+.lx-nb-count {
+  position: absolute;
+  right: 0.5em;
+  bottom: 0.3em;
+  font-family: var(--lx-display);
+  font-size: 1.6em;
+  opacity: 0.6;
+}
+
+.lx-nb-right {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1em;
+}
+
+.lx-nb-found {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35em;
+  min-width: 12em;
+  padding: 0.5em 0.7em;
+  background: #fff;
+  border: 0.16em solid var(--lx-ink);
+}
+
+.lx-nb-chip {
+  padding: 0.15em 0.5em;
+  background: #c8f7c5;
+  border: 0.12em solid var(--lx-ink);
+  font-size: 1.1em;
+  animation: lx-pop-in 0.3s;
+}
+
+/* hidden cubes */
+.lx-hide {
+  display: flex;
+  align-items: center;
+  gap: 2.4em;
+}
+
+.lx-hide-all {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5em;
+  align-items: center;
+  max-width: 40em;
+  padding: 1em 1.4em;
+  background: #fff;
+  border: 0.2em solid var(--lx-ink);
+  box-shadow: 0 0.25em 0 var(--lx-ink);
+}
+
+.lx-hide-stage {
+  display: flex;
+  align-items: flex-end;
+  gap: 2em;
+}
+
+.lx-hide-shown {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4em;
+  max-width: 18em;
+  min-height: 4em;
+  align-items: center;
+  padding: 1em;
+  background: #fff;
+  border: 0.2em solid var(--lx-ink);
+}
+
+.lx-hide-cupwrap {
+  position: relative;
+  width: 14em;
+  height: 10em;
+}
+
+.lx-hide-under {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0.3em;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.3em;
+}
+
+.lx-hide-cup {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: repeating-linear-gradient(90deg, #e8423f 0 1.4em, #ff6a5c 1.4em 2.8em);
+  border: 0.25em solid var(--lx-ink);
+  clip-path: polygon(10% 0, 90% 0, 100% 100%, 0 100%);
+  font-family: var(--lx-display);
+  font-size: 2em;
+  color: #fff;
+  transition: transform 0.6s cubic-bezier(0.3, 1.3, 0.4, 1);
+}
+
+.lx-hide-cupwrap.is-up .lx-hide-cup { transform: translate(60%, -70%) rotate(18deg); }
+
+/* put together */
+.lx-put {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.2em;
+}
+
+.lx-put-row {
+  display: flex;
+  align-items: center;
+  gap: 1.2em;
+}
+
+.lx-put-and {
+  font-size: 1.6em;
+  font-weight: 700;
+}
+
+.lx-plate-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4em;
+}
+
+.lx-plate-dish {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.6em;
+  min-width: 12em;
+  max-width: 20em;
+  min-height: 7em;
+  padding: 1.2em 1.8em;
+  background: radial-gradient(ellipse at center, #fff 55%, #dfe6f2 56%, #fff 70%);
+  border: 0.22em solid var(--lx-ink);
+  border-radius: 50%;
+  box-shadow: 0 0.3em 0 var(--lx-ink);
+}
+
+.lx-plate-dish.is-known > .lx-set-thing { opacity: 0.3; }
+
+.lx-plate-known {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-family: var(--lx-display);
+  font-size: 3em;
+  color: var(--lx-red);
+  text-shadow: 0.06em 0.06em 0 var(--lx-ink);
+  animation: lx-pop-in 0.35s;
+}
+
+.lx-plate-count {
+  font-family: var(--lx-display);
+  font-size: 1em;
+  padding: 0.25em 0.5em;
+  background: var(--lx-ink);
+  color: var(--lx-yellow);
+}
+
+.lx-put-total {
+  min-width: 2.2em;
+  padding: 0.3em 0.4em;
+  text-align: center;
+  font-family: var(--lx-display);
+  font-size: 2.6em;
+  background: #fff;
+  border: 0.08em solid var(--lx-ink);
+}
+
+.lx-put-total.is-done { background: var(--lx-yellow); animation: lx-pop-in 0.4s; }
+
+.lx-tapthing {
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+.lx-dot {
+  display: block;
+  width: 2.4em;
+  height: 2.4em;
+  border-radius: 50%;
+  background: var(--lx-red);
+  border: 0.15em solid var(--lx-ink);
+}
+
+/* one more */
+.lx-onemore {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2em;
+}
+
+.lx-onemore-row {
+  display: flex;
+  gap: 0.6em;
+  align-items: center;
+  min-height: 4em;
+  padding: 0.8em 1.2em;
+  background: #fff;
+  border: 0.2em solid var(--lx-ink);
+  box-shadow: 0 0.25em 0 var(--lx-ink);
+}
+
+.lx-onemore-slot {
+  width: 3.4em;
+  height: 3.4em;
+  display: grid;
+  place-items: center;
+  border: 0.18em dashed var(--lx-ink);
+  border-radius: 50%;
+  font-family: var(--lx-display);
+  font-size: 0.8em;
+}
+
+.lx-drop-in { animation: lx-drop 0.5s cubic-bezier(0.3, 1.5, 0.4, 1); }
+
+@keyframes lx-drop {
+  from { transform: translateY(-6em); opacity: 0; }
+}
+
+.lx-onemore-eq,
+.lx-eq {
+  display: flex;
+  align-items: center;
+  gap: 0.7em;
+  font-family: var(--lx-display);
+  font-size: 1.8em;
+}
+
+.lx-onemore-eq { font-size: 1em; }
+.lx-onemore-eq > span { font-size: 2.6em; }
+
+.lx-eq .lx-slot { font-size: 0.7em; min-width: 3.4em; height: 3.4em; }
+.lx-eq-small { font-size: 0.9em; }
+
+/* adding machine */
+.lx-machine-wrap {
+  display: flex;
+  align-items: center;
+  gap: 2.4em;
+}
+
+.lx-machine-in {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  gap: 0.6em;
+}
+
+.lx-machine-in .lx-tile { min-width: 3em; height: 3em; }
+
+.lx-machine {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.lx-machine.is-busy .lx-machine-body { animation: lx-shake 0.3s 3; }
+
+.lx-hopper {
+  width: 9em;
+  height: 5em;
+  display: grid;
+  place-items: center;
+  background: #cfd6e6;
+  border: 0.22em solid var(--lx-ink);
+  clip-path: polygon(0 0, 100% 0, 80% 100%, 20% 100%);
+}
+
+.lx-machine-body {
+  width: 16em;
+  height: 9em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6em;
+  background: repeating-linear-gradient(0deg, #a565f0 0 0.5em, #9654e6 0.5em 1em);
+  border: 0.25em solid var(--lx-ink);
+  box-shadow: 0 0.35em 0 var(--lx-ink);
+}
+
+.lx-machine-sign {
+  padding: 0.2em 0.6em;
+  background: var(--lx-yellow);
+  border: 0.15em solid var(--lx-ink);
+  font-family: var(--lx-display);
+  font-size: 2.2em;
+}
+
+.lx-machine-lights { display: flex; gap: 0.6em; }
+
+.lx-machine-lights i {
+  width: 1em;
+  height: 1em;
+  background: var(--lx-cyan);
+  border: 0.12em solid var(--lx-ink);
+  animation: lx-twinkle 0.9s steps(2) infinite;
+}
+
+.lx-machine-lights i:nth-child(2) { animation-delay: 0.3s; background: var(--lx-green); }
+.lx-machine-lights i:nth-child(3) { animation-delay: 0.6s; background: var(--lx-pink); }
+
+.lx-chute {
+  width: 6em;
+  height: 5em;
+  display: grid;
+  place-items: center;
+  background: #cfd6e6;
+  border: 0.22em solid var(--lx-ink);
+  border-top: 0;
+}
+
+.lx-tile-out { animation: lx-drop 0.5s cubic-bezier(0.3, 1.5, 0.4, 1); background: var(--lx-green); }
+
+.lx-log {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4em;
+  font-size: 1.2em;
+}
+
+.lx-log span {
+  padding: 0.1em 0.45em;
+  background: #fff;
+  border: 0.12em solid var(--lx-ink);
+}
+
+/* equation builder */
+.lx-eqb {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1em;
+}
+
+.lx-eqb-story {
+  display: flex;
+  gap: 2.4em;
+}
+
+.lx-eqb-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  min-width: 10em;
+  max-width: 22em;
+  min-height: 4.5em;
+  padding: 0.8em 1em;
+  background: #fff;
+  border: 0.2em solid var(--lx-ink);
+  box-shadow: 0 0.25em 0 var(--lx-ink);
+}
+
+.lx-eqb-text { font-size: 1.5em; }
+
+/* fact hunt */
+.lx-facts {
+  display: flex;
+  align-items: center;
+  gap: 2.4em;
+}
+
+.lx-fact {
+  position: relative;
+  min-width: 6.5em;
+  padding: 0.6em 0.8em;
+  background: #fff;
+  border: 0.2em solid var(--lx-ink);
+  box-shadow: 0 0.25em 0 #000;
+  font-family: var(--lx-display);
+  font-size: 1.15em;
+  color: var(--lx-ink);
+  cursor: pointer;
+}
+
+.lx-fact small {
+  position: absolute;
+  right: 0.3em;
+  bottom: -1.3em;
+  font-size: 0.6em;
+  color: #fff;
+}
+
+.lx-fact.is-right { background: var(--lx-green); }
+
+.lx-fact-target {
+  font-size: 2em;
+  background: var(--lx-yellow);
+  cursor: default;
+  animation: lx-bob 1.8s ease-in-out infinite;
+}
+
+.lx-facts-grid {
+  display: grid;
+  grid-template-columns: repeat(4, auto);
+  gap: 1.2em 0.8em;
+}
+
+/* story maker */
+.lx-sm {
+  display: flex;
+  gap: 2em;
+  align-items: center;
+}
+
+.lx-sm-scene {
+  display: grid;
+  gap: 1em;
+}
+
+.lx-sm-coming { animation: lx-walk-in 0.9s ease-out; }
+
+@keyframes lx-walk-in {
+  from { transform: translateX(8em); opacity: 0; }
+}
+
+.lx-sm-story {
+  display: grid;
+  gap: 0.5em;
+  padding: 1em 1.3em;
+  background: #fff;
+  border: 0.22em solid var(--lx-ink);
+  box-shadow: 0 0.3em 0 var(--lx-ink);
+  font-size: 1.4em;
+}
+
+.lx-sm-story b { background: var(--lx-yellow); padding: 0 0.2em; }
+
+.lx-stepper {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2em;
+  vertical-align: middle;
+}
+
+.lx-stepper button {
+  width: 1.4em;
+  height: 1.4em;
+  border: 0.12em solid var(--lx-ink);
+  background: var(--lx-cyan);
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--lx-ink);
+}
+
+.lx-stepper b { min-width: 1.4em; text-align: center; }
+
+/* equals thinking aloud */
+.lx-eqt {
+  display: flex;
+  align-items: center;
+  gap: 2.4em;
+}
+
+.lx-eqt-claims { display: grid; gap: 0.8em; }
+
+.lx-eqt-claim {
+  display: flex;
+  align-items: center;
+  gap: 0.8em;
+}
+
+.lx-eqt-card {
+  min-width: 9em;
+  padding: 0.5em 0.8em;
+  background: #fff;
+  border: 0.2em solid var(--lx-ink);
+  box-shadow: 0 0.25em 0 var(--lx-ink);
+  font-family: var(--lx-display);
+  font-size: 1.1em;
+}
+
+.lx-eqt-vote { display: flex; gap: 0.4em; }
+.lx-eqt-vote .lx-option { min-width: 2.4em; font-size: 1.1em; padding: 0.3em 0.5em; }
+.lx-option.is-picked { background: var(--lx-cyan); }
+
+.lx-balance {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: lx-pop-in 0.4s;
+}
+
+.lx-balance-beam {
+  display: flex;
+  gap: 2em;
+  padding-bottom: 0.4em;
+  border-bottom: 0.4em solid var(--lx-ink);
+}
+
+.lx-balance-pan {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.2em;
+  width: 10em;
+  padding: 0.6em;
+  background: #fff;
+  border: 0.2em solid var(--lx-ink);
+  border-radius: 0 0 2em 2em;
+}
+
+.lx-balance-pan small {
+  width: 100%;
+  text-align: center;
+  font-family: var(--lx-display);
+  font-size: 0.8em;
+  margin-top: 0.3em;
+}
+
+.lx-balance-stand {
+  position: relative;
+  width: 0.8em;
+  height: 6em;
+  background: var(--lx-ink);
+}
+
+.lx-balance-stand::after {
+  content: "";
+  position: absolute;
+  left: -3em;
+  bottom: -0.4em;
+  width: 6.8em;
+  height: 0.8em;
+  background: var(--lx-ink);
+}
+
+/* bean bags */
+.lx-bags {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 1.4em;
+  align-items: start;
+  width: 100%;
+}
+
+.lx-bags-basket,
+.lx-bags-hands {
+  min-height: 9em;
+  padding: 0.6em 0.8em;
+  background: #fff3c8;
+  border: 0.22em solid var(--lx-ink);
+  box-shadow: 0 0.25em 0 var(--lx-ink);
+}
+
+.lx-bags-hands { background: #e3f6ff; }
+
+.lx-bag {
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}

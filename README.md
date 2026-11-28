@@ -206,8 +206,10 @@ switches mode and brings that mode's tabs back as they were.
 
 ## Lessons
 
-Teaching → Lessons is a library of interactive teaching assets, starting with
-Primary 1, Chapter 1: Numbers to 10 (outcomes C1.1 to C1.5). Everything is
+Teaching → Lessons is a library of interactive teaching assets for Primary 1,
+chosen by chapter at the top of the page: Chapter 1, Numbers to 10 (C1.1 to
+C1.5), and Chapter 2, Addition within 10 (C2.1, C2.2, C2.5, C2.7: number
+bonds, putting together and counting on, + and =, addition stories). Everything is
 drawn in code: pixel-art characters (Pip, Bolt, Jessie, Ravi) and objects are
 text grids rendered as SVG (`src/lessons/pixel.tsx`), and the 8-bit sounds are
 generated with WebAudio (`src/lessons/sfx.ts`).
@@ -231,10 +233,12 @@ line or a concept card takes the "next" press before the slide changes. The
 last slide per deck and student stars are kept in `localStorage`
 (`hypeman.lessons.pos.v1`, `hypeman.lessons.scores.v1`).
 
-Decks are plain data in `src/lessons/decks.tsx`: a deck is a list of slides,
-each a title, an optional reference, notes, and a `render` returning an
-activity from `counting.tsx`, `comparing.tsx` or `scenes.tsx`. Add a deck
-there, and add its short tab name to `src/lessons/titles.ts`.
+Decks are plain data: `src/lessons/decks.tsx` (Chapter 1) and
+`src/lessons/decks-c2.tsx` (Chapter 2). A deck belongs to a chapter and is a
+list of slides, each a title, an optional reference, notes, and a `render`
+returning an activity from `counting.tsx`, `comparing.tsx`, `addition.tsx` or
+`scenes.tsx`. Add a deck to its chapter's file (a new chapter goes in
+`CHAPTERS`), and add its short tab name to `src/lessons/titles.ts`.
 
 ## Document Lab
 
