@@ -795,7 +795,6 @@ textarea.field {
 [data-mode-medal="teaching"] { --medal: var(--accent); }
 [data-mode-medal="running"] { --medal: #d9a400; }
 [data-mode-medal="personal"] { --medal: #2f9e8f; }
-[data-mode-medal="analytics"] { --medal: #5b6cf0; }
 [data-mode="dark"] [data-mode-medal="running"] { --medal: #ffd93b; }
 
 .avatar-btn {

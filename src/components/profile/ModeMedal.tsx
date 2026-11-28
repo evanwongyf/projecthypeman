@@ -1,6 +1,6 @@
 import type { ProfileMode } from '../../lib/profile-context'
 
-const LABELS: Record<ProfileMode, string> = { teaching: 'Teaching', running: 'Running', personal: 'Personal', analytics: 'Analytics' }
+const LABELS: Record<ProfileMode, string> = { teaching: 'Teaching', running: 'Running', personal: 'Personal' }
 
 /** A small medal: ribbon, disc, then the mode's name. */
 export function ModeMedal({ mode }: { mode: ProfileMode }) {

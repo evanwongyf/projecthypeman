@@ -1,4 +1,4 @@
-import { Suspense, lazy, useState } from 'react'
+import { useState } from 'react'
 import { useAuth } from '../lib/auth-context'
 import { useData } from '../lib/data-context'
 import { useDesign } from '../lib/design-context'
@@ -20,15 +20,11 @@ import { DesignPreview } from '../components/design/DesignPreview'
 import { PageHeader } from '../components/PageHeader'
 import { EffectsEditor } from '../components/points/EffectsEditor'
 
-// Charts pull in ECharts, so the usage dashboard loads only when its tab opens.
-const AiUsage = lazy(() => import('../components/ai/AiUsage'))
-
-type Tab = 'design' | 'effects' | 'ai' | 'account'
+type Tab = 'design' | 'effects' | 'account'
 
 const TABS: { id: Tab; label: string }[] = [
   { id: 'design', label: 'Design' },
   { id: 'effects', label: 'Effects' },
-  { id: 'ai', label: 'AI usage' },
   { id: 'account', label: 'Account' },
 ]
 
@@ -60,17 +56,7 @@ export function SettingsPage() {
         </div>
       </div>
 
-      {tab === 'design' ? (
-        <DesignTab />
-      ) : tab === 'effects' ? (
-        <EffectsEditor />
-      ) : tab === 'ai' ? (
-        <Suspense fallback={<p className="label p-5 sm:p-8">loading usage…</p>}>
-          <AiUsage />
-        </Suspense>
-      ) : (
-        <AccountTab />
-      )}
+      {tab === 'design' ? <DesignTab /> : tab === 'effects' ? <EffectsEditor /> : <AccountTab />}
     </>
   )
 }

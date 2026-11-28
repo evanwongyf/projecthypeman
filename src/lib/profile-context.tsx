@@ -2,13 +2,12 @@ import { createContext, useCallback, useContext, useMemo, useState } from 'react
 import type { ReactNode } from 'react'
 
 /** Which side of Hypeman is in front. Each mode has its own pages and nav. */
-export type ProfileMode = 'teaching' | 'running' | 'personal' | 'analytics'
+export type ProfileMode = 'teaching' | 'running' | 'personal'
 
 export const PROFILE_MODES: { id: ProfileMode; label: string; hint: string; home: string }[] = [
   { id: 'teaching', label: 'Teaching', hint: 'Students, classes, homework and points', home: '/students' },
   { id: 'running', label: 'Running', hint: 'Log runs, track distance and pace', home: '/running' },
   { id: 'personal', label: 'Personal', hint: 'Your archive of guides, maths and diagrams', home: '/personal/archive' },
-  { id: 'analytics', label: 'Analytics', hint: 'Upload data, build dashboards with an AI copilot', home: '/analytics' },
 ]
 
 const STORAGE_KEY = 'hypeman.profile.mode'
@@ -16,7 +15,7 @@ const STORAGE_KEY = 'hypeman.profile.mode'
 function readMode(): ProfileMode {
   try {
     const v = localStorage.getItem(STORAGE_KEY)
-    return v === 'running' || v === 'personal' || v === 'analytics' ? v : 'teaching'
+    return v === 'running' || v === 'personal' ? v : 'teaching'
   } catch {
     return 'teaching'
   }
