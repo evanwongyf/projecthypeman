@@ -1,7 +1,6 @@
 import { Suspense, lazy } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { AuthProvider } from './lib/auth-context'
-import { DesignProvider } from './lib/design-context'
 import { PROFILE_MODES, ProfileProvider, useProfile } from './lib/profile-context'
 import { ProtectedRoute } from './components/ProtectedRoute'
 import { TerminalLayout } from './components/TerminalLayout'
@@ -28,7 +27,7 @@ const PersonalArchivePage = lazy(() => import('./pages/PersonalArchivePage').the
 
 export default function App() {
   return (
-    <DesignProvider>
+    <>
       <AuthProvider>
         <ProfileProvider>
         <Routes>
@@ -72,7 +71,7 @@ export default function App() {
         </Routes>
         </ProfileProvider>
       </AuthProvider>
-    </DesignProvider>
+    </>
   )
 }
 

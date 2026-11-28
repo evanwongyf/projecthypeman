@@ -182,39 +182,20 @@ overdue to the top, then assigned, then collected.
 
 ## Design
 
-Settings → Design. Nine independent axes, each a `data-*` attribute on `<html>`
-that `src/index.css` reacts to, so the whole UI re-skins without React
-re-rendering anything:
+One fixed look: a retro 70s/80s workstation in blue and grey. There are no
+theme options. Everything lives in `src/index.css`:
 
-| Axis | Values |
-| --- | --- |
-| Mode | Light, Dark, System (follows the device, live) |
-| Palette | Graphite, Studytubby, Bone, Blueprint, Phosphor, Ink, Dusk, Sage — each with its own light **and** dark face |
-| Accent | Theme default, plus 8 swatches; overrides the palette's own accent |
-| Typeface | Grotesk, Arcade, Neue, Editorial, Humanist, Terminal — loaded on demand |
-| Density | Compact, Normal, Roomy |
-| Corners | Square, Soft, Round, Pill |
-| Borders | Hairline, Medium, Bold |
-| Shadow | Flat, Soft, Hard offset |
-| Texture | None, Grid, Dots, Rule lines |
+- **Chrome**: grey bevelled panels and keycap buttons (`--bevel-out`,
+  `--bevel-in`), sunken white input wells, navy `.titlebar` strips on modals,
+  and a blue `.rail` for the side navigation.
+- **Screens**: `.crt` is black glass with scanlines, a vignette and drifting
+  static. Add `crt-amber`, `crt-green`, `crt-blue` or `crt-red` to pick the
+  phosphor. Inside a screen the ink tokens are re-pointed at the phosphor, so
+  labels, buttons and nested text glow without any extra markup. Page headers
+  are screens, with the colour set by profile mode (teaching amber, personal
+  green, running blue). Archive heroes and the sidebar stats are green screens.
+- **Type**: IBM Plex Sans for body, IBM Plex Mono for labels and controls,
+  VT323 (`--font-crt`, `.crt-type`) for anything on a screen.
 
-Eight **presets** set every axis at once — "Studytubby" is the sibling app's
-cream paper, 2px ink borders and hard offset shadows; "Green screen" is a
-phosphor terminal in mono throughout — and every axis stays editable
-afterwards.
-
-Two implementation notes worth knowing before editing:
-
-- **Accent and line use a base/override pair** (`--accent-base` /
-  `--accent-override`), not cascade order. A theme block is more specific than
-  an axis block, so a plain override would lose; the indirection makes the axis
-  win regardless.
-- **Density scales the root font size** rather than touching components. Every
-  rem-based pad, gap and type step follows from one lever.
-
-Choices are saved to the account (`settings.design` in the user's blob) **and**
-mirrored to `localStorage`. An inline script in `index.html` applies the local
-copy before first paint so there is no flash of the wrong theme; the server
-copy is merged in once it arrives, so the look follows you to another device
-without a partial or older blob resetting axes it does not mention. Keep that
-script's defaults and font URLs in step with `src/lib/design.ts`.
+Archive tables, KaTeX maths and charts keep their structure and colours. They
+only sit inside the new containers.

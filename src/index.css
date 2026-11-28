@@ -1,375 +1,71 @@
 @import "tailwindcss";
 
 /* ===========================================================================
-   Design tokens.
+   Retro workstation.
 
-   Everything is driven by data-* attributes on <html>, written by
-   lib/design.ts. Themes supply surfaces, ink and a base accent; the accent,
-   typeface, density, corner, border, shadow and texture axes layer on top and
-   are independent of the palette.
-
-   Accent uses a base/override pair rather than plain cascade order, so an
-   accent choice beats the theme's own accent regardless of specificity.
+   One look, no options: an 80s terminal in blue and grey. Chrome is bevelled
+   grey with navy title bars; "screens" (.crt) are black glass with phosphor
+   type, scanlines and static. Every component reads the tokens below, and a
+   .crt or .rail scope re-points them, so anything placed inside a screen or
+   the blue rail recolours itself without knowing where it lives.
    =========================================================================== */
 
 :root {
-  --accent: var(--accent-override, var(--accent-base));
-  --accent-ink: var(--accent-ink-override, var(--accent-ink-base));
-  --line: var(--line-override, var(--line-base));
+  /* chrome */
+  --desk: #3b5c8e;
+  --bg: #b9bfc9;
+  --panel: #d2d6dd;
+  --panel-2: #c4c9d1;
+  --panel-3: #aeb5c0;
+  --line: #5c6576;
+  --line-soft: #a1a8b4;
+  --ink: #0d1322;
+  --ink-soft: #343e51;
+  --ink-faint: #4f596c;
+  --accent: #1f3f9e;
+  --accent-ink: #ffffff;
 
-  /* Tints are derived, so a theme or accent only ever states a solid colour. */
-  --accent-dim: color-mix(in srgb, var(--accent) 15%, var(--bg));
-  --assigned-dim: color-mix(in srgb, var(--assigned) 15%, var(--bg));
-  --overdue-dim: color-mix(in srgb, var(--overdue) 15%, var(--bg));
-  --collected-dim: color-mix(in srgb, var(--collected) 15%, var(--bg));
+  /* bevel: highlight, shadow, outline */
+  --hi: #f5f7fb;
+  --lo: #6e7788;
+  --dk: #161b26;
+  --bevel-out: inset 1px 1px 0 var(--hi), inset -1px -1px 0 var(--lo), inset 2px 2px 0 color-mix(in srgb, var(--hi) 45%, transparent), inset -2px -2px 0 color-mix(in srgb, var(--lo) 45%, transparent);
+  --bevel-in: inset 1px 1px 0 var(--lo), inset -1px -1px 0 var(--hi), inset 2px 2px 0 color-mix(in srgb, var(--dk) 25%, transparent);
 
-  --density-scale: 1;
+  /* title bar */
+  --title-a: #18307a;
+  --title-b: #3d66b8;
+
+  /* status */
+  --assigned: #855400;
+  --overdue: #a8231b;
+  --collected: #1b6a3a;
+
+  --accent-dim: color-mix(in srgb, var(--accent) 16%, var(--panel));
+  --assigned-dim: color-mix(in srgb, var(--assigned) 15%, var(--panel));
+  --overdue-dim: color-mix(in srgb, var(--overdue) 14%, var(--panel));
+  --collected-dim: color-mix(in srgb, var(--collected) 15%, var(--panel));
+
   --radius: 0px;
+  --radius-sm: 0px;
   --border-w: 1px;
-  --shadow-card: none;
-  --shadow-card-hover: none;
+  --shadow-card: var(--bevel-out);
+  --shadow-card-hover: var(--bevel-out), 3px 3px 0 color-mix(in srgb, var(--dk) 35%, transparent);
 
-  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", monospace;
-  --label-size: 10px;
+  --font-display: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", monospace;
+  --font-crt: "VT323", "IBM Plex Mono", ui-monospace, monospace;
+  --label-size: 9.5px;
   --label-tracking: 0.14em;
-}
 
-/* ---------- status colours, per mode (themes may override) ---------- */
+  /* phosphor colours */
+  --phos-amber: #ffb000;
+  --phos-green: #39ff6a;
+  --phos-blue: #4fc8ff;
+  --phos-red: #ff4a3d;
 
-[data-mode="light"] {
-  --assigned: #9a6a06;
-  --overdue: #c0392f;
-  --collected: #2b7a4b;
-}
-
-[data-mode="dark"] {
-  --assigned: #e3b341;
-  --overdue: #e35d4e;
-  --collected: #4fa96b;
-}
-
-/* ---------- themes ---------- */
-
-/* Graphite, warm near-black with a trace of brown; the house look. */
-[data-theme="graphite"][data-mode="dark"] {
-  --bg: #0b0a09;
-  --panel: #121110;
-  --panel-2: #191714;
-  --panel-3: #211e1a;
-  --line-base: #272420;
-  --line-soft: #1d1b18;
-  --ink: #f0ece4;
-  --ink-soft: #948d82;
-  --ink-faint: #635c52;
-  --accent-base: #ff6a3d;
-  --accent-ink-base: #140a06;
-}
-
-[data-theme="graphite"][data-mode="light"] {
-  --bg: #faf7f2;
-  --panel: #ffffff;
-  --panel-2: #f4f0e9;
-  --panel-3: #ebe6dd;
-  --line-base: #ded7cb;
-  --line-soft: #ebe6dd;
-  --ink: #1a1714;
-  --ink-soft: #6b645a;
-  --ink-faint: #938c81;
-  --accent-base: #e2491a;
-  --accent-ink-base: #fff6f2;
-}
-
-/* Studytubby, cream paper and arcade orange, lifted from the sibling app. */
-[data-theme="studytubby"][data-mode="light"] {
-  --bg: #fffbf5;
-  --panel: #ffffff;
-  --panel-2: #fdf3e7;
-  --panel-3: #f8e8d4;
-  --line-base: #1c1410;
-  --line-soft: #ece3d3;
-  --ink: #1c1410;
-  --ink-soft: #6b5f52;
-  --ink-faint: #9a8d7d;
-  --accent-base: #ff8a3d;
-  --accent-ink-base: #1c1410;
-  --assigned: #8a5a00;
-  --overdue: #c62f6a;
-  --collected: #11897f;
-}
-
-[data-theme="studytubby"][data-mode="dark"] {
-  --bg: #14121f;
-  --panel: #1d1a2c;
-  --panel-2: #241f37;
-  --panel-3: #2d2743;
-  --line-base: #3a3354;
-  --line-soft: #241f37;
-  --ink: #f3f1fa;
-  --ink-soft: #a9a2c4;
-  --ink-faint: #7a739a;
-  --accent-base: #ff8a3d;
-  --accent-ink-base: #1c1410;
-  --assigned: #ffc14a;
-  --overdue: #ff5c9c;
-  --collected: #35e6e0;
-}
-
-/* Bone, Swiss clinical: near-white, ink type, one cobalt rule. */
-[data-theme="bone"][data-mode="light"] {
-  --bg: #fbfaf8;
-  --panel: #ffffff;
-  --panel-2: #f2f1ee;
-  --panel-3: #e7e6e2;
-  --line-base: #dcdbd6;
-  --line-soft: #ededea;
-  --ink: #14161a;
-  --ink-soft: #5e6268;
-  --ink-faint: #8f949b;
-  --accent-base: #2f5cff;
-  --accent-ink-base: #ffffff;
-}
-
-[data-theme="bone"][data-mode="dark"] {
-  --bg: #101214;
-  --panel: #171a1d;
-  --panel-2: #1e2226;
-  --panel-3: #262b30;
-  --line-base: #2c3237;
-  --line-soft: #1e2226;
-  --ink: #eceef1;
-  --ink-soft: #949aa1;
-  --ink-faint: #666d74;
-  --accent-base: #5b82ff;
-  --accent-ink-base: #06091a;
-}
-
-/* Blueprint, cool slate and drafting cyan. */
-[data-theme="blueprint"][data-mode="dark"] {
-  --bg: #0a1016;
-  --panel: #0f1821;
-  --panel-2: #142029;
-  --panel-3: #1b2a35;
-  --line-base: #22333f;
-  --line-soft: #142029;
-  --ink: #dbe7ef;
-  --ink-soft: #8ba0b0;
-  --ink-faint: #5d7284;
-  --accent-base: #2fd3e8;
-  --accent-ink-base: #04161a;
-}
-
-[data-theme="blueprint"][data-mode="light"] {
-  --bg: #f4f7fa;
-  --panel: #ffffff;
-  --panel-2: #e9eff5;
-  --panel-3: #dce5ee;
-  --line-base: #cbd8e3;
-  --line-soft: #e4ebf2;
-  --ink: #0f1b24;
-  --ink-soft: #4e6373;
-  --ink-faint: #7e919f;
-  --accent-base: #0b8fa8;
-  --accent-ink-base: #f2fdff;
-}
-
-/* Phosphor, terminal green. */
-[data-theme="phosphor"][data-mode="dark"] {
-  --bg: #060a06;
-  --panel: #0a110b;
-  --panel-2: #0e1810;
-  --panel-3: #142016;
-  --line-base: #1d3321;
-  --line-soft: #0e1810;
-  --ink: #c8f5cd;
-  --ink-soft: #6fa878;
-  --ink-faint: #4a7350;
-  --accent-base: #4ef08a;
-  --accent-ink-base: #03140a;
-  --assigned: #e4e05a;
-  --overdue: #ff7a6b;
-  --collected: #4ef08a;
-}
-
-[data-theme="phosphor"][data-mode="light"] {
-  --bg: #f3f6f0;
-  --panel: #ffffff;
-  --panel-2: #e9efe6;
-  --panel-3: #dde6d9;
-  --line-base: #c9d6c4;
-  --line-soft: #e4ebe1;
-  --ink: #11170f;
-  --ink-soft: #52614e;
-  --ink-faint: #818e7d;
-  --accent-base: #1f7a3d;
-  --accent-ink-base: #f2fff5;
-}
-
-/* Ink, editorial high contrast. */
-[data-theme="ink"][data-mode="light"] {
-  --bg: #ffffff;
-  --panel: #ffffff;
-  --panel-2: #f4f4f4;
-  --panel-3: #e9e9e9;
-  --line-base: #d6d6d6;
-  --line-soft: #ededed;
-  --ink: #0a0a0a;
-  --ink-soft: #595959;
-  --ink-faint: #8c8c8c;
-  --accent-base: #c8252d;
-  --accent-ink-base: #ffffff;
-}
-
-[data-theme="ink"][data-mode="dark"] {
-  --bg: #0a0a0a;
-  --panel: #111111;
-  --panel-2: #181818;
-  --panel-3: #212121;
-  --line-base: #2b2b2b;
-  --line-soft: #181818;
-  --ink: #f5f5f5;
-  --ink-soft: #9c9c9c;
-  --ink-faint: #6a6a6a;
-  --accent-base: #ff4d55;
-  --accent-ink-base: #140405;
-}
-
-/* Dusk, muted plum. */
-[data-theme="dusk"][data-mode="dark"] {
-  --bg: #120f18;
-  --panel: #1a1623;
-  --panel-2: #221c2e;
-  --panel-3: #2b2439;
-  --line-base: #352c46;
-  --line-soft: #221c2e;
-  --ink: #e9e4f0;
-  --ink-soft: #a399b8;
-  --ink-faint: #756b8a;
-  --accent-base: #a98bff;
-  --accent-ink-base: #120a22;
-}
-
-[data-theme="dusk"][data-mode="light"] {
-  --bg: #f8f6fa;
-  --panel: #ffffff;
-  --panel-2: #f0ecf5;
-  --panel-3: #e6e0ee;
-  --line-base: #ded5e8;
-  --line-soft: #ece7f1;
-  --ink: #1e1726;
-  --ink-soft: #645a73;
-  --ink-faint: #918799;
-  --accent-base: #7a4fd0;
-  --accent-ink-base: #ffffff;
-}
-
-/* Sage, herbarium green with a clay accent. */
-[data-theme="sage"][data-mode="light"] {
-  --bg: #f6f7f2;
-  --panel: #ffffff;
-  --panel-2: #edefe6;
-  --panel-3: #e2e6d9;
-  --line-base: #d3d8c8;
-  --line-soft: #e8ebe1;
-  --ink: #1b211a;
-  --ink-soft: #5a6356;
-  --ink-faint: #8b9387;
-  --accent-base: #b4552f;
-  --accent-ink-base: #fff7f3;
-}
-
-[data-theme="sage"][data-mode="dark"] {
-  --bg: #0e120d;
-  --panel: #141a13;
-  --panel-2: #1a2119;
-  --panel-3: #222a20;
-  --line-base: #2b352a;
-  --line-soft: #1a2119;
-  --ink: #e4e9df;
-  --ink-soft: #94a08e;
-  --ink-faint: #68735f;
-  --accent-base: #e07a4d;
-  --accent-ink-base: #1a0d06;
-}
-
-/* ---------- accent override ---------- */
-
-[data-accent="ember"] { --accent-override: #ff6a3d; --accent-ink-override: #190b05; }
-[data-accent="amber"] { --accent-override: #e8a317; --accent-ink-override: #1a1203; }
-[data-accent="lime"] { --accent-override: #8fd13f; --accent-ink-override: #0f1a04; }
-[data-accent="sea"] { --accent-override: #17a98a; --accent-ink-override: #03150f; }
-[data-accent="cyan"] { --accent-override: #19afd0; --accent-ink-override: #03141a; }
-[data-accent="cobalt"] { --accent-override: #3a68ff; --accent-ink-override: #f4f7ff; }
-[data-accent="violet"] { --accent-override: #8b5cf6; --accent-ink-override: #faf7ff; }
-[data-accent="rose"] { --accent-override: #e8486f; --accent-ink-override: #fff5f8; }
-
-/* ---------- typefaces ---------- */
-
-[data-type="grotesk"] {
-  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, monospace;
-}
-
-[data-type="arcade"] {
-  --font-display: "Karla", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "Space Mono", ui-monospace, monospace;
-  --label-tracking: 0.12em;
-}
-
-[data-type="neue"] {
-  --font-display: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
-}
-
-[data-type="editorial"] {
-  --font-display: "Fraunces", ui-serif, Georgia, serif;
-  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
-  --label-tracking: 0.16em;
-}
-
-[data-type="humanist"] {
-  --font-display: "Figtree", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "Space Mono", ui-monospace, monospace;
-}
-
-[data-type="terminal"] {
-  --font-display: "JetBrains Mono", ui-monospace, monospace;
-  --font-mono: "JetBrains Mono", ui-monospace, monospace;
-  --label-tracking: 0.1em;
-}
-
-/* ---------- density ----------
-   Scaling the root font size scales every rem-based pad, gap and type step
-   at once, so density is a single lever rather than a per-component edit. */
-
-[data-density="dense"] { --density-scale: 0.84; --label-size: 9px; }
-[data-density="compact"] { --density-scale: 0.92; --label-size: 9.5px; }
-[data-density="normal"] { --density-scale: 1; }
-[data-density="roomy"] { --density-scale: 1.08; --label-size: 10.5px; }
-
-/* ---------- corners ---------- */
-
-[data-corners="square"] { --radius: 0px; --radius-sm: 0px; }
-[data-corners="soft"] { --radius: 4px; --radius-sm: 3px; }
-[data-corners="round"] { --radius: 10px; --radius-sm: 7px; }
-[data-corners="pill"] { --radius: 18px; --radius-sm: 999px; }
-
-/* ---------- border weight ---------- */
-
-[data-borders="hairline"] { --border-w: 1px; }
-[data-borders="medium"] { --border-w: 1.5px; }
-[data-borders="bold"] { --border-w: 2px; --line-override: var(--ink); }
-
-/* ---------- shadow ---------- */
-
-[data-shadow="soft"] {
-  --shadow-card: 0 1px 2px rgb(0 0 0 / 0.05), 0 14px 30px -20px rgb(0 0 0 / 0.45);
-  --shadow-card-hover: 0 2px 4px rgb(0 0 0 / 0.07), 0 20px 40px -22px rgb(0 0 0 / 0.55);
-}
-
-[data-shadow="hard"] {
-  --shadow-card: 4px 4px 0 var(--ink);
-  --shadow-card-hover: 6px 6px 0 var(--ink);
+  /* static, as a tiny SVG noise tile */
+  --static: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
 /* ===========================================================================
@@ -377,7 +73,7 @@
    =========================================================================== */
 
 html {
-  font-size: calc(16px * var(--density-scale));
+  font-size: 14px;
 }
 
 html,
@@ -389,31 +85,32 @@ body,
 body {
   margin: 0;
   background-color: var(--bg);
+  /* a faint ordered dither, like a 4-colour desktop */
+  background-image: repeating-conic-gradient(rgb(0 0 0 / 0.035) 0 25%, transparent 0 50%);
+  background-size: 4px 4px;
   color: var(--ink);
   font-family: var(--font-display);
   -webkit-font-smoothing: antialiased;
 }
 
-/* ---------- texture ---------- */
-
-[data-texture="grid"] body {
-  background-image: linear-gradient(var(--line-soft) 1px, transparent 1px),
-    linear-gradient(90deg, var(--line-soft) 1px, transparent 1px);
-  background-size: 64px 64px;
+/* chunky grey scrollbars */
+* {
+  scrollbar-color: var(--panel-3) var(--panel-2);
 }
 
-[data-texture="dots"] body {
-  background-image: radial-gradient(var(--line) 1.2px, transparent 1.2px);
-  background-size: 22px 22px;
+::-webkit-scrollbar {
+  width: 16px;
+  height: 16px;
 }
 
-[data-texture="lines"] body {
-  background-image: repeating-linear-gradient(
-    var(--bg),
-    var(--bg) 31px,
-    var(--line-soft) 31px,
-    var(--line-soft) 32px
-  );
+::-webkit-scrollbar-track {
+  background: repeating-conic-gradient(var(--panel-2) 0 25%, var(--panel) 0 50%) 0 0 / 2px 2px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--panel);
+  border: 1px solid var(--dk);
+  box-shadow: var(--bevel-out);
 }
 
 #root {
@@ -423,7 +120,7 @@ body {
 }
 
 *:focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 1px dotted var(--ink);
   outline-offset: 2px;
 }
 
@@ -439,7 +136,7 @@ body {
 .label {
   font-family: var(--font-mono);
   font-size: var(--label-size);
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: var(--label-tracking);
   text-transform: uppercase;
   color: var(--ink-faint);
@@ -450,67 +147,70 @@ body {
   font-variant-numeric: tabular-nums;
 }
 
+/* A raised window face: dark outline, light top-left, dark bottom-right. */
 .panel {
   background: var(--panel);
-  border: var(--border-w) solid var(--line);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-card);
+  border: 1px solid var(--dk);
+  border-radius: 0;
+  box-shadow: var(--bevel-out);
 }
 
-/* A bordered box that is not a surface, avatars, photo frames. */
+/* A recessed well: avatars, photo frames. */
 .frame {
-  border: var(--border-w) solid var(--line);
-  border-radius: var(--radius-sm, var(--radius));
+  border: 1px solid var(--dk);
+  border-radius: 0;
   background: var(--panel-2);
+  box-shadow: var(--bevel-in);
 }
 
 .hairline {
   border-color: var(--line);
 }
 
-/* Buttons */
+/* Buttons: raised keycaps that press in. */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
   padding: 0.5rem 0.9rem;
-  border: var(--border-w) solid var(--line);
-  border-radius: var(--radius-sm, var(--radius));
-  background: var(--panel-2);
+  border: 1px solid var(--dk);
+  border-radius: 0;
+  background: var(--panel);
+  box-shadow: var(--bevel-out);
   color: var(--ink);
   font-family: var(--font-mono);
   font-size: 11px;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   cursor: pointer;
-  transition: background 120ms ease, border-color 120ms ease, color 120ms ease, box-shadow 120ms ease,
-    transform 120ms ease;
+  transition: background 80ms linear, color 80ms linear;
 }
 
 .btn:hover:not(:disabled) {
-  background: var(--panel-3);
+  background: color-mix(in srgb, var(--panel) 70%, var(--hi));
+}
+
+.btn:active:not(:disabled) {
+  box-shadow: var(--bevel-in);
+  transform: translate(1px, 1px);
 }
 
 .btn:disabled {
-  opacity: 0.45;
+  opacity: 0.5;
   cursor: not-allowed;
 }
 
 .btn-primary {
+  --hi: #7f9ee6;
+  --lo: #0b1a4a;
   background: var(--accent);
-  border-color: var(--accent);
   color: var(--accent-ink);
-  font-weight: 600;
-}
-
-[data-borders="bold"] .btn-primary {
-  border-color: var(--ink);
 }
 
 .btn-primary:hover:not(:disabled) {
-  background: color-mix(in srgb, var(--accent) 85%, var(--ink));
+  background: color-mix(in srgb, var(--accent) 85%, white);
 }
 
 .btn-ghost {
@@ -521,60 +221,50 @@ body {
 }
 
 .btn-ghost:hover:not(:disabled) {
-  background: var(--panel-2);
-  border-color: var(--line);
+  background: var(--panel);
+  border-color: var(--dk);
+  box-shadow: var(--bevel-out);
   color: var(--ink);
 }
 
-/* Collecting work is a quiet confirm: it greens on contact rather than
-   shouting in accent colour on every row. */
 .btn-collect {
-  color: var(--collected);
-  border-color: color-mix(in srgb, var(--collected) 42%, transparent);
-  background: var(--collected-dim);
+  --hi: #9fe0b4;
+  --lo: #0c3a1d;
+  color: #f2fff6;
+  background: var(--collected);
 }
 
 .btn-collect:hover:not(:disabled) {
-  background: color-mix(in srgb, var(--collected) 22%, var(--collected-dim));
-  border-color: var(--collected);
+  background: color-mix(in srgb, var(--collected) 85%, white);
 }
 
 .btn-danger:hover:not(:disabled) {
-  background: var(--overdue-dim);
-  border-color: var(--overdue);
-  color: var(--overdue);
+  --hi: #ffb3ab;
+  --lo: #4a0b06;
+  background: var(--overdue);
+  color: #fff4f2;
 }
 
-[data-shadow="hard"] .btn-primary,
-[data-shadow="hard"] .btn-collect {
-  box-shadow: 3px 3px 0 var(--ink);
-}
-
-[data-shadow="hard"] .btn-primary:hover:not(:disabled),
-[data-shadow="hard"] .btn-collect:hover:not(:disabled) {
-  box-shadow: 4px 4px 0 var(--ink);
-  transform: translate(-1px, -1px);
-}
-
-/* Inputs */
+/* Inputs: sunken white wells. */
 .field {
   width: 100%;
-  padding: 0.6rem 0.75rem;
-  background: var(--bg);
-  border: var(--border-w) solid var(--line);
-  border-radius: var(--radius-sm, var(--radius));
+  padding: 0.55rem 0.7rem;
+  background: #f1f3f7;
+  border: 1px solid var(--dk);
+  border-radius: 0;
+  box-shadow: var(--bevel-in);
   color: var(--ink);
-  font-family: var(--font-display);
-  font-size: 14px;
+  font-family: var(--font-mono);
+  font-size: 13px;
 }
 
 .field::placeholder {
-  color: var(--ink-faint);
+  color: color-mix(in srgb, var(--ink-faint) 80%, transparent);
 }
 
 .field:focus {
-  border-color: var(--accent);
-  outline: none;
+  outline: 1px dotted var(--accent);
+  outline-offset: 2px;
 }
 
 textarea.field {
@@ -595,16 +285,11 @@ textarea.field {
   cursor: pointer;
 }
 
-.select-trigger[aria-expanded="true"] {
-  border-color: var(--accent);
-}
-
 .select-caret {
   width: 10px;
   height: 6px;
   flex-shrink: 0;
-  color: var(--ink-soft);
-  transition: transform 120ms ease;
+  color: var(--ink);
 }
 
 .select-caret[data-open="true"] {
@@ -614,7 +299,7 @@ textarea.field {
 .select-menu {
   position: absolute;
   z-index: 60;
-  top: calc(100% + 4px);
+  top: calc(100% + 2px);
   left: 0;
   min-width: 100%;
   max-height: 16rem;
@@ -623,13 +308,9 @@ textarea.field {
   padding: 3px;
   list-style: none;
   background: var(--panel);
-  border: var(--border-w) solid var(--line);
-  border-radius: var(--radius-sm, var(--radius));
-  box-shadow: 0 12px 28px -14px rgb(0 0 0 / 0.5);
-}
-
-[data-shadow="hard"] .select-menu {
-  box-shadow: 4px 4px 0 var(--ink);
+  border: 1px solid var(--dk);
+  border-radius: 0;
+  box-shadow: var(--bevel-out), 4px 4px 0 rgb(0 0 0 / 0.35);
 }
 
 .select-option {
@@ -637,83 +318,85 @@ textarea.field {
   align-items: center;
   justify-content: space-between;
   gap: 0.75rem;
-  padding: 0.45rem 0.6rem;
-  border-radius: calc(var(--radius-sm, 0px) * 0.7);
+  padding: 0.4rem 0.6rem;
   font-family: var(--font-mono);
   font-size: 12px;
   white-space: nowrap;
-  color: var(--ink-soft);
+  color: var(--ink);
   cursor: pointer;
 }
 
 .select-option[data-active="true"] {
-  background: var(--panel-3);
-  color: var(--ink);
+  background: var(--accent);
+  color: var(--accent-ink);
 }
 
 .select-option[aria-selected="true"] {
-  color: var(--accent);
+  font-weight: 700;
 }
 
-/* Status chips */
+/* Status chips: little lit indicator plates. */
 .chip {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  padding: 0.25rem 0.55rem;
-  border: var(--border-w) solid;
-  border-radius: var(--radius-sm, var(--radius));
+  padding: 0.2rem 0.5rem;
+  border: 1px solid var(--dk);
+  border-radius: 0;
   font-family: var(--font-mono);
   font-size: 10px;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   white-space: nowrap;
+  box-shadow: var(--bevel-in);
 }
 
 .chip-dot {
-  width: 5px;
-  height: 5px;
-  border-radius: 999px;
+  width: 6px;
+  height: 6px;
+  border-radius: 0;
   background: currentColor;
+  box-shadow: 0 0 4px currentColor;
 }
 
 .chip-assigned {
   color: var(--assigned);
-  border-color: color-mix(in srgb, var(--assigned) 45%, transparent);
   background: var(--assigned-dim);
 }
 
 .chip-overdue {
   color: var(--overdue);
-  border-color: color-mix(in srgb, var(--overdue) 48%, transparent);
   background: var(--overdue-dim);
 }
 
 .chip-collected {
   color: var(--collected);
-  border-color: color-mix(in srgb, var(--collected) 45%, transparent);
   background: var(--collected-dim);
 }
 
 .chip-neutral {
   color: var(--ink-soft);
-  border-color: var(--line);
   background: var(--panel-2);
 }
 
-/* The page-level backdrop panel used by empty states and the login screen. */
+/* Empty states: a faint dither. Full-page backdrops: the blue desktop. */
 .grid-field {
-  background-image: linear-gradient(var(--line-soft) 1px, transparent 1px),
-    linear-gradient(90deg, var(--line-soft) 1px, transparent 1px);
-  background-size: 64px 64px;
+  background-image: repeating-conic-gradient(rgb(0 0 0 / 0.05) 0 25%, transparent 0 50%);
+  background-size: 4px 4px;
+}
+
+.desktop {
+  background-color: var(--desk);
+  background-image: repeating-conic-gradient(rgb(0 0 0 / 0.12) 0 25%, transparent 0 50%);
+  background-size: 4px 4px;
 }
 
 .row-hover:hover {
-  background: var(--panel-2);
+  background: color-mix(in srgb, var(--accent) 10%, var(--panel));
 }
 
-/* A selected card in the design picker. */
+/* A selectable tile: a raised key that stays pressed in when chosen. */
 .pick {
   position: relative;
   display: block;
@@ -721,19 +404,23 @@ textarea.field {
   text-align: left;
   padding: 0.75rem;
   background: var(--panel);
-  border: var(--border-w) solid var(--line);
-  border-radius: var(--radius-sm, var(--radius));
+  border: 1px solid var(--dk);
+  border-radius: 0;
+  box-shadow: var(--bevel-out);
   cursor: pointer;
-  transition: border-color 120ms ease, background 120ms ease;
 }
 
 .pick:hover {
-  background: var(--panel-2);
+  background: color-mix(in srgb, var(--panel) 70%, var(--hi));
+}
+
+.pick:active {
+  box-shadow: var(--bevel-in);
 }
 
 .pick[aria-pressed="true"] {
-  border-color: var(--accent);
   background: var(--accent-dim);
+  box-shadow: var(--bevel-in), inset 0 0 0 2px var(--accent);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -743,21 +430,19 @@ textarea.field {
   }
 }
 
-/* A single two-state control. The segments share one border so they read as
-   opposites, rather than as two buttons that happen to sit together. */
+/* A two-state control, a pair of interlocked push buttons. */
 .toggle {
   display: inline-flex;
   padding: 2px;
-  border: var(--border-w) solid var(--line);
-  border-radius: var(--radius-sm, var(--radius));
+  border: 1px solid var(--dk);
   background: var(--panel-2);
+  box-shadow: var(--bevel-in);
 }
 
 .toggle-option {
   flex: 1 1 0;
   padding: 0.45rem 1.1rem;
   border: none;
-  border-radius: calc(var(--radius-sm, 0px) * 0.7);
   background: transparent;
   color: var(--ink-soft);
   font-family: var(--font-mono);
@@ -767,49 +452,257 @@ textarea.field {
   text-transform: uppercase;
   white-space: nowrap;
   cursor: pointer;
-  transition: background 120ms ease, color 120ms ease;
 }
 
 .toggle-option:hover {
   color: var(--ink);
 }
 
-/* The mode medal under the wordmark and in the profile modal. */
+/* The mode badge under the wordmark: a small lit plate. */
 .medal {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  padding: 0.2rem 0.5rem 0.2rem 0.35rem;
-  border: var(--border-w) solid color-mix(in srgb, var(--medal) 50%, transparent);
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--medal) 14%, var(--panel));
+  padding: 0.15rem 0.45rem 0.15rem 0.35rem;
+  border: 1px solid #000;
+  background: #07090c;
   color: var(--medal);
   font-family: var(--font-mono);
   font-size: 9.5px;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   white-space: nowrap;
+  text-shadow: 0 0 6px var(--medal);
 }
 
-[data-mode-medal="teaching"] { --medal: var(--accent); }
-[data-mode-medal="running"] { --medal: #d9a400; }
-[data-mode-medal="personal"] { --medal: #2f9e8f; }
-[data-mode="dark"] [data-mode-medal="running"] { --medal: #ffd93b; }
+[data-mode-medal="teaching"] { --medal: var(--phos-amber); }
+[data-mode-medal="running"] { --medal: var(--phos-blue); }
+[data-mode-medal="personal"] { --medal: var(--phos-green); }
 
 .avatar-btn {
   display: inline-flex;
-  border-radius: 999px;
-  border: var(--border-w) solid var(--line);
+  border: 1px solid var(--dk);
   padding: 2px;
-  background: var(--panel-2);
+  background: var(--panel);
+  box-shadow: var(--bevel-out);
   cursor: pointer;
-  transition: border-color 120ms ease, transform 120ms ease;
 }
 
-.avatar-btn:hover {
-  border-color: var(--accent);
-  transform: scale(1.04);
+.avatar-btn:active {
+  box-shadow: var(--bevel-in);
+}
+
+/* ===========================================================================
+   Window chrome
+   =========================================================================== */
+
+/* A navy title bar, as on an old windowing system. */
+.titlebar {
+  --ink: #ffffff;
+  --ink-soft: #dbe4ff;
+  --ink-faint: #b9c8f2;
+  background: linear-gradient(90deg, var(--title-a), var(--title-b));
+  color: var(--ink);
+  border-bottom: 1px solid var(--dk);
+}
+
+.titlebar h2 {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.titlebar .btn {
+  padding: 0.15rem 0.3rem;
+  background: var(--panel);
+  border-color: var(--dk);
+  box-shadow: var(--bevel-out);
+  color: var(--dk);
+}
+
+/* The left rail: a blue control strip. */
+.rail {
+  --panel: #2b4677;
+  --panel-2: #34558e;
+  --panel-3: #1a2d52;
+  --line: #0e1830;
+  --line-soft: #22396a;
+  --hi: #6e8cc4;
+  --lo: #0e1830;
+  --ink: #f2f5fb;
+  --ink-soft: #c9d4ea;
+  --ink-faint: #9aabcd;
+  color: var(--ink);
+  box-shadow: inset -2px 0 0 #0e1830, inset -3px 0 0 #6e8cc4;
+}
+
+.rail .btn-ghost:hover:not(:disabled) {
+  --dk: #0e1830;
+  background: var(--panel-2);
+}
+
+.rail nav a:hover {
+  background: var(--panel-2) !important;
+  color: var(--ink) !important;
+}
+
+/* The selected nav item lights up like a lamp on a dark key. */
+.rail nav a[aria-current="page"] {
+  background: #06080b !important;
+  border-color: #000 !important;
+  color: var(--phos-amber) !important;
+  text-shadow: 0 0 6px color-mix(in srgb, var(--phos-amber) 70%, transparent);
+  box-shadow: inset 1px 1px 0 #000, inset -1px -1px 0 var(--hi);
+}
+
+/* ===========================================================================
+   CRT screens
+
+   Black glass, a phosphor colour, scanlines, a soft vignette and a whisper of
+   static. Inside, the ink tokens become the phosphor so labels, buttons and
+   nested text all glow in the same colour.
+   =========================================================================== */
+
+.crt {
+  --phos: var(--phos-amber);
+  --ink: var(--phos);
+  --ink-soft: color-mix(in srgb, var(--phos) 80%, #000);
+  --ink-faint: color-mix(in srgb, var(--phos) 62%, #000);
+  --line: color-mix(in srgb, var(--phos) 30%, #000);
+  --line-soft: color-mix(in srgb, var(--phos) 16%, #000);
+  --panel: #0c0f0d;
+  --panel-2: #141815;
+  --panel-3: #1c211d;
+  --accent: var(--phos);
+  --accent-ink: #000;
+  --accent-dim: color-mix(in srgb, var(--phos) 18%, #000);
+
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: radial-gradient(ellipse at 50% 45%, #1a1d1b 0%, #090b0a 60%, #020302 100%);
+  color: var(--phos);
+  border: 1px solid #000;
+  box-shadow:
+    inset 0 0 0 1px #2a2e33,
+    inset 0 0 40px rgb(0 0 0 / 0.9),
+    0 0 0 3px #8b929e,
+    0 0 0 4px var(--dk);
+  text-shadow:
+    0 0 1px color-mix(in srgb, var(--phos) 90%, transparent),
+    0 0 8px color-mix(in srgb, var(--phos) 45%, transparent);
+}
+
+/* scanlines */
+.crt::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: repeating-linear-gradient(to bottom, rgb(0 0 0 / 0) 0, rgb(0 0 0 / 0) 2px, rgb(0 0 0 / 0.32) 3px);
+}
+
+/* static, drifting */
+.crt::after {
+  content: "";
+  position: absolute;
+  inset: -50%;
+  z-index: 3;
+  pointer-events: none;
+  background-image: var(--static);
+  background-size: 160px 160px;
+  opacity: 0.09;
+  mix-blend-mode: screen;
+  animation: crt-static 0.9s steps(6) infinite;
+}
+
+@keyframes crt-static {
+  0% { transform: translate(0, 0); }
+  20% { transform: translate(-7%, 4%); }
+  40% { transform: translate(5%, -6%); }
+  60% { transform: translate(-3%, 8%); }
+  80% { transform: translate(8%, 2%); }
+  100% { transform: translate(0, 0); }
+}
+
+.crt > * {
+  position: relative;
+  z-index: 1;
+}
+
+.crt-amber { --phos: var(--phos-amber); }
+.crt-green { --phos: var(--phos-green); }
+.crt-blue { --phos: var(--phos-blue); }
+.crt-red { --phos: var(--phos-red); }
+
+.crt h1,
+.crt-type {
+  font-family: var(--font-crt) !important;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+
+.crt h1 {
+  font-size: 2.6rem;
+  line-height: 1;
+}
+
+.crt h1::after {
+  content: "_";
+  margin-left: 0.1em;
+  animation: crt-blink 1.1s steps(1) infinite;
+}
+
+@keyframes crt-blink {
+  50% { opacity: 0; }
+}
+
+.crt .btn {
+  --dk: #000;
+  text-shadow: none;
+}
+
+.crt .btn:not(.btn-ghost):not(.btn-primary) {
+  --ink: #0d1322;
+  --hi: #f5f7fb;
+  --lo: #6e7788;
+  background: #d2d6dd;
+  color: #0d1322;
+}
+
+.crt .btn-ghost {
+  color: var(--ink);
+}
+
+.crt .btn-ghost:hover:not(:disabled) {
+  background: var(--panel-3);
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+
+.crt .btn-primary {
+  --hi: color-mix(in srgb, var(--phos) 70%, white);
+  --lo: color-mix(in srgb, var(--phos) 40%, black);
+  background: var(--phos);
+  color: #000;
+}
+
+.crt .field {
+  background: #000;
+  color: var(--phos);
+  border-color: var(--line);
+  box-shadow: none;
+}
+
+/* The grey plastic around a screen. */
+.bezel {
+  padding: 10px;
+  background: linear-gradient(#c9cdd4, #a7aeb9);
+  border: 1px solid var(--dk);
+  box-shadow: var(--bevel-out);
 }
 
 /* ---------- charts (components/charts) ----------
@@ -819,14 +712,8 @@ textarea.field {
   --series-1: #2a78d6;
   --series-2: #eb6834;
   --series-3: #1baf7a;
-  --viz-grid: color-mix(in srgb, var(--ink) 9%, transparent);
-  --viz-axis: color-mix(in srgb, var(--ink) 22%, transparent);
-}
-
-[data-mode="dark"] .viz {
-  --series-1: #3987e5;
-  --series-2: #d95926;
-  --series-3: #199e70;
+  --viz-grid: color-mix(in srgb, var(--ink) 12%, transparent);
+  --viz-axis: color-mix(in srgb, var(--ink) 35%, transparent);
 }
 
 .viz-tip {
@@ -834,10 +721,9 @@ textarea.field {
   z-index: 5;
   pointer-events: none;
   padding: 0.45rem 0.6rem;
-  background: var(--panel);
-  border: var(--border-w) solid var(--line);
-  border-radius: var(--radius-sm, var(--radius));
-  box-shadow: 0 10px 24px -14px rgb(0 0 0 / 0.5);
+  background: #fffbe6;
+  border: 1px solid var(--dk);
+  box-shadow: 3px 3px 0 rgb(0 0 0 / 0.35);
   font-family: var(--font-mono);
   font-size: 11px;
   color: var(--ink);
@@ -856,8 +742,8 @@ textarea.field {
   --paper-2: var(--panel-2);
   --surface: var(--panel);
   --surface-line: var(--line);
-  --font-hero: var(--font-display);
-  --font-poster: var(--font-display);
+  --font-hero: var(--font-crt);
+  --font-poster: var(--font-crt);
 
   /* Diagram and category tones: the same six hues, softened to sit with the palette. */
   --orange: #f08a4b;
@@ -881,29 +767,30 @@ textarea.field {
   --deep-ink-soft: rgba(243, 241, 250, 0.72);
 }
 
-[data-mode="dark"] .st-archive {
-  --orange: #e07a3c;
-  --mustard: #b3c44a;
-  --teal: #38aaa5;
-  --pink: #c95ea8;
-  --mint: #4aad78;
-  --lavender: #7c66dd;
-}
 
 .st-archive .card-surface {
   position: relative;
   background: var(--panel);
-  border: var(--border-w) solid var(--line);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-card);
-  transition: background 120ms ease, border-color 120ms ease, box-shadow 120ms ease;
+  border: 1px solid var(--dk);
+  border-radius: 0 !important;
+  box-shadow: var(--bevel-out);
+}
+
+/* Clickable cards get a navy strip along the top, like a window. */
+.st-archive a.card-surface,
+.st-archive button.card-surface {
+  border-top: 4px solid var(--accent);
 }
 
 .st-archive a.card-surface:hover,
 .st-archive button.card-surface:hover {
-  background: var(--panel-2);
-  border-color: var(--accent);
+  background: color-mix(in srgb, var(--panel) 70%, var(--hi));
   box-shadow: var(--shadow-card-hover);
+}
+
+.st-archive a.card-surface:active,
+.st-archive button.card-surface:active {
+  box-shadow: var(--bevel-in);
 }
 
 .st-archive .eyebrow {
@@ -922,18 +809,20 @@ textarea.field {
 
 .st-archive .input-field {
   width: 100%;
-  padding: 0.6rem 0.75rem;
-  background: var(--bg);
-  border: var(--border-w) solid var(--line);
-  border-radius: var(--radius-sm, var(--radius));
+  padding: 0.55rem 0.7rem;
+  background: #f1f3f7;
+  border: 1px solid var(--dk);
+  border-radius: 0;
+  box-shadow: var(--bevel-in);
   color: var(--ink);
-  font-family: var(--font-display);
-  font-size: 14px;
+  font-family: var(--font-mono);
+  font-size: 13px;
   outline: none;
 }
 
 .st-archive .input-field:focus {
-  border-color: var(--accent);
+  outline: 1px dotted var(--accent);
+  outline-offset: 2px;
 }
 
 .st-archive .input-field::placeholder {
@@ -953,10 +842,11 @@ textarea.field {
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-  padding: 0.35rem 0.8rem;
-  border: var(--border-w) solid var(--line);
-  border-radius: 999px;
+  padding: 0.3rem 0.7rem;
+  border: 1px solid var(--dk);
+  border-radius: 0;
   background: var(--panel);
+  box-shadow: var(--bevel-out);
   color: var(--ink-soft);
   font-family: var(--font-mono);
   font-size: 11px;
@@ -972,15 +862,15 @@ textarea.field {
 }
 
 .st-archive .chip[data-active='true'] {
-  background: var(--accent-dim);
-  border-color: var(--accent);
-  color: var(--ink);
+  background: var(--accent);
+  color: var(--accent-ink);
+  box-shadow: var(--bevel-in);
 }
 
 .st-archive .deep-panel {
-  background: var(--deep);
-  color: var(--deep-ink);
-  border: var(--border-w) solid var(--line);
+  background: #07090a;
+  color: var(--phos-green);
+  border: 1px solid #000;
 }
 
 .st-archive .halftone {
@@ -1024,6 +914,20 @@ textarea.field {
 .st-archive .rise-in { animation: st-rise-in 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
 .st-archive .spin-slow { animation: st-spin-slow 14s linear infinite; }
 .st-archive .fa-pop { transform-origin: center; transform-box: fill-box; animation: fa-pop 0.5s ease-out both; }
+
+/* Archive section headings read like terminal output. */
+.st-archive h2,
+.st-archive h3 {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+/* Tables keep their structure; header rows get the grey key-cap tone. */
+.st-archive table th {
+  background: var(--panel-3);
+  font-family: var(--font-mono);
+}
 
 /* KaTeX picks up the ink colour; give display maths room to scroll on phones. */
 .st-archive .katex-display { overflow-x: auto; overflow-y: hidden; padding: 0.25rem 0; }

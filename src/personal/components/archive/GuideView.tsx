@@ -48,7 +48,7 @@ export function GuideView({ trail }: { trail: ArchiveNode[] }) {
 
   return (
     <div className="flex flex-col gap-6">
-      <div>
+      <div className="crt crt-green px-5 py-5 sm:px-7 sm:py-6">
         <Link to={archiveHref(parentTrail)} className="eyebrow font-bold">
           ← {parent?.title.toLowerCase() ?? 'archive'}
         </Link>

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" style="color-scheme: light">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,60 +7,10 @@
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <script>
-      /*
-       * Apply the saved design before first paint, so there is no flash of the
-       * wrong theme. Deliberately standalone and dependency-free: it mirrors
-       * the defaults and font hrefs in src/lib/design.ts. Keep the two in step.
-       */
-      (function () {
-        var DEFAULTS = {
-          mode: 'system', theme: 'graphite', accent: 'theme', type: 'grotesk',
-          density: 'dense', corners: 'square', borders: 'hairline',
-          shadow: 'none', texture: 'grid',
-        }
-        var FONTS = {
-          grotesk: 'https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap',
-          arcade: 'https://fonts.googleapis.com/css2?family=Karla:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap',
-          neue: 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap',
-          editorial: 'https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@400;500;600&display=swap',
-          humanist: 'https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap',
-          terminal: 'https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap',
-        }
-        var d = DEFAULTS
-        try {
-          var saved = JSON.parse(localStorage.getItem('hypeman.design') || 'null')
-          if (saved && typeof saved === 'object') {
-            d = {}
-            for (var k in DEFAULTS) d[k] = typeof saved[k] === 'string' ? saved[k] : DEFAULTS[k]
-          }
-        } catch (e) { /* blocked storage, defaults are fine */ }
-
-        var mode = d.mode
-        if (mode === 'system') {
-          mode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
-        }
-
-        var r = document.documentElement
-        r.dataset.theme = d.theme
-        r.dataset.mode = mode
-        r.dataset.accent = d.accent
-        r.dataset.type = d.type
-        r.dataset.density = d.density
-        r.dataset.corners = d.corners
-        r.dataset.borders = d.borders
-        r.dataset.shadow = d.shadow
-        r.dataset.texture = d.texture
-        r.style.colorScheme = mode
-
-        var href = FONTS[d.type] || FONTS.grotesk
-        var link = document.createElement('link')
-        link.rel = 'stylesheet'
-        link.href = href
-        link.setAttribute('data-typeface', d.type in FONTS ? d.type : 'grotesk')
-        document.head.appendChild(link)
-      })()
-    </script>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=VT323&display=swap"
+    />
   </head>
   <body>
     <div id="root"></div>
