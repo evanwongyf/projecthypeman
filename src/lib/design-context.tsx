@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import type { ReactNode } from 'react'
 import {
   DEFAULT_DESIGN,
@@ -17,8 +17,6 @@ type DesignContextValue = {
   saving: boolean
   error: string | null
 }
-
-const DENSE_MIGRATION_KEY = 'hypeman.migrated.dense'
 
 const DesignContext = createContext<DesignContextValue | null>(null)
 
@@ -88,31 +86,12 @@ export function DesignProvider({ children }: { children: ReactNode }) {
       const incoming = normalizeDesign({
         ...prev,
         ...(raw as Record<string, unknown>),
-        // A blob saved before the Dense migration must not undo it.
-        ...(migratedNow.current ? { density: 'dense' } : {}),
       })
       if (JSON.stringify(prev) === JSON.stringify(incoming)) return prev
       applyDesign(incoming)
       storeDesign(incoming)
       return incoming
     })
-  }, [])
-
-  /**
-   * One-time move to Dense, the smallest density, for anyone who saved a look
-   * before it existed. Runs once per browser; the choice is then theirs.
-   */
-  const migratedNow = useRef(false)
-  useEffect(() => {
-    try {
-      if (localStorage.getItem(DENSE_MIGRATION_KEY)) return
-      localStorage.setItem(DENSE_MIGRATION_KEY, '1')
-    } catch {
-      return
-    }
-    migratedNow.current = true
-    if (design.density !== 'dense') set({ density: 'dense' })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {

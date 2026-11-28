@@ -1,15 +1,15 @@
 import { useState } from 'react'
-import { NavLink, Outlet, useNavigate } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { useAuth } from '../lib/auth-context'
 import { useData } from '../lib/data-context'
 import { isOverdue, displayState } from '../lib/status'
 import { useNow } from '../lib/useNow'
 import { Logo } from './Logo'
 import { IconArchive, IconBook, IconClass, IconDocument, IconHomework, IconLab, IconLogout, IconRoster, IconRun, IconSettings } from './Icons'
-import { useProfile } from '../lib/profile-context'
-import { LemonAvatar } from './profile/LemonAvatar'
-import { ModeMedal } from './profile/ModeMedal'
-import { ProfileModal } from './profile/ProfileModal'
+import { TabsProvider, useTabs } from '../lib/tabs-context'
+import { ModeSwitcher } from './profile/ModeSwitcher'
+import { TabBar } from './tabs/TabBar'
+import { TabPane } from './tabs/TabPane'
 
 const NAV = {
   teaching: [
@@ -31,13 +31,21 @@ const NAV = {
   ],
 }
 
+/** The terminal: rail on the left, tabs and their pages on the right. */
 export function TerminalLayout() {
+  return (
+    <TabsProvider>
+      <Shell />
+    </TabsProvider>
+  )
+}
+
+function Shell() {
   const { user, logout } = useAuth()
   const { data, loading, error } = useData()
   const navigate = useNavigate()
   const [signingOut, setSigningOut] = useState(false)
-  const [profileOpen, setProfileOpen] = useState(false)
-  const { mode } = useProfile()
+  const { mode, open } = useTabs()
 
   const now = useNow()
   const outstanding = data.homework.reduce((sum, hw) => {
@@ -56,28 +64,17 @@ export function TerminalLayout() {
     <div className="flex min-h-full flex-1 flex-col lg:flex-row">
       {/* ---- rail ---- */}
       <aside
-        className="flex shrink-0 flex-col border-b lg:h-screen lg:w-60 lg:border-r lg:border-b-0 lg:sticky lg:top-0"
+        className="rail flex shrink-0 flex-col border-b lg:h-screen lg:w-60 lg:border-r lg:border-b-0 lg:sticky lg:top-0"
         style={{ borderColor: 'var(--line)', background: 'var(--panel)' }}
       >
         <div className="flex items-center justify-between gap-3 border-b px-5 py-4 hairline">
-          <div className="flex min-w-0 items-center gap-3 lg:flex-col lg:items-start">
-            <button
-              type="button"
-              className="avatar-btn shrink-0"
-              onClick={() => setProfileOpen(true)}
-              aria-label="Profile options"
-              title="Profile options"
-            >
-              <LemonAvatar className="h-9 w-9" />
-            </button>
-            <div className="flex min-w-0 flex-col items-start gap-1.5">
-              <Logo />
-              <ModeMedal mode={mode} />
-            </div>
+          <div className="flex min-w-0 flex-wrap items-center gap-x-4 gap-y-2.5 lg:flex-col lg:items-start">
+            <Logo className="text-base" />
+            <ModeSwitcher />
           </div>
           <button
             type="button"
-            className="btn btn-ghost !px-2 lg:hidden"
+            className="btn btn-ghost !px-2 lg:!hidden"
             onClick={signOut}
             disabled={signingOut}
             aria-label="Sign out"
@@ -92,6 +89,19 @@ export function TerminalLayout() {
               key={to}
               to={to}
               end={'end' in rest ? rest.end : undefined}
+              // Ctrl/Cmd-click or middle-click opens the page in a new tab, as in a browser.
+              onClick={(e) => {
+                if (e.ctrlKey || e.metaKey) {
+                  e.preventDefault()
+                  open(to)
+                }
+              }}
+              onAuxClick={(e) => {
+                if (e.button === 1) {
+                  e.preventDefault()
+                  open(to)
+                }
+              }}
               className={({ isActive }) =>
                 `flex items-center gap-2.5 border px-3 py-2 font-mono text-[11px] font-medium tracking-[0.1em] uppercase whitespace-nowrap transition-colors ${
                   isActive ? '' : 'border-transparent'
@@ -139,18 +149,8 @@ export function TerminalLayout() {
             {error}
           </div>
         )}
-        <Outlet />
+        <Workspace />
       </main>
-
-      {profileOpen && (
-        <ProfileModal
-          onClose={() => setProfileOpen(false)}
-          onSignOut={() => {
-            setProfileOpen(false)
-            void signOut()
-          }}
-        />
-      )}
     </div>
   )
 }
@@ -163,5 +163,24 @@ function SideStat({ label, value, tone }: { label: string; value: number | strin
         {value}
       </dd>
     </div>
+  )
+}
+
+/** The tab strip and every mounted tab's page; only the one in front is visible. */
+function Workspace() {
+  const { state, mode, activeTab, mounted } = useTabs()
+  // Bumped when a draft changes, so the tab strip's unsaved dots stay current.
+  const [, setTick] = useState(0)
+  const bump = () => setTick((n) => n + 1)
+
+  return (
+    <>
+      <TabBar />
+      {(Object.keys(state) as (keyof typeof state)[]).flatMap((m) =>
+        state[m].tabs
+          .filter((t) => mounted.has(t.id))
+          .map((t) => <TabPane key={t.id} tab={t} visible={m === mode && t.id === activeTab?.id} onDraftChange={bump} />)
+      )}
+    </>
   )
 }

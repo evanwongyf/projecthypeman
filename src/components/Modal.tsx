@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import type { ReactNode } from 'react'
 import { IconClose } from './Icons'
+import { useTabVisible } from '../lib/tabs-context'
 
 export function Modal({
   title,
@@ -20,7 +21,11 @@ export function Modal({
   /** For long reads with charts, such as theory articles. */
   xl?: boolean
 }) {
+  // A dialog in a background tab stays open but hidden; it mustn't lock the page or catch Escape.
+  const visible = useTabVisible()
+
   useEffect(() => {
+    if (!visible) return
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose()
     }
@@ -30,7 +35,7 @@ export function Modal({
       window.removeEventListener('keydown', onKey)
       document.body.style.overflow = ''
     }
-  }, [onClose])
+  }, [onClose, visible])
 
   return (
     <div

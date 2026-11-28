@@ -183,6 +183,27 @@ overdue to the top, then assigned, then collected.
 - `netlify/functions` — the API; `_shared/` holds the R2 + auth code that must
   never reach the browser bundle
 
+## Tabs
+
+The terminal works like a browser. Each mode (Teaching, Running, Personal) has
+its own row of tabs; the mode badge under the wordmark is a dropdown that
+switches mode and brings that mode's tabs back as they were.
+
+- Clicking a link navigates the tab in front. **+** opens a new tab;
+  Ctrl/Cmd-click or middle-click on a rail link opens it in one; × or a
+  middle-click closes a tab.
+- Every tab opened in a visit stays mounted, hidden when not in front, so a
+  half-filled form, an open dialog or the scroll position survive switching
+  tabs or modes. `src/routes.tsx` holds the page routes, and each tab renders
+  them against its own address (`<Routes location={tab.path}>`).
+- The tab list is saved in `localStorage` (`hypeman.tabs.v1`), so a reload or a
+  later visit lands back on the same pages. Anything typed into a field is
+  kept as a draft per tab (`hypeman.drafts.v1`, `src/lib/drafts.ts`) and
+  written back into the empty field when the page appears again; a dot on the
+  tab marks unsaved changes. Submitting a form or pressing the page's primary
+  button clears the draft, as does closing the tab. Drafts expire after two
+  weeks. Add `data-no-draft` to a field or container to opt it out.
+
 ## Document Lab
 
 Documents → a template → the lab: the form on the left, the A4 page on the
@@ -240,26 +261,28 @@ never silently discards what a teacher typed.
 
 ## Design
 
-Settings → Design. Nine independent axes, each a `data-*` attribute on `<html>`
+Settings → Design. Eight adjustable axes, each a `data-*` attribute on `<html>`
 that `src/index.css` reacts to, so the whole UI re-skins without React
 re-rendering anything:
 
 | Axis | Values |
 | --- | --- |
 | Mode | Light, Dark, System (follows the device, live) |
-| Palette | Graphite, Studytubby, Bone, Blueprint, Phosphor, Ink, Dusk, Sage — each with its own light **and** dark face |
+| Palette | Graphite, Studytubby, Bone, Blueprint, Phosphor, Ink, Dusk, Retro, Sage — each with its own light **and** dark face |
 | Accent | Theme default, plus 8 swatches; overrides the palette's own accent |
-| Typeface | Grotesk, Arcade, Neue, Editorial, Humanist, Terminal — loaded on demand |
-| Density | Compact, Normal, Roomy |
+| Typeface | Grotesk, Arcade, Neue, Editorial, Humanist, Terminal, Pixel — loaded on demand |
 | Corners | Square, Soft, Round, Pill |
 | Borders | Hairline, Medium, Bold |
 | Shadow | Flat, Soft, Hard offset |
-| Texture | None, Grid, Dots, Rule lines |
+| Texture | None, Grid, Dots, Rule lines, Dither |
 
-Eight **presets** set every axis at once — "Studytubby" is the sibling app's
-cream paper, 2px ink borders and hard offset shadows; "Green screen" is a
-phosphor terminal in mono throughout — and every axis stays editable
-afterwards.
+Density is fixed at Compact (still written as `data-density`, so older saved
+looks read cleanly). Nine **presets** set every axis at once — "Studytubby" is
+the sibling app's cream paper, 2px ink borders and hard offset shadows; "Green
+screen" is a phosphor terminal in mono throughout; "Retro terminal" is a 70s to
+80s workstation: grey bevelled chrome, a blue rail, page headers drawn as CRT
+screens with scanlines and static, and VT323 pixel type — and every axis stays
+editable afterwards.
 
 Two implementation notes worth knowing before editing:
 
@@ -267,8 +290,8 @@ Two implementation notes worth knowing before editing:
   `--accent-override`), not cascade order. A theme block is more specific than
   an axis block, so a plain override would lose; the indirection makes the axis
   win regardless.
-- **Density scales the root font size** rather than touching components. Every
-  rem-based pad, gap and type step follows from one lever.
+- **The Pixel typeface adjusts its x-height** (`font-size-adjust`) so VT323
+  reads at the same size as the other faces; KaTeX opts out and keeps its own.
 
 Choices are saved to the account (`settings.design` in the user's blob) **and**
 mirrored to `localStorage`. An inline script in `index.html` applies the local

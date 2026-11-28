@@ -16,7 +16,7 @@ export function PageHeader({
   actions?: ReactNode
 }) {
   return (
-    <header className="border-b px-5 py-6 sm:px-8 sm:py-8 hairline">
+    <header className="page-header border-b px-5 py-6 sm:px-8 sm:py-8 hairline">
       {back && (
         <Link
           to={back.to}

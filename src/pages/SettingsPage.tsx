@@ -6,7 +6,6 @@ import {
   ACCENTS,
   BORDERS,
   CORNERS,
-  DENSITIES,
   MODES,
   PRESETS,
   SHADOWS,
@@ -124,8 +123,7 @@ function DesignTab() {
           columns="wide"
         />
 
-        <div className="grid gap-8 sm:grid-cols-2">
-          <Picker legend="Density" options={DENSITIES} value={design.density} onChange={(density) => set({ density })} columns="narrow" />
+        <div className="grid gap-8 sm:grid-cols-3">
           <Picker legend="Corners" options={CORNERS} value={design.corners} onChange={(corners) => set({ corners })} columns="narrow" />
           <Picker legend="Borders" options={BORDERS} value={design.borders} onChange={(borders) => set({ borders })} columns="narrow" />
           <Picker legend="Shadow" options={SHADOWS} value={design.shadow} onChange={(shadow) => set({ shadow })} columns="narrow" />

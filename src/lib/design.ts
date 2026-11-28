@@ -26,7 +26,7 @@ export const DEFAULT_DESIGN: DesignSettings = {
   theme: 'graphite',
   accent: 'theme',
   type: 'grotesk',
-  density: 'dense',
+  density: 'compact',
   corners: 'square',
   borders: 'hairline',
   shadow: 'none',
@@ -87,6 +87,12 @@ export const THEMES: Option[] = [
     swatch: { light: ['#f8f6fa', '#1e1726', '#7a4fd0'], dark: ['#120f18', '#e9e4f0', '#a98bff'] },
   },
   {
+    id: 'retro',
+    label: 'Retro',
+    hint: '80s workstation: grey chrome, blue glass, CRT glow',
+    swatch: { light: ['#b9bec8', '#0a1020', '#1838a8'], dark: ['#05070f', '#b8d4ff', '#4fd1ff'] },
+  },
+  {
     id: 'sage',
     label: 'Sage',
     hint: 'Herbarium green, clay accent',
@@ -115,14 +121,11 @@ export const TYPEFACES: Option[] = [
   { id: 'editorial', label: 'Editorial', hint: 'Fraunces · IBM Plex Mono' },
   { id: 'humanist', label: 'Humanist', hint: 'Figtree · Space Mono' },
   { id: 'terminal', label: 'Terminal', hint: 'JetBrains Mono throughout' },
+  { id: 'pixel', label: 'Pixel', hint: 'VT323, a fuzzy low-res terminal face' },
 ]
 
-export const DENSITIES: Option[] = [
-  { id: 'dense', label: 'Dense', hint: 'Smallest, most on screen' },
-  { id: 'compact', label: 'Compact', hint: 'More on screen' },
-  { id: 'normal', label: 'Normal' },
-  { id: 'roomy', label: 'Roomy', hint: 'Easier to scan' },
-]
+/** One density, Compact: kept as an axis so older saved looks still read cleanly. */
+export const DENSITIES: Option[] = [{ id: 'compact', label: 'Compact' }]
 
 export const CORNERS: Option[] = [
   { id: 'square', label: 'Square' },
@@ -148,6 +151,7 @@ export const TEXTURES: Option[] = [
   { id: 'grid', label: 'Grid' },
   { id: 'dots', label: 'Dots' },
   { id: 'lines', label: 'Rule lines' },
+  { id: 'dither', label: 'Dither', hint: 'Low-res checker, as on an 80s desktop' },
 ]
 
 export const MODES: Option[] = [
@@ -162,49 +166,55 @@ export const PRESETS: { id: string; label: string; hint: string; design: Partial
     id: 'terminal-dark',
     label: 'Teaching terminal',
     hint: 'The house look, graphite, mono labels, hairlines',
-    design: { theme: 'graphite', mode: 'dark', accent: 'theme', type: 'grotesk', density: 'normal', corners: 'square', borders: 'hairline', shadow: 'none', texture: 'grid' },
+    design: { theme: 'graphite', mode: 'dark', accent: 'theme', type: 'grotesk', corners: 'square', borders: 'hairline', shadow: 'none', texture: 'grid' },
   },
   {
     id: 'studytubby',
     label: 'Studytubby',
     hint: 'Cream paper, fat ink borders, hard shadows',
-    design: { theme: 'studytubby', mode: 'light', accent: 'theme', type: 'arcade', density: 'roomy', corners: 'round', borders: 'bold', shadow: 'hard', texture: 'dots' },
+    design: { theme: 'studytubby', mode: 'light', accent: 'theme', type: 'arcade', corners: 'round', borders: 'bold', shadow: 'hard', texture: 'dots' },
   },
   {
     id: 'swiss',
     label: 'Swiss lab',
     hint: 'Bone paper, cobalt rule, tight grid',
-    design: { theme: 'bone', mode: 'light', accent: 'cobalt', type: 'neue', density: 'compact', corners: 'square', borders: 'hairline', shadow: 'none', texture: 'none' },
+    design: { theme: 'bone', mode: 'light', accent: 'cobalt', type: 'neue', corners: 'square', borders: 'hairline', shadow: 'none', texture: 'none' },
   },
   {
     id: 'drafting',
     label: 'Drafting table',
     hint: 'Blueprint slate and cyan',
-    design: { theme: 'blueprint', mode: 'dark', accent: 'cyan', type: 'grotesk', density: 'normal', corners: 'soft', borders: 'hairline', shadow: 'soft', texture: 'grid' },
+    design: { theme: 'blueprint', mode: 'dark', accent: 'cyan', type: 'grotesk', corners: 'soft', borders: 'hairline', shadow: 'soft', texture: 'grid' },
   },
   {
     id: 'crt',
     label: 'Green screen',
     hint: 'Phosphor terminal, mono throughout',
-    design: { theme: 'phosphor', mode: 'dark', accent: 'theme', type: 'terminal', density: 'compact', corners: 'square', borders: 'hairline', shadow: 'none', texture: 'lines' },
+    design: { theme: 'phosphor', mode: 'dark', accent: 'theme', type: 'terminal', corners: 'square', borders: 'hairline', shadow: 'none', texture: 'lines' },
+  },
+  {
+    id: 'retro',
+    label: 'Retro terminal',
+    hint: '70s to 80s software: low-res pixel type, CRT screens, blue and grey',
+    design: { theme: 'retro', mode: 'light', accent: 'theme', type: 'pixel', corners: 'square', borders: 'bold', shadow: 'hard', texture: 'dither' },
   },
   {
     id: 'broadsheet',
     label: 'Broadsheet',
     hint: 'Editorial serif on white',
-    design: { theme: 'ink', mode: 'light', accent: 'theme', type: 'editorial', density: 'roomy', corners: 'square', borders: 'medium', shadow: 'none', texture: 'lines' },
+    design: { theme: 'ink', mode: 'light', accent: 'theme', type: 'editorial', corners: 'square', borders: 'medium', shadow: 'none', texture: 'lines' },
   },
   {
     id: 'evening',
     label: 'Evening',
     hint: 'Plum dusk, soft violet, rounded',
-    design: { theme: 'dusk', mode: 'dark', accent: 'violet', type: 'humanist', density: 'roomy', corners: 'round', borders: 'hairline', shadow: 'soft', texture: 'none' },
+    design: { theme: 'dusk', mode: 'dark', accent: 'violet', type: 'humanist', corners: 'round', borders: 'hairline', shadow: 'soft', texture: 'none' },
   },
   {
     id: 'herbarium',
     label: 'Herbarium',
     hint: 'Sage paper, clay accent, calm',
-    design: { theme: 'sage', mode: 'light', accent: 'theme', type: 'humanist', density: 'roomy', corners: 'soft', borders: 'hairline', shadow: 'soft', texture: 'dots' },
+    design: { theme: 'sage', mode: 'light', accent: 'theme', type: 'humanist', corners: 'soft', borders: 'hairline', shadow: 'soft', texture: 'dots' },
   },
 ]
 
@@ -221,6 +231,7 @@ const FONT_HREFS: Record<string, string> = {
   humanist:
     'https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap',
   terminal: 'https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap',
+  pixel: 'https://fonts.googleapis.com/css2?family=VT323&display=swap',
 }
 
 /** Idempotently add the stylesheet a typeface needs. */
@@ -252,7 +263,8 @@ export function normalizeDesign(raw: unknown): DesignSettings {
     theme: valid(THEMES, r.theme, DEFAULT_DESIGN.theme),
     accent: valid(ACCENTS, r.accent, DEFAULT_DESIGN.accent),
     type: valid(TYPEFACES, r.type, DEFAULT_DESIGN.type),
-    density: valid(DENSITIES, r.density, DEFAULT_DESIGN.density),
+    // Compact is the only density now, whatever an older saved look says.
+    density: 'compact',
     corners: valid(CORNERS, r.corners, DEFAULT_DESIGN.corners),
     borders: valid(BORDERS, r.borders, DEFAULT_DESIGN.borders),
     shadow: valid(SHADOWS, r.shadow, DEFAULT_DESIGN.shadow),
